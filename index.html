@@ -6211,7 +6211,7 @@
                 const container = img.closest('.buffing-slide, .ba-image-card, .ba-grid-image-container, .service-card, .ba-card, .gallery-item, .client-logo');
 
                 if (container) {
-                    // Special handling for sliders: remove the corresponding dot
+                    // Special handling for sliders: remove the corresponding dot and handle empty state
                     if (container.classList.contains('buffing-slide')) {
                         const slider = container.parentElement;
                         const slides = Array.from(slider.children);
@@ -6219,16 +6219,27 @@
                         const dotsContainerId = slider.id + '-dots';
                         const dotsContainer = document.getElementById(dotsContainerId);
 
+                        // Remove the corresponding dot
                         if (dotsContainer && dotsContainer.children[index]) {
                             dotsContainer.children[index].remove();
                         }
 
+                        // Remove the broken slide
                         container.remove();
 
-                        // If no slides left, hide the whole slider block
-                        if (slider.children.length === 0) {
-                            const wrapper = slider.closest('.service-gallery, .transform-section');
+                        // Re-check slider state
+                        const remainingSlides = slider.querySelectorAll('.buffing-slide');
+
+                        // If 0 slides left, hide the whole gallery section
+                        if (remainingSlides.length === 0) {
+                            const wrapper = slider.closest('.service-gallery, .transform-section, .service-detail-content');
                             if (wrapper) wrapper.style.display = 'none';
+                        }
+                        // If only 1 slide left, hide navigation arrows as they are no longer needed
+                        else if (remainingSlides.length === 1) {
+                            const arrows = slider.parentElement.querySelectorAll('.slider-arrow');
+                            arrows.forEach(arrow => arrow.style.display = 'none');
+                            if (dotsContainer) dotsContainer.style.display = 'none';
                         }
                     } else {
                         container.remove();
