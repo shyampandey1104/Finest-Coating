@@ -6203,6 +6203,24 @@
     </div>
 
     <script>
+        // ============ GLOBAL IMAGE ERROR HANDLER ============
+        // Automatically hide or remove elements with broken images
+        document.addEventListener('error', function (e) {
+            if (e.target.tagName.toLowerCase() === 'img') {
+                const img = e.target;
+                const container = img.closest('.buffing-slide, .ba-image-card, .ba-grid-image-container, .service-card, .ba-card');
+                if (container) {
+                    container.remove();
+                    // If it was a slider, we might need to refresh dots or slider index
+                    if (container.classList.contains('buffing-slide')) {
+                        console.log('Removed broken slide, slider will adjust automatically on next slide change.');
+                    }
+                } else {
+                    img.style.display = 'none';
+                }
+            }
+        }, true);
+
         // ============ API CONFIGURATION ============
         // Detect if running on localhost with Node server or via ngrok/live server
         const API_BASE_URL = window.location.port === '3000'
@@ -7262,7 +7280,7 @@ _Sent from FINEST COATING Website_`;
             // Display before images
             beforeGrid.innerHTML = beforeImages.length === 0 ? '<p style="color:#999;padding:1rem;">Upload before images...</p>' : beforeImages.map((img, index) => `
                 <div class="ba-image-card">
-                    <img src="${img}" alt="Before ${index + 1}" onclick="openLightboxFromBA(this)">
+                    <img src="${img}" alt="Before ${index + 1}" onclick="openLightboxFromBA(this)" onerror="this.closest('.ba-image-card').style.display='none'">
                     <button class="ba-delete-btn" onclick="deleteBeforeImage(${index})">✕</button>
                 </div>
             `).join('');
@@ -7270,7 +7288,7 @@ _Sent from FINEST COATING Website_`;
             // Display after images
             afterGrid.innerHTML = afterImages.length === 0 ? '<p style="color:#999;padding:1rem;">Upload after images...</p>' : afterImages.map((img, index) => `
                 <div class="ba-image-card">
-                    <img src="${img}" alt="After ${index + 1}" onclick="openLightboxFromBA(this)">
+                    <img src="${img}" alt="After ${index + 1}" onclick="openLightboxFromBA(this)" onerror="this.closest('.ba-image-card').style.display='none'">
                     <button class="ba-delete-btn" onclick="deleteAfterImage(${index})">✕</button>
                 </div>
             `).join('');
@@ -7565,6 +7583,9 @@ _Sent from FINEST COATING Website_`;
                 img.src = imgUrl;
                 img.alt = sectionName;
                 img.style.cssText = 'width: 100%; height: 150px; object-fit: cover; border-radius: 8px; cursor: pointer;';
+                img.onerror = function () {
+                    imgContainer.style.display = 'none';
+                };
                 img.onclick = function () {
                     openImageModal(imgUrl);
                 };
