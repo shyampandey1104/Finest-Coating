@@ -6203,6 +6203,20 @@
     </div>
 
     <script>
+        // ============ IMAGE OPTIMIZATION HELPER ============
+        // Automatically optimize Cloudinary URLs for better quality and faster loading
+        function optimizeImgUrl(url) {
+            if (!url) return url;
+            if (url.includes('cloudinary.com') && url.includes('/upload/')) {
+                // Add optimization and sharpness/improvement parameters
+                // f_auto: automatic format (WebP/AVIF)
+                // q_auto: automatic quality
+                // e_improve: overall image enhancement
+                return url.replace('/upload/', '/upload/f_auto,q_auto,e_improve/');
+            }
+            return url;
+        }
+
         // ============ GLOBAL IMAGE ERROR HANDLER ============
         // Automatically hide or remove elements with broken images across the entire site
         document.addEventListener('error', function (e) {
@@ -6250,6 +6264,20 @@
                 console.warn('Removed broken image element:', img.src);
             }
         }, true);
+
+        // Run optimization on all existing images
+        function runGlobalOptimization() {
+            document.querySelectorAll('img').forEach(img => {
+                const optimized = optimizeImgUrl(img.src);
+                if (optimized !== img.src) {
+                    img.src = optimized;
+                }
+            });
+        }
+
+        // Run on load and periodically for any new images
+        window.addEventListener('DOMContentLoaded', runGlobalOptimization);
+        setInterval(runGlobalOptimization, 2000);
 
         // ============ API CONFIGURATION ============
         // Detect if running on localhost with Node server or via ngrok/live server
@@ -7310,7 +7338,7 @@ _Sent from FINEST COATING Website_`;
             // Display before images
             beforeGrid.innerHTML = beforeImages.length === 0 ? '<p style="color:#999;padding:1rem;">Upload before images...</p>' : beforeImages.map((img, index) => `
                 <div class="ba-image-card">
-                    <img src="${img}" alt="Before ${index + 1}" onclick="openLightboxFromBA(this)" onerror="this.closest('.ba-image-card').style.display='none'">
+                    <img src="${optimizeImgUrl(img)}" alt="Before ${index + 1}" onclick="openLightboxFromBA(this)" onerror="this.closest('.ba-image-card').style.display='none'">
                     <button class="ba-delete-btn" onclick="deleteBeforeImage(${index})">✕</button>
                 </div>
             `).join('');
@@ -7318,7 +7346,7 @@ _Sent from FINEST COATING Website_`;
             // Display after images
             afterGrid.innerHTML = afterImages.length === 0 ? '<p style="color:#999;padding:1rem;">Upload after images...</p>' : afterImages.map((img, index) => `
                 <div class="ba-image-card">
-                    <img src="${img}" alt="After ${index + 1}" onclick="openLightboxFromBA(this)" onerror="this.closest('.ba-image-card').style.display='none'">
+                    <img src="${optimizeImgUrl(img)}" alt="After ${index + 1}" onclick="openLightboxFromBA(this)" onerror="this.closest('.ba-image-card').style.display='none'">
                     <button class="ba-delete-btn" onclick="deleteAfterImage(${index})">✕</button>
                 </div>
             `).join('');
@@ -7610,7 +7638,7 @@ _Sent from FINEST COATING Website_`;
 
                 // Create image
                 const img = document.createElement('img');
-                img.src = imgUrl;
+                img.src = optimizeImgUrl(imgUrl);
                 img.alt = sectionName;
                 img.style.cssText = 'width: 100%; height: 150px; object-fit: cover; border-radius: 8px; cursor: pointer;';
                 img.onerror = function () {
