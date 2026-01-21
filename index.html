@@ -6199,74 +6199,58 @@
     </div>
 
     <script>
-        // ============ IMAGE OPTIMIZATION HELPER ============
-        // Automatically optimize Cloudinary URLs for better quality and faster loading
+        // ============ IMAGE OPTIMIZATION (REMOVED) ============
+        // Optimization disabled as it was causing 401 Unauthorized errors
         function optimizeImgUrl(url) {
-            if (!url || typeof url !== 'string') return url;
-            // Only optimize Cloudinary URLs that aren't already optimized
-            if (url.includes('cloudinary.com') && url.includes('/upload/') && !url.includes('/f_auto')) {
-                // Insert f_auto,q_auto after /upload/
-                return url.replace('/upload/', '/upload/f_auto,q_auto/');
-            }
             return url;
         }
 
         // ============ GLOBAL IMAGE ERROR HANDLER ============
-        // Automatically hide or remove elements with broken images across the entire site
+        // Automatically hide or remove elements with broken images
         document.addEventListener('error', function (e) {
             if (e.target.tagName.toLowerCase() === 'img') {
                 const img = e.target;
-                const container = img.closest('.buffing-slide, .ba-image-card, .ba-grid-image-container, .service-card, .ba-card, .gallery-item, .client-logo, .warranty-image-item, .hero-image');
 
-                if (container) {
-                    // Special handling for sliders: remove the corresponding dot and handle empty state
-                    if (container.classList.contains('buffing-slide')) {
-                        const slider = container.parentElement;
-                        const slides = Array.from(slider.children);
-                        const index = slides.indexOf(container);
-                        const dotsContainerId = slider.id + '-dots';
-                        const dotsContainer = document.getElementById(dotsContainerId);
+                // Only be aggressive with sliders (buffing-slide)
+                const sliderContainer = img.closest('.buffing-slide');
+                if (sliderContainer) {
+                    const slider = sliderContainer.parentElement;
+                    const slides = Array.from(slider.children);
+                    const index = slides.indexOf(sliderContainer);
+                    const dotsContainerId = slider.id + '-dots';
+                    const dotsContainer = document.getElementById(dotsContainerId);
 
-                        if (dotsContainer && dotsContainer.children[index]) {
-                            dotsContainer.children[index].remove();
-                        }
+                    if (dotsContainer && dotsContainer.children[index]) {
+                        dotsContainer.children[index].remove();
+                    }
 
-                        container.remove();
+                    sliderContainer.remove();
 
-                        const remainingSlides = slider.querySelectorAll('.buffing-slide');
-                        if (remainingSlides.length === 0) {
-                            const wrapper = slider.closest('.service-gallery, .transform-section, .service-detail-content');
-                            if (wrapper) wrapper.style.display = 'none';
-                        } else if (remainingSlides.length === 1) {
-                            const arrows = slider.parentElement.querySelectorAll('.slider-arrow');
-                            arrows.forEach(arrow => arrow.style.display = 'none');
-                            if (dotsContainer) dotsContainer.style.display = 'none';
-                        }
-                    } else {
-                        container.remove();
+                    // Re-check slider state
+                    const remainingSlides = slider.querySelectorAll('.buffing-slide');
+                    if (remainingSlides.length === 0) {
+                        const wrapper = slider.closest('.service-gallery, .transform-section, .service-detail-content');
+                        if (wrapper) wrapper.style.display = 'none';
+                    } else if (remainingSlides.length === 1) {
+                        const arrows = slider.parentElement.querySelectorAll('.slider-arrow');
+                        arrows.forEach(arrow => arrow.style.display = 'none');
+                        if (dotsContainer) dotsContainer.style.display = 'none';
                     }
                 } else {
+                    // For all other images, JUST hide the image, don't remove the whole section or container
                     img.style.display = 'none';
+                    // If it's a card and we want to remove the card if image fails, we could, but let's be safe
+                    // and just hide the image to keep the layout intact.
                 }
-                console.warn('Removed broken image:', img.src);
+                console.warn('Hidden broken image:', img.src);
             }
         }, true);
 
-        // Run optimization on all existing images
-        function runGlobalOptimization() {
-            document.querySelectorAll('img').forEach(img => {
-                if (img.src && img.src.includes('cloudinary.com')) {
-                    const optimized = optimizeImgUrl(img.src);
-                    if (optimized !== img.src) {
-                        img.src = optimized;
-                    }
-                }
-            });
-        }
+        // Optimization disabled
+        function runGlobalOptimization() { }
 
         // Run on load
         window.addEventListener('DOMContentLoaded', runGlobalOptimization);
-        // Also run when dynamic content might be added (like opening a detail page)
         document.addEventListener('click', function () {
             setTimeout(runGlobalOptimization, 100);
         });
