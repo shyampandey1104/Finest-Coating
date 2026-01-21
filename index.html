@@ -6204,20 +6204,39 @@
 
     <script>
         // ============ GLOBAL IMAGE ERROR HANDLER ============
-        // Automatically hide or remove elements with broken images
+        // Automatically hide or remove elements with broken images across the entire site
         document.addEventListener('error', function (e) {
             if (e.target.tagName.toLowerCase() === 'img') {
                 const img = e.target;
-                const container = img.closest('.buffing-slide, .ba-image-card, .ba-grid-image-container, .service-card, .ba-card');
+                const container = img.closest('.buffing-slide, .ba-image-card, .ba-grid-image-container, .service-card, .ba-card, .gallery-item, .client-logo');
+
                 if (container) {
-                    container.remove();
-                    // If it was a slider, we might need to refresh dots or slider index
+                    // Special handling for sliders: remove the corresponding dot
                     if (container.classList.contains('buffing-slide')) {
-                        console.log('Removed broken slide, slider will adjust automatically on next slide change.');
+                        const slider = container.parentElement;
+                        const slides = Array.from(slider.children);
+                        const index = slides.indexOf(container);
+                        const dotsContainerId = slider.id + '-dots';
+                        const dotsContainer = document.getElementById(dotsContainerId);
+
+                        if (dotsContainer && dotsContainer.children[index]) {
+                            dotsContainer.children[index].remove();
+                        }
+
+                        container.remove();
+
+                        // If no slides left, hide the whole slider block
+                        if (slider.children.length === 0) {
+                            const wrapper = slider.closest('.service-gallery, .transform-section');
+                            if (wrapper) wrapper.style.display = 'none';
+                        }
+                    } else {
+                        container.remove();
                     }
                 } else {
                     img.style.display = 'none';
                 }
+                console.warn('Removed broken image element:', img.src);
             }
         }, true);
 
