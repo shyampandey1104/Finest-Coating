@@ -6202,9 +6202,10 @@
         // ============ IMAGE OPTIMIZATION HELPER ============
         // Automatically optimize Cloudinary URLs for better quality and faster loading
         function optimizeImgUrl(url) {
-            if (!url) return url;
+            if (!url || typeof url !== 'string') return url;
             // Only optimize Cloudinary URLs that aren't already optimized
             if (url.includes('cloudinary.com') && url.includes('/upload/') && !url.includes('/f_auto')) {
+                // Insert f_auto,q_auto after /upload/
                 return url.replace('/upload/', '/upload/f_auto,q_auto/');
             }
             return url;
@@ -6215,7 +6216,7 @@
         document.addEventListener('error', function (e) {
             if (e.target.tagName.toLowerCase() === 'img') {
                 const img = e.target;
-                const container = img.closest('.buffing-slide, .ba-image-card, .ba-grid-image-container, .service-card, .ba-card, .gallery-item, .client-logo');
+                const container = img.closest('.buffing-slide, .ba-image-card, .ba-grid-image-container, .service-card, .ba-card, .gallery-item, .client-logo, .warranty-image-item, .hero-image');
 
                 if (container) {
                     // Special handling for sliders: remove the corresponding dot and handle empty state
@@ -6226,24 +6227,17 @@
                         const dotsContainerId = slider.id + '-dots';
                         const dotsContainer = document.getElementById(dotsContainerId);
 
-                        // Remove the corresponding dot
                         if (dotsContainer && dotsContainer.children[index]) {
                             dotsContainer.children[index].remove();
                         }
 
-                        // Remove the broken slide
                         container.remove();
 
-                        // Re-check slider state
                         const remainingSlides = slider.querySelectorAll('.buffing-slide');
-
-                        // If 0 slides left, hide the whole gallery section
                         if (remainingSlides.length === 0) {
                             const wrapper = slider.closest('.service-gallery, .transform-section, .service-detail-content');
                             if (wrapper) wrapper.style.display = 'none';
-                        }
-                        // If only 1 slide left, hide navigation arrows as they are no longer needed
-                        else if (remainingSlides.length === 1) {
+                        } else if (remainingSlides.length === 1) {
                             const arrows = slider.parentElement.querySelectorAll('.slider-arrow');
                             arrows.forEach(arrow => arrow.style.display = 'none');
                             if (dotsContainer) dotsContainer.style.display = 'none';
@@ -6254,23 +6248,28 @@
                 } else {
                     img.style.display = 'none';
                 }
-                console.warn('Removed broken image element:', img.src);
+                console.warn('Removed broken image:', img.src);
             }
         }, true);
 
         // Run optimization on all existing images
         function runGlobalOptimization() {
             document.querySelectorAll('img').forEach(img => {
-                const optimized = optimizeImgUrl(img.src);
-                if (optimized !== img.src) {
-                    img.src = optimized;
+                if (img.src && img.src.includes('cloudinary.com')) {
+                    const optimized = optimizeImgUrl(img.src);
+                    if (optimized !== img.src) {
+                        img.src = optimized;
+                    }
                 }
             });
         }
 
-        // Run on load and periodically for any new images
+        // Run on load
         window.addEventListener('DOMContentLoaded', runGlobalOptimization);
-        setInterval(runGlobalOptimization, 2000);
+        // Also run when dynamic content might be added (like opening a detail page)
+        document.addEventListener('click', function () {
+            setTimeout(runGlobalOptimization, 100);
+        });
 
         // ============ API CONFIGURATION ============
         // Detect if running on localhost with Node server or via ngrok/live server
