@@ -2518,7 +2518,7 @@
         .benefits-content {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 3rem;
+            gap: 60px;
             align-items: start;
         }
 
@@ -2581,7 +2581,7 @@
         .benefits-image img {
             width: 100%;
             height: auto;
-            max-height: 280px;
+            max-height: 380px;
             object-fit: cover;
             border-radius: 20px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
@@ -2825,8 +2825,25 @@
         }
 
         @media (max-width: 992px) {
+            .benefits-content {
+                grid-template-columns: 1fr;
+            }
+
+            .benefits-image {
+                position: static;
+                margin-top: 2rem;
+            }
+
             .before-after-container {
                 grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            .benefits-image img,
+            .benefits-image video {
+                max-height: 300px;
             }
         }
 
@@ -5466,8 +5483,6 @@
             </div>
         </section>
 
-
-
         <!-- Process Section -->
         <section class="process" id="process">
             <div class="container">
@@ -5533,7 +5548,8 @@
                 </div>
 
                 <div class="gallery-more-btn-wrapper">
-                    <button class="gallery-more-btn" onclick="openMoreImages()">More Info →</button>
+                    <button class="gallery-more-btn" onclick="openMoreImages()">More Info
+                        →</button>
                 </div>
             </div>
         </section>
@@ -5544,7 +5560,8 @@
                 <div class="section-header">
                     <span class="section-label">Our Expertise</span>
                     <h2>Industries We Serve</h2>
-                    <p>We provide professional coating and refinishing services across various projects</p>
+                    <p>We provide professional coating and refinishing services across various
+                        projects</p>
                 </div>
                 <div class="clients-scroll-wrapper">
                     <button class="scroll-btn scroll-left" onclick="scrollClients('left')">❮</button>
@@ -5563,7 +5580,8 @@
                                     alt="Medical Machineries">
                             </div>
                             <h3>Medical Machineries</h3>
-                            <p>CT Scanner, MRI, X-Ray, Lab Equipment coating and refurbishment</p>
+                            <p>CT Scanner, MRI, X-Ray, Lab Equipment coating and refurbishment
+                            </p>
                         </div>
                         <div class="client-card">
                             <div class="client-image">
@@ -5571,7 +5589,8 @@
                                     alt="Industrial Machinery">
                             </div>
                             <h3>Industrial Machinery</h3>
-                            <p>Heavy-duty coating for industrial equipment and factory machinery</p>
+                            <p>Heavy-duty coating for industrial equipment and factory machinery
+                            </p>
                         </div>
                         <div class="client-card">
                             <div class="client-image">
@@ -5579,7 +5598,8 @@
                                     alt="Ducting & Pump Room">
                             </div>
                             <h3>Ducting & Pump Room</h3>
-                            <p>FRP Coating for HVAC ducting, pump rooms and ventilation systems</p>
+                            <p>FRP Coating for HVAC ducting, pump rooms and ventilation systems
+                            </p>
                         </div>
                         <div class="client-card">
                             <div class="client-image">
@@ -5587,7 +5607,8 @@
                                     alt="Waterslides">
                             </div>
                             <h3>Waterslides FRP</h3>
-                            <p>FRP Coating for water parks, swimming pool slides and aqua equipment</p>
+                            <p>FRP Coating for water parks, swimming pool slides and aqua
+                                equipment</p>
                         </div>
                         <div class="client-card">
                             <div class="client-image">
@@ -5595,7 +5616,8 @@
                                     alt="Multi-Surface Coating">
                             </div>
                             <h3>Multi-Surface Coating</h3>
-                            <p>Ceramic, Acrylic, Metal, Fiber coating for all types of surfaces</p>
+                            <p>Ceramic, Acrylic, Metal, Fiber coating for all types of surfaces
+                            </p>
                         </div>
                         <div class="client-card">
                             <div class="client-image">
@@ -5611,7 +5633,8 @@
                                     alt="Health Care">
                             </div>
                             <h3>Health Care</h3>
-                            <p>Specialized coating for hospitals, clinics and medical facilities</p>
+                            <p>Specialized coating for hospitals, clinics and medical facilities
+                            </p>
                         </div>
                     </div>
                     <button class="scroll-btn scroll-right" onclick="scrollClients('right')">❯</button>
@@ -5630,7 +5653,8 @@
                 <div class="testimonials-grid">
                     <div class="testimonial-card">
                         <div class="testimonial-stars">★★★★★</div>
-                        <p>"Excellent work! My 20-year-old bathtub looks brand new. The team was professional and
+                        <p>"Excellent work! My 20-year-old bathtub looks brand new. The team was
+                            professional and
                             completed the work in just one day. Highly recommend!"</p>
                         <div class="testimonial-author">
                             <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394215/Finest%20Coating/Industrial/images%20%2823%29%20%281%29.jpg"
@@ -5643,7 +5667,8 @@
                     </div>
                     <div class="testimonial-card">
                         <div class="testimonial-stars">★★★★★</div>
-                        <p>"We got our entire bathroom resurfaced and the transformation is amazing. The tiles, bathtub,
+                        <p>"We got our entire bathroom resurfaced and the transformation is
+                            amazing. The tiles, bathtub,
                             everything looks perfect. Worth every rupee!"</p>
                         <div class="testimonial-author">
                             <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394216/Finest%20Coating/Industrial/painting-overalls-500x500.jpg"
@@ -5656,7 +5681,8 @@
                     </div>
                     <div class="testimonial-card">
                         <div class="testimonial-stars">★★★★★</div>
-                        <p>"Used their services for our hotel. They refinished 50+ bathrooms with minimal disruption.
+                        <p>"Used their services for our hotel. They refinished 50+ bathrooms
+                            with minimal disruption.
                             Professional team, quality work, competitive pricing."</p>
                         <div class="testimonial-author">
                             <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394217/Finest%20Coating/Industrial/painting-protective-clothing.jpg"
@@ -5669,8 +5695,10 @@
                     </div>
                     <div class="testimonial-card">
                         <div class="testimonial-stars">★★★★★</div>
-                        <p>"All 120 bathtubs in our resort were refinished flawlessly. Guests are loving the fresh,
-                            luxurious look. Completed on schedule without disturbing operations. Outstanding work!"</p>
+                        <p>"All 120 bathtubs in our resort were refinished flawlessly. Guests
+                            are loving the fresh,
+                            luxurious look. Completed on schedule without disturbing operations.
+                            Outstanding work!"</p>
                         <div class="testimonial-author">
                             <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394285/Finest%20Coating/Industrial/IMG-20250713-WA0214.jpg"
                                 alt="Sandeep Malhotra" class="testimonial-avatar">
@@ -5682,8 +5710,10 @@
                     </div>
                     <div class="testimonial-card">
                         <div class="testimonial-stars">★★★★★</div>
-                        <p>"Our 5-star hotel needed urgent bathtub restoration. FINEST COATING delivered premium quality
-                            finish in record time. The glossy white coating looks even better than new!"</p>
+                        <p>"Our 5-star hotel needed urgent bathtub restoration. FINEST COATING
+                            delivered premium quality
+                            finish in record time. The glossy white coating looks even better
+                            than new!"</p>
                         <div class="testimonial-author">
                             <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394247/Finest%20Coating/Industrial/IMG_20220621_123859.jpg"
                                 alt="Kavita Reddy" class="testimonial-avatar">
@@ -5695,8 +5725,10 @@
                     </div>
                     <div class="testimonial-card">
                         <div class="testimonial-stars">★★★★★</div>
-                        <p>"Refinished 80+ bathtubs and washbasins across our heritage hotel. They matched the original
-                            vintage look perfectly while making them hygienic and durable. Excellent craftsmanship!"</p>
+                        <p>"Refinished 80+ bathtubs and washbasins across our heritage hotel.
+                            They matched the original
+                            vintage look perfectly while making them hygienic and durable.
+                            Excellent craftsmanship!"</p>
                         <div class="testimonial-author">
                             <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394160/Finest%20Coating/Kitchen/kitchen2.jpg"
                                 alt="Rohit Kapoor" class="testimonial-avatar">
@@ -5708,8 +5740,10 @@
                     </div>
                     <div class="testimonial-card">
                         <div class="testimonial-stars">★★★★★</div>
-                        <p>"Best investment for our boutique resort! Saved 70% compared to replacement cost. Their team
-                            refinished all bathroom fixtures - bathtubs, basins, tiles. Absolutely worth it!"</p>
+                        <p>"Best investment for our boutique resort! Saved 70% compared to
+                            replacement cost. Their team
+                            refinished all bathroom fixtures - bathtubs, basins, tiles.
+                            Absolutely worth it!"</p>
                         <div class="testimonial-author">
                             <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394141/Finest%20Coating/Bathroom/images%20%284%29%20%281%29.jpg"
                                 alt="Anjali Deshmukh" class="testimonial-avatar">
@@ -5729,7 +5763,8 @@
                 <div class="section-header">
                     <span class="section-label">Our Commitment</span>
                     <h2>Warranty & Care</h2>
-                    <p>We stand behind our work with a comprehensive warranty and provide guidance to extend the life of
+                    <p>We stand behind our work with a comprehensive warranty and provide
+                        guidance to extend the life of
                         your refinished surfaces.</p>
                 </div>
 
@@ -5737,7 +5772,8 @@
                     <div class="warranty-card">
                         <div class="warranty-card-icon">🛡️</div>
                         <h3>Warranty Coverage</h3>
-                        <p>We offer a full 6-month warranty on all labor and materials. Our warranty covers the
+                        <p>We offer a full 6-month warranty on all labor and materials. Our
+                            warranty covers the
                             following conditions:</p>
                         <ul>
                             <li>Peeling of the coating</li>
@@ -5750,7 +5786,8 @@
                     <div class="warranty-card">
                         <div class="warranty-card-icon">⏱️</div>
                         <h3>Lifespan & Durability</h3>
-                        <p>With proper care and maintenance, your refinished bathtub can last 5-10 years. The lifespan
+                        <p>With proper care and maintenance, your refinished bathtub can last
+                            5-10 years. The lifespan
                             depends on:</p>
                         <ul>
                             <li>Daily usage and wear patterns</li>
@@ -5764,7 +5801,8 @@
                 <div class="warranty-images">
                     <div class="warranty-images-header">
                         <h3>Conditions Covered Under Warranty</h3>
-                        <p>These are examples of issues we will repair or redo at no additional cost during the warranty
+                        <p>These are examples of issues we will repair or redo at no additional
+                            cost during the warranty
                             period</p>
                     </div>
                     <div class="warranty-images-grid">
@@ -5798,7 +5836,8 @@
                             <div class="care-tip-icon">🧽</div>
                             <div class="care-tip-content">
                                 <h4>Use Mild Soap</h4>
-                                <p>Clean with mild liquid soap and water. Regular, gentle cleaning preserves the finish
+                                <p>Clean with mild liquid soap and water. Regular, gentle
+                                    cleaning preserves the finish
                                     and extends its life significantly.</p>
                             </div>
                         </div>
@@ -5806,7 +5845,8 @@
                             <div class="care-tip-icon">🚫</div>
                             <div class="care-tip-content">
                                 <h4>Avoid Abrasives</h4>
-                                <p>Never use abrasive cleaners, scouring pads, or steel wool. These can scratch and
+                                <p>Never use abrasive cleaners, scouring pads, or steel wool.
+                                    These can scratch and
                                     damage the coating surface.</p>
                             </div>
                         </div>
@@ -5814,7 +5854,8 @@
                             <div class="care-tip-icon">⚗️</div>
                             <div class="care-tip-content">
                                 <h4>No Harsh Chemicals</h4>
-                                <p>Avoid bleach, ammonia, and acid-based cleaners. These chemicals can break down the
+                                <p>Avoid bleach, ammonia, and acid-based cleaners. These
+                                    chemicals can break down the
                                     coating over time.</p>
                             </div>
                         </div>
@@ -5822,7 +5863,8 @@
                             <div class="care-tip-icon">🧴</div>
                             <div class="care-tip-content">
                                 <h4>Soft Cloth Only</h4>
-                                <p>Use a soft cloth or non-abrasive sponge for cleaning. Microfiber cloths work best for
+                                <p>Use a soft cloth or non-abrasive sponge for cleaning.
+                                    Microfiber cloths work best for
                                     maintaining the shine.</p>
                             </div>
                         </div>
@@ -5830,7 +5872,8 @@
                             <div class="care-tip-icon">💧</div>
                             <div class="care-tip-content">
                                 <h4>Rinse After Use</h4>
-                                <p>Rinse the surface after each use and wipe dry when possible. This prevents soap scum
+                                <p>Rinse the surface after each use and wipe dry when possible.
+                                    This prevents soap scum
                                     and mineral buildup.</p>
                             </div>
                         </div>
@@ -5838,7 +5881,8 @@
                             <div class="care-tip-icon">🛁</div>
                             <div class="care-tip-content">
                                 <h4>Use Bath Mats</h4>
-                                <p>Place non-suction bath mats to prevent scratches. Remove mats after bathing to allow
+                                <p>Place non-suction bath mats to prevent scratches. Remove mats
+                                    after bathing to allow
                                     the surface to dry.</p>
                             </div>
                         </div>
@@ -5846,9 +5890,12 @@
                             <div class="care-tip-icon">🚿</div>
                             <div class="care-tip-content">
                                 <h4>Protect from Impact (Tie-Back)</h4>
-                                <p>Painted finishes are prone to chipping. Dropping a heavy metal or plastic hand shower
-                                    head can easily crack or chip the new coating. Use a zip-tie or a piece of twine to
-                                    tether the shower hose to the faucet or a grab bar, ensuring that even if the head
+                                <p>Painted finishes are prone to chipping. Dropping a heavy
+                                    metal or plastic hand shower
+                                    head can easily crack or chip the new coating. Use a zip-tie
+                                    or a piece of twine to
+                                    tether the shower hose to the faucet or a grab bar, ensuring
+                                    that even if the head
                                     slips from its bracket, it cannot reach the tub surface.</p>
                             </div>
                         </div>
@@ -5862,7 +5909,8 @@
             <div class="container">
                 <div class="faq-content">
                     <h2>Frequently Asked Questions</h2>
-                    <p>Find answers to common questions about our bathroom resurfacing services.</p>
+                    <p>Find answers to common questions about our bathroom resurfacing services.
+                    </p>
 
                     <div class="faq-item active">
                         <div class="faq-question" onclick="toggleFaq(this)">
@@ -5870,8 +5918,10 @@
                             <span>+</span>
                         </div>
                         <div class="faq-answer">
-                            Our same-day bathtub refinishing process takes 4-6 hours to complete. Your refinished
-                            bathtub will be ready for use 24 hours once the finish has been completely set.
+                            Our same-day bathtub refinishing process takes 4-6 hours to
+                            complete. Your refinished
+                            bathtub will be ready for use 24 hours once the finish has been
+                            completely set.
                         </div>
                     </div>
 
@@ -5881,9 +5931,12 @@
                             <span>+</span>
                         </div>
                         <div class="faq-answer">
-                            The newly applied finish on the bathtub will last 5 to 10 years. The amount of daily use,
-                            wear, and tear will affect the life of the newly applied finish. We provide care
-                            instructions and offer a full 6-month warranty on labor and materials.
+                            The newly applied finish on the bathtub will last 5 to 10 years. The
+                            amount of daily use,
+                            wear, and tear will affect the life of the newly applied finish. We
+                            provide care
+                            instructions and offer a full 6-month warranty on labor and
+                            materials.
                         </div>
                     </div>
 
@@ -5893,9 +5946,12 @@
                             <span>+</span>
                         </div>
                         <div class="faq-answer">
-                            Every project is different. The price depends on the amount of work we need to do, the
-                            condition of your bathtub, the size of your bathtub, and the color you desire. Other things
-                            include any previous work done on the bathtub, or were there any past repairs made. Call us
+                            Every project is different. The price depends on the amount of work
+                            we need to do, the
+                            condition of your bathtub, the size of your bathtub, and the color
+                            you desire. Other things
+                            include any previous work done on the bathtub, or were there any
+                            past repairs made. Call us
                             for a free estimate or email us.
                         </div>
                     </div>
@@ -5906,9 +5962,12 @@
                             <span>+</span>
                         </div>
                         <div class="faq-answer">
-                            Well, that depends on who you hire! FC will protect the other areas of your bathroom by
-                            carefully masking off the work area to protect your home or business. After the job is done,
-                            we make sure the work area looks as good after we are gone as it did when we arrived.
+                            Well, that depends on who you hire! FC will protect the other areas
+                            of your bathroom by
+                            carefully masking off the work area to protect your home or
+                            business. After the job is done,
+                            we make sure the work area looks as good after we are gone as it did
+                            when we arrived.
                         </div>
                     </div>
 
@@ -5918,9 +5977,12 @@
                             <span>+</span>
                         </div>
                         <div class="faq-answer">
-                            We can refinish built-in bathtubs, corner bathtubs, clawfoot bathtubs, drop-in bathtubs,
-                            garden bathtubs, Jacuzzi bathtubs, walk-in bathtubs, whirlpool bathtubs, and more. We work
-                            with porcelain, fiberglass, acrylic, cast iron, cultured marble, and other materials.
+                            We can refinish built-in bathtubs, corner bathtubs, clawfoot
+                            bathtubs, drop-in bathtubs,
+                            garden bathtubs, Jacuzzi bathtubs, walk-in bathtubs, whirlpool
+                            bathtubs, and more. We work
+                            with porcelain, fiberglass, acrylic, cast iron, cultured marble, and
+                            other materials.
                         </div>
                     </div>
 
@@ -5930,8 +5992,10 @@
                             <span>+</span>
                         </div>
                         <div class="faq-answer">
-                            When a newly reglazed bathtub starts peeling, it's almost always due to improper preparation
-                            and application techniques. Professional reglazing, when done correctly, should last for
+                            When a newly reglazed bathtub starts peeling, it's almost always due
+                            to improper preparation
+                            and application techniques. Professional reglazing, when done
+                            correctly, should last for
                             7-10 years with proper maintenance.
                         </div>
                     </div>
@@ -5942,9 +6006,12 @@
                             <span>+</span>
                         </div>
                         <div class="faq-answer">
-                            A warranty is only as good as the company standing behind it. FC has been in the bathtub
-                            refinishing business since 2005. We cover our labor and material for a full 6 months of
-                            warranty. Note: Our warranty does not cover accidental damage or failure to follow care and
+                            A warranty is only as good as the company standing behind it. FC has
+                            been in the bathtub
+                            refinishing business since 2005. We cover our labor and material for
+                            a full 6 months of
+                            warranty. Note: Our warranty does not cover accidental damage or
+                            failure to follow care and
                             maintenance instructions.
                         </div>
                     </div>
@@ -5955,8 +6022,10 @@
                             <span>+</span>
                         </div>
                         <div class="faq-answer">
-                            You can save up to 75% to 90% versus the cost of replacing your old bathtub by refinishing
-                            it. Bathtub refinishing is a great way to restore your existing bathtub so that it looks
+                            You can save up to 75% to 90% versus the cost of replacing your old
+                            bathtub by refinishing
+                            it. Bathtub refinishing is a great way to restore your existing
+                            bathtub so that it looks
                             like new again, without the high cost of bathroom remodeling.
                         </div>
                     </div>
@@ -5967,10 +6036,14 @@
                             <span>+</span>
                         </div>
                         <div class="faq-answer">
-                            Yes! At FC we do our best to be as eco-friendly as possible. Reconstruction generates a lot
-                            of construction waste with over 50% going into our landfills. Refinishing reduces the amount
-                            of construction waste generated since it creates so little waste compared to reconstruction.
-                            We use refinishing products that are certified as non-toxic and eco-friendly.
+                            Yes! At FC we do our best to be as eco-friendly as possible.
+                            Reconstruction generates a lot
+                            of construction waste with over 50% going into our landfills.
+                            Refinishing reduces the amount
+                            of construction waste generated since it creates so little waste
+                            compared to reconstruction.
+                            We use refinishing products that are certified as non-toxic and
+                            eco-friendly.
                         </div>
                     </div>
 
@@ -5980,10 +6053,14 @@
                             <span>+</span>
                         </div>
                         <div class="faq-answer">
-                            Yes! FC provides end-to-end surface finishing solutions for businesses, architects, and
-                            builders. We serve hotels, hospitals, apartment complexes, malls, showrooms, and office
-                            complexes. Our services cover powder coating, wood finish on aluminum, and mirror finish
-                            coatings. We offer flexible scheduling to minimize disruption to your business.
+                            Yes! FC provides end-to-end surface finishing solutions for
+                            businesses, architects, and
+                            builders. We serve hotels, hospitals, apartment complexes, malls,
+                            showrooms, and office
+                            complexes. Our services cover powder coating, wood finish on
+                            aluminum, and mirror finish
+                            coatings. We offer flexible scheduling to minimize disruption to
+                            your business.
                         </div>
                     </div>
                 </div>
@@ -6001,7 +6078,8 @@
             <div class="container">
                 <div class="contact-content">
                     <h2>Get Your Free Quote Today</h2>
-                    <p>Ready to transform your bathroom? Contact us for a free inspection and quote. No obligations, no
+                    <p>Ready to transform your bathroom? Contact us for a free inspection and
+                        quote. No obligations, no
                         hidden fees.</p>
 
                     <div class="contact-info-list">
@@ -6059,9 +6137,12 @@
                                 style="width: 100%; padding: 0.875rem 1rem; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; background: white; color: var(--foreground); cursor: pointer;">
                                 <option value="" disabled selected>-- Select Service --</option>
                                 <option value="Hotels & Resorts">🏨 Hotels & Resorts</option>
-                                <option value="Industrial Machinery">🏭 Industrial Machinery</option>
-                                <option value="Healthcare Equipment">🏥 Healthcare Equipment</option>
-                                <option value="Bathtubs & Washbasins">🛁 Bathtubs & Washbasins</option>
+                                <option value="Industrial Machinery">🏭 Industrial Machinery
+                                </option>
+                                <option value="Healthcare Equipment">🏥 Healthcare Equipment
+                                </option>
+                                <option value="Bathtubs & Washbasins">🛁 Bathtubs & Washbasins
+                                </option>
                                 <option value="Kitchen Items">🍳 Kitchen Items</option>
                                 <option value="FRP Coating">🛡️ FRP Coating</option>
                                 <option value="Ships & Yachts">🚢 Ships & Yachts</option>
@@ -6087,7 +6168,8 @@
             <div class="footer-grid">
                 <div class="footer-section">
                     <h4>Finest Coating</h4>
-                    <p>Mumbai's premier bathroom resurfacing company since 2005. We transform old, worn bathrooms into
+                    <p>Mumbai's premier bathroom resurfacing company since 2005. We transform
+                        old, worn bathrooms into
                         beautiful, like-new spaces.</p>
                     <div class="social-links">
                         <a href="#">📘</a>
@@ -6128,7 +6210,8 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2024 Finest Coating. All rights reserved. | Premium Bathroom Resurfacing Services</p>
+                <p>© 2024 Finest Coating. All rights reserved. | Premium Bathroom Resurfacing
+                    Services</p>
             </div>
         </div>
     </footer>
@@ -6158,7 +6241,8 @@
                         <div class="progress-bar-fill" id="progressBarFill"></div>
                     </div>
                 </div>
-                <h4 style="margin-bottom: 1rem; color: var(--foreground);">📸 Existing Images</h4>
+                <h4 style="margin-bottom: 1rem; color: var(--foreground);">📸 Existing Images
+                </h4>
                 <div class="img-preview-grid" id="serviceImgGrid">
                     <div class="img-manager-loading">Loading images...</div>
                 </div>
@@ -6177,7 +6261,8 @@
                 <button class="modal-close" onclick="closeImageManager()">×</button>
             </div>
             <div class="modal-body">
-                <p style="margin-bottom: 1.5rem; color: var(--muted);">Images are saved in browser's localStorage.
+                <p style="margin-bottom: 1.5rem; color: var(--muted);">Images are saved in
+                    browser's localStorage.
                     Upload once and they'll work offline!</p>
 
                 <div class="image-manager-grid" id="imageManagerGrid">
@@ -6186,11 +6271,13 @@
 
                 <div class="upload-section">
                     <h4>Upload New Image</h4>
-                    <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem;">Select an image slot above
+                    <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem;">
+                        Select an image slot above
                         first, then choose a file to upload</p>
                     <div class="file-input-wrapper">
                         <input type="file" id="imageUpload" accept="image/*" onchange="handleSiteImageUpload(event)">
-                        <label for="imageUpload" class="file-input-label">📁 Choose Image File</label>
+                        <label for="imageUpload" class="file-input-label">📁 Choose Image
+                            File</label>
                     </div>
                     <div class="upload-preview" id="uploadPreview"></div>
                 </div>
@@ -9504,7 +9591,8 @@ _Sent from FINEST COATING Website_`;
     <div class="service-detail-overlay" id="bathtubs-detail">
         <div class="service-detail-header">
             <div class="header-left">
-                <button class="service-detail-back" onclick="closeServiceDetail('bathtubs')">← Back to Home</button>
+                <button class="service-detail-back" onclick="closeServiceDetail('bathtubs')">←
+                    Back to Home</button>
                 <h2>🛁 Bathtubs & Washbasins</h2>
             </div>
             <button class="service-detail-close" onclick="closeServiceDetail('bathtubs')">✕</button>
@@ -9523,8 +9611,10 @@ _Sent from FINEST COATING Website_`;
                 <div class="industrial-hero-content">
                     <span class="industrial-tag">Premium Refinishing Services</span>
                     <h3>Professional Bathtub & Washbasin Refinishing</h3>
-                    <p>FINEST COATING specializes in restoring bathtubs and washbasins to their original glory. Our
-                        expert team uses advanced refinishing techniques to transform your old, worn-out bathroom
+                    <p>FINEST COATING specializes in restoring bathtubs and washbasins to their
+                        original glory. Our
+                        expert team uses advanced refinishing techniques to transform your old,
+                        worn-out bathroom
                         fixtures into stunning, like-new pieces.</p>
                     <div class="industrial-stats">
                         <div class="stat-item">
@@ -9550,12 +9640,14 @@ _Sent from FINEST COATING Website_`;
                     <div class="equipment-card">
                         <div class="equipment-icon">🛁</div>
                         <h5>Bathtubs</h5>
-                        <p>Acrylic, Cast Iron, Fiberglass, Porcelain - Complete resurfacing & color restoration</p>
+                        <p>Acrylic, Cast Iron, Fiberglass, Porcelain - Complete resurfacing &
+                            color restoration</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🚿</div>
                         <h5>Washbasins</h5>
-                        <p>All types of sinks - Chip repair, stain removal, and glossy finish restoration</p>
+                        <p>All types of sinks - Chip repair, stain removal, and glossy finish
+                            restoration</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🔧</div>
@@ -9575,7 +9667,8 @@ _Sent from FINEST COATING Website_`;
                     <div class="equipment-card">
                         <div class="equipment-icon">✨</div>
                         <h5>Rust Treatment</h5>
-                        <p>Complete rust removal and preventive coating for long-lasting results</p>
+                        <p>Complete rust removal and preventive coating for long-lasting results
+                        </p>
                     </div>
                 </div>
             </div>
@@ -9654,7 +9747,8 @@ _Sent from FINEST COATING Website_`;
                             <div class="buffing-slide active">
                                 <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768491243/bathtubs_washbasins/bartub_images.jpg"
                                     alt="Professional Bathtub Refinishing">
-                                <div class="slide-caption">Professional Bathtub Refinishing</div>
+                                <div class="slide-caption">Professional Bathtub Refinishing
+                                </div>
                             </div>
                             <div class="buffing-slide">
                                 <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768491244/bathtubs_washbasins/download.jpg"
@@ -9722,7 +9816,8 @@ _Sent from FINEST COATING Website_`;
 
             <div class="service-cta">
                 <h4>Ready to Transform Your Bathtub?</h4>
-                <p>Get a free quote today and see how we can restore your bathroom fixtures to like-new condition.</p>
+                <p>Get a free quote today and see how we can restore your bathroom fixtures to
+                    like-new condition.</p>
                 <a href="#contact" class="btn-primary" onclick="closeServiceDetail('bathtubs')">Get Free Quote →</a>
             </div>
         </div>
@@ -9732,7 +9827,8 @@ _Sent from FINEST COATING Website_`;
     <div class="service-detail-overlay" id="urinals-detail">
         <div class="service-detail-header">
             <div class="header-left">
-                <button class="service-detail-back" onclick="closeServiceDetail('urinals')">← Back to Home</button>
+                <button class="service-detail-back" onclick="closeServiceDetail('urinals')">←
+                    Back to Home</button>
                 <h2>🚽 Urinals Refinishing</h2>
             </div>
             <button class="service-detail-close" onclick="closeServiceDetail('urinals')">✕</button>
@@ -9751,8 +9847,10 @@ _Sent from FINEST COATING Website_`;
                 <div class="industrial-hero-content">
                     <span class="industrial-tag">Hygienic Refinishing Solutions</span>
                     <h3>Professional Urinal Resurfacing Services</h3>
-                    <p>FINEST COATING provides expert urinal refinishing services for commercial and residential
-                        properties. Our specialized process removes years of stains, discoloration, and wear to restore
+                    <p>FINEST COATING provides expert urinal refinishing services for commercial
+                        and residential
+                        properties. Our specialized process removes years of stains,
+                        discoloration, and wear to restore
                         urinals to pristine condition.</p>
                     <div class="industrial-stats">
                         <div class="stat-item">
@@ -9865,12 +9963,14 @@ _Sent from FINEST COATING Website_`;
                             <div class="buffing-slide active">
                                 <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394141/Finest%20Coating/Bathroom/images%20%284%29%20%281%29.jpg"
                                     alt="Commercial Urinals with Privacy Panels">
-                                <div class="slide-caption">Commercial Urinals with Privacy Panels</div>
+                                <div class="slide-caption">Commercial Urinals with Privacy
+                                    Panels</div>
                             </div>
                             <div class="buffing-slide">
                                 <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394142/Finest%20Coating/Bathroom/images%20%2823%29%20%281%29.jpg"
                                     alt="Modern White Wall-Mounted Urinals">
-                                <div class="slide-caption">Modern White Wall-Mounted Urinals</div>
+                                <div class="slide-caption">Modern White Wall-Mounted Urinals
+                                </div>
                             </div>
                             <div class="buffing-slide">
                                 <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394157/Finest%20Coating/Urinals/download3.jpg"
@@ -9915,7 +10015,8 @@ _Sent from FINEST COATING Website_`;
 
             <div class="service-cta">
                 <h4>Need Urinal Refinishing?</h4>
-                <p>Contact us for commercial and residential urinal restoration services. Quick turnaround guaranteed!
+                <p>Contact us for commercial and residential urinal restoration services. Quick
+                    turnaround guaranteed!
                 </p>
                 <a href="#contact" class="btn-primary" onclick="closeServiceDetail('urinals')">Get Free Quote →</a>
             </div>
@@ -9926,7 +10027,8 @@ _Sent from FINEST COATING Website_`;
     <div class="service-detail-overlay" id="kitchen-detail">
         <div class="service-detail-header">
             <div class="header-left">
-                <button class="service-detail-back" onclick="closeServiceDetail('kitchen')">← Back to Home</button>
+                <button class="service-detail-back" onclick="closeServiceDetail('kitchen')">←
+                    Back to Home</button>
                 <h2>🍳 Kitchen Items</h2>
             </div>
             <button class="service-detail-close" onclick="closeServiceDetail('kitchen')">✕</button>
@@ -9945,7 +10047,8 @@ _Sent from FINEST COATING Website_`;
                 <div class="industrial-hero-content">
                     <span class="industrial-tag">Kitchen Refinishing Experts</span>
                     <h3>Kitchen Fixture Refinishing Services</h3>
-                    <p>Transform your kitchen with our professional Team. We restore kitchen sinks, countertops, and
+                    <p>Transform your kitchen with our professional Team. We restore kitchen
+                        sinks, countertops, and
                         fixtures to their original beauty without the cost of replacement.</p>
                     <div class="industrial-stats">
                         <div class="stat-item">
@@ -9971,7 +10074,8 @@ _Sent from FINEST COATING Website_`;
                     <div class="equipment-card">
                         <div class="equipment-icon">🚰</div>
                         <h5>polishing Kitchen utensils</h5>
-                        <p>Stainless steel, Cast Iron, Copper, Bronze, Buffing And polishing etc.</p>
+                        <p>Stainless steel, Cast Iron, Copper, Bronze, Buffing And polishing
+                            etc.</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🪨</div>
@@ -10102,7 +10206,8 @@ _Sent from FINEST COATING Website_`;
 
             <div class="service-cta">
                 <h4>Upgrade Your Kitchen Today!</h4>
-                <p>Get professional kitchen refinishing at a fraction of replacement cost. Food-safe coatings
+                <p>Get professional kitchen refinishing at a fraction of replacement cost.
+                    Food-safe coatings
                     guaranteed!</p>
                 <a href="#contact" class="btn-primary" onclick="closeServiceDetail('kitchen')">Get Free Quote →</a>
             </div>
@@ -10113,7 +10218,8 @@ _Sent from FINEST COATING Website_`;
     <div class="service-detail-overlay" id="buffing-detail">
         <div class="service-detail-header">
             <div class="header-left">
-                <button class="service-detail-back" onclick="closeServiceDetail('buffing')">← Back to Home</button>
+                <button class="service-detail-back" onclick="closeServiceDetail('buffing')">←
+                    Back to Home</button>
                 <h2>✨ Buffing & Polishing</h2>
             </div>
             <button class="service-detail-close" onclick="closeServiceDetail('buffing')">✕</button>
@@ -10132,8 +10238,10 @@ _Sent from FINEST COATING Website_`;
                 <div class="industrial-hero-content">
                     <span class="industrial-tag">Premium Polishing Services</span>
                     <h3>Professional Buffing & Polishing Services</h3>
-                    <p>FINEST COATING offers expert buffing and polishing services to restore the shine and luster of
-                        your metal surfaces. Our professional-grade equipment delivers mirror-like finishes, removing
+                    <p>FINEST COATING offers expert buffing and polishing services to restore
+                        the shine and luster of
+                        your metal surfaces. Our professional-grade equipment delivers
+                        mirror-like finishes, removing
                         dark oxidation and restoring the original brilliance.</p>
                     <div class="industrial-stats">
                         <div class="stat-item">
@@ -10159,22 +10267,28 @@ _Sent from FINEST COATING Website_`;
                     <div class="equipment-card">
                         <div class="equipment-icon">🔧</div>
                         <h5>Buffing</h5>
-                        <p>Buffing is the deep-cleaning step used to remove dark oxidation, surface imperfections, and
-                            buildup. It restores the base shine by eliminating tarnish and scratches from metal surfaces
+                        <p>Buffing is the deep-cleaning step used to remove dark oxidation,
+                            surface imperfections, and
+                            buildup. It restores the base shine by eliminating tarnish and
+                            scratches from metal surfaces
                             like stainless steel, brass, copper, and bronze.</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">✨</div>
                         <h5>Polishing</h5>
-                        <p>Polishing adds a protective layer and a glossy, mirror-like finish to the surface. It
-                            enhances the luster and creates a fingerprint-free, high-gloss appearance that makes your
+                        <p>Polishing adds a protective layer and a glossy, mirror-like finish to
+                            the surface. It
+                            enhances the luster and creates a fingerprint-free, high-gloss
+                            appearance that makes your
                             items look brand new.</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🪙</div>
                         <h5>Tinning (Kalai)</h5>
-                        <p>Tinning is the process of re-lining the inside of copper and brass vessels with tin. This
-                            makes the cookware safe for cooking acidic foods and prevents metal contamination, extending
+                        <p>Tinning is the process of re-lining the inside of copper and brass
+                            vessels with tin. This
+                            makes the cookware safe for cooking acidic foods and prevents metal
+                            contamination, extending
                             the life of your traditional cookware.</p>
                     </div>
                 </div>
@@ -10187,33 +10301,39 @@ _Sent from FINEST COATING Website_`;
                     <div class="equipment-card">
                         <div class="equipment-icon">🔨</div>
                         <h5>Oxidation Removal</h5>
-                        <p>Complete removal of dark oxidation and tarnish from all metal surfaces using professional
+                        <p>Complete removal of dark oxidation and tarnish from all metal
+                            surfaces using professional
                             buffing techniques</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🍳</div>
                         <h5>Kitchen Utensils</h5>
-                        <p>Stainless steel, copper, brass, bronze, and cast iron cookware restoration and polishing</p>
+                        <p>Stainless steel, copper, brass, bronze, and cast iron cookware
+                            restoration and polishing</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🚰</div>
                         <h5>Faucets & Fixtures</h5>
-                        <p>Restoration of metal door handles, faucets, light fixtures, and bathroom accessories</p>
+                        <p>Restoration of metal door handles, faucets, light fixtures, and
+                            bathroom accessories</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🏺</div>
                         <h5>Decorative Items</h5>
-                        <p>Professional polishing of antique brass, copper items, and decorative metalware</p>
+                        <p>Professional polishing of antique brass, copper items, and decorative
+                            metalware</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">💧</div>
                         <h5>Scratch & Spot Removal</h5>
-                        <p>Eliminate deep scratches, water spots, and mineral deposits from all surfaces</p>
+                        <p>Eliminate deep scratches, water spots, and mineral deposits from all
+                            surfaces</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🛡️</div>
                         <h5>Protective Coating</h5>
-                        <p>Application of long-lasting protective sealant to maintain shine and prevent future
+                        <p>Application of long-lasting protective sealant to maintain shine and
+                            prevent future
                             tarnishing</p>
                     </div>
                 </div>
@@ -10226,21 +10346,26 @@ _Sent from FINEST COATING Website_`;
                     <div class="equipment-card">
                         <div class="equipment-icon">🏆</div>
                         <h5>Specialized Expertise</h5>
-                        <p>We specialize in metal restoration for kitchen appliances and equipment polishing for both
-                            households and businesses. Highly rated for brass, stainless steel, and copper restoration.
+                        <p>We specialize in metal restoration for kitchen appliances and
+                            equipment polishing for both
+                            households and businesses. Highly rated for brass, stainless steel,
+                            and copper restoration.
                         </p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🎯</div>
                         <h5>High-End Restoration</h5>
-                        <p>Professional handling of antique brass/copper items, commercial-grade equipment, and high-end
+                        <p>Professional handling of antique brass/copper items, commercial-grade
+                            equipment, and high-end
                             cookware that has lost its shine or has deep scratches.</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🪞</div>
                         <h5>Mirror Finish Quality</h5>
-                        <p>Expert focus on making items fingerprint-free and restoring a perfect mirror finish to
-                            stainless steel and other metals with professional-grade equipment.</p>
+                        <p>Expert focus on making items fingerprint-free and restoring a perfect
+                            mirror finish to
+                            stainless steel and other metals with professional-grade equipment.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -10252,19 +10377,22 @@ _Sent from FINEST COATING Website_`;
                     <div class="equipment-card">
                         <div class="equipment-icon">🥄</div>
                         <h5>Stainless Steel</h5>
-                        <p>For light stains, use a paste of baking soda and water or Bar Keepers Friend. Always buff in
+                        <p>For light stains, use a paste of baking soda and water or Bar Keepers
+                            Friend. Always buff in
                             the direction of the metal's grain for best results.</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🍋</div>
                         <h5>Copper & Brass</h5>
-                        <p>A mixture of lemon and salt or tamarind paste is a classic Indian remedy that works instantly
+                        <p>A mixture of lemon and salt or tamarind paste is a classic Indian
+                            remedy that works instantly
                             to remove oxidation from copper and brass items.</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🔪</div>
                         <h5>Knives & Blades</h5>
-                        <p>For a polished edge, use a leather strop or very fine-grit whetstone. For the flat blade,
+                        <p>For a polished edge, use a leather strop or very fine-grit whetstone.
+                            For the flat blade,
                             metal polish like Flitz works wonders.</p>
                     </div>
                 </div>
@@ -10277,25 +10405,29 @@ _Sent from FINEST COATING Website_`;
                     <div class="equipment-card">
                         <div class="equipment-icon">🧼</div>
                         <h5>Regular Cleaning</h5>
-                        <p>Clean surfaces regularly with a soft cloth and mild detergent. Avoid abrasive cleaners that
+                        <p>Clean surfaces regularly with a soft cloth and mild detergent. Avoid
+                            abrasive cleaners that
                             can scratch the polished finish.</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">💨</div>
                         <h5>Dry Immediately</h5>
-                        <p>After washing, dry metal surfaces immediately to prevent water spots and maintain the shine.
+                        <p>After washing, dry metal surfaces immediately to prevent water spots
+                            and maintain the shine.
                             Use a microfiber cloth for best results.</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🧴</div>
                         <h5>Protective Treatment</h5>
-                        <p>Apply a thin layer of mineral oil or specialized metal protectant periodically to maintain
+                        <p>Apply a thin layer of mineral oil or specialized metal protectant
+                            periodically to maintain
                             the finish and prevent oxidation.</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🌡️</div>
                         <h5>Avoid Extreme Heat</h5>
-                        <p>Don't expose polished items to extreme temperature changes. For cookware, use medium heat to
+                        <p>Don't expose polished items to extreme temperature changes. For
+                            cookware, use medium heat to
                             preserve the finish.</p>
                     </div>
                 </div>
@@ -10486,7 +10618,8 @@ _Sent from FINEST COATING Website_`;
 
             <div class="service-cta">
                 <h4>Want That Perfect Shine?</h4>
-                <p>Let our experts restore the brilliance of your surfaces with professional buffing & polishing. We
+                <p>Let our experts restore the brilliance of your surfaces with professional
+                    buffing & polishing. We
                     handle everything from kitchen utensils to decorative metalware!</p>
                 <a href="#contact" class="btn-primary" onclick="closeServiceDetail('buffing')">Get Free Quote →</a>
             </div>
@@ -10497,7 +10630,8 @@ _Sent from FINEST COATING Website_`;
     <div class="service-detail-overlay" id="industrial-detail">
         <div class="service-detail-header">
             <div class="header-left">
-                <button class="service-detail-back" onclick="closeServiceDetail('industrial')">← Back to Home</button>
+                <button class="service-detail-back" onclick="closeServiceDetail('industrial')">←
+                    Back to Home</button>
                 <h2>🏭 Medical & Industrial Equipment</h2>
             </div>
             <button class="service-detail-close" onclick="closeServiceDetail('industrial')">✕</button>
@@ -10514,12 +10648,17 @@ _Sent from FINEST COATING Website_`;
                     </div>
                 </div>
                 <div class="industrial-hero-content">
-                    <span class="industrial-tag">Premium Refurbishment & FRP Coating Services</span>
+                    <span class="industrial-tag">Premium Refurbishment & FRP Coating
+                        Services</span>
                     <h3>Medical & Industrial Equipment Refurbishment</h3>
-                    <p>FINEST COATING specializes in complete refurbishment, FRP (Fiber Reinforced Plastic) coating, and
-                        restoration solutions for high-value medical and industrial equipment. We restore CT Scanners,
-                        MRI Machines, X-Ray Equipment, Laboratory Analyzers, Cooling Towers, Industrial Tanks, Piping
-                        Systems, and other sophisticated machinery to like-new condition with superior
+                    <p>FINEST COATING specializes in complete refurbishment, FRP (Fiber
+                        Reinforced Plastic) coating, and
+                        restoration solutions for high-value medical and industrial equipment.
+                        We restore CT Scanners,
+                        MRI Machines, X-Ray Equipment, Laboratory Analyzers, Cooling Towers,
+                        Industrial Tanks, Piping
+                        Systems, and other sophisticated machinery to like-new condition with
+                        superior
                         corrosion-resistant coating.</p>
                     <div class="industrial-stats">
                         <div class="stat-item">
@@ -10545,17 +10684,20 @@ _Sent from FINEST COATING Website_`;
                     <div class="equipment-card">
                         <div class="equipment-icon">🔬</div>
                         <h5>CT Scanners</h5>
-                        <p>16/32/64/128 Slice - Complete gantry and panel refinishing with precision coating</p>
+                        <p>16/32/64/128 Slice - Complete gantry and panel refinishing with
+                            precision coating</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🧲</div>
                         <h5>MRI Machines</h5>
-                        <p>Exterior coating, internal component cleaning, and magnetic shielding restoration</p>
+                        <p>Exterior coating, internal component cleaning, and magnetic shielding
+                            restoration</p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">☢️</div>
                         <h5>X-Ray Equipment</h5>
-                        <p>Panel restoration, protective coating, and safety compliance upgrades</p>
+                        <p>Panel restoration, protective coating, and safety compliance upgrades
+                        </p>
                     </div>
                     <div class="equipment-card">
                         <div class="equipment-icon">🧪</div>
@@ -10570,7 +10712,8 @@ _Sent from FINEST COATING Website_`;
                     <div class="equipment-card">
                         <div class="equipment-icon">🖥️</div>
                         <h5>Control Panels</h5>
-                        <p>Anti-corrosion coating, electrical safety, and industrial finishing</p>
+                        <p>Anti-corrosion coating, electrical safety, and industrial finishing
+                        </p>
                     </div>
                 </div>
             </div>
@@ -10580,44 +10723,52 @@ _Sent from FINEST COATING Website_`;
                 <h4 class="industrial-section-title">🛡️ FRP Coating Applications</h4>
                 <p
                     style="text-align: center; color: #666; margin-bottom: 25px; max-width: 800px; margin-left: auto; margin-right: auto;">
-                    Fiber Reinforced Plastic (FRP) coating provides superior protection against corrosion, chemicals,
-                    and extreme temperatures. Our FRP solutions extend equipment life and ensure maximum durability.
+                    Fiber Reinforced Plastic (FRP) coating provides superior protection against
+                    corrosion, chemicals,
+                    and extreme temperatures. Our FRP solutions extend equipment life and ensure
+                    maximum durability.
                 </p>
                 <div class="equipment-cards">
                     <div class="equipment-card" style="border-top: 3px solid #1976D2;">
                         <div class="equipment-icon">🛢️</div>
                         <h5>Tanks & Vessels</h5>
-                        <p>FRP tank linings for chemical storage, water treatment, and industrial process tanks with
+                        <p>FRP tank linings for chemical storage, water treatment, and
+                            industrial process tanks with
                             acid/alkali resistance</p>
                     </div>
                     <div class="equipment-card" style="border-top: 3px solid #4CAF50;">
                         <div class="equipment-icon">🏢</div>
                         <h5>Floors & Roofs</h5>
-                        <p>Industrial floor coatings, waterproof roof membranes, and seamless FRP flooring for factories
+                        <p>Industrial floor coatings, waterproof roof membranes, and seamless
+                            FRP flooring for factories
                             & warehouses</p>
                     </div>
                     <div class="equipment-card" style="border-top: 3px solid #FF9800;">
                         <div class="equipment-icon">🔧</div>
                         <h5>Piping Systems</h5>
-                        <p>FRP pipe linings, duct coating, and corrosion-resistant coating for industrial pipelines and
+                        <p>FRP pipe linings, duct coating, and corrosion-resistant coating for
+                            industrial pipelines and
                             ventilation</p>
                     </div>
                     <div class="equipment-card" style="border-top: 3px solid #9C27B0;">
                         <div class="equipment-icon">❄️</div>
                         <h5>Cooling Towers</h5>
-                        <p>Complete FRP coating for cooling tower basins, fill media, and structural components against
+                        <p>Complete FRP coating for cooling tower basins, fill media, and
+                            structural components against
                             water damage</p>
                     </div>
                     <div class="equipment-card" style="border-top: 3px solid #F44336;">
                         <div class="equipment-icon">⚙️</div>
                         <h5>Industrial Equipment</h5>
-                        <p>Machinery coating, pump housing protection, and anti-corrosive treatment for factory
+                        <p>Machinery coating, pump housing protection, and anti-corrosive
+                            treatment for factory
                             equipment</p>
                     </div>
                     <div class="equipment-card" style="border-top: 3px solid #00BCD4;">
                         <div class="equipment-icon">🏗️</div>
                         <h5>Civil Structures</h5>
-                        <p>Bridge components, structural columns, beams, and concrete protection with FRP reinforcement
+                        <p>Bridge components, structural columns, beams, and concrete protection
+                            with FRP reinforcement
                             coating</p>
                     </div>
                 </div>
@@ -10625,7 +10776,8 @@ _Sent from FINEST COATING Website_`;
 
             <!-- Healthcare Machine Refurbishment Section -->
             <div class="industrial-section">
-                <h4 class="industrial-section-title">🏥 Healthcare Machine Refurbishment Process</h4>
+                <h4 class="industrial-section-title">🏥 Healthcare Machine Refurbishment Process
+                </h4>
                 <div class="healthcare-refurb-container"
                     style="background: linear-gradient(135deg, #e3f2fd 0%, #fff 100%); border-radius: 15px; padding: 30px; margin-bottom: 30px;">
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
@@ -10633,49 +10785,64 @@ _Sent from FINEST COATING Website_`;
                             style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 4px solid #2196F3;">
                             <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
                                 <span style="font-size: 2rem;">💨</span>
-                                <h5 style="margin: 0; color: #1976D2; font-size: 1.1rem;">Deep Cleaning with RPM Blower
+                                <h5 style="margin: 0; color: #1976D2; font-size: 1.1rem;">Deep
+                                    Cleaning with RPM Blower
                                 </h5>
                             </div>
-                            <p style="color: #555; line-height: 1.6; margin: 0;">High-speed RPM blower technology
-                                removes dust, debris, and contaminants from all internal and external components of
-                                medical machines, ensuring thorough cleaning before restoration.</p>
+                            <p style="color: #555; line-height: 1.6; margin: 0;">High-speed RPM
+                                blower technology
+                                removes dust, debris, and contaminants from all internal and
+                                external components of
+                                medical machines, ensuring thorough cleaning before restoration.
+                            </p>
                         </div>
                         <div class="refurb-step"
                             style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 4px solid #4CAF50;">
                             <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
                                 <span style="font-size: 2rem;">🧴</span>
-                                <h5 style="margin: 0; color: #388E3C; font-size: 1.1rem;">Chemical Washing Treatment
+                                <h5 style="margin: 0; color: #388E3C; font-size: 1.1rem;">
+                                    Chemical Washing Treatment
                                 </h5>
                             </div>
-                            <p style="color: #555; line-height: 1.6; margin: 0;">Specialized chemical washing process to
-                                remove stubborn stains, rust, oxidation, and biological contaminants. Hospital-grade
+                            <p style="color: #555; line-height: 1.6; margin: 0;">Specialized
+                                chemical washing process to
+                                remove stubborn stains, rust, oxidation, and biological
+                                contaminants. Hospital-grade
                                 disinfection ensures equipment meets hygiene standards.</p>
                         </div>
                         <div class="refurb-step"
                             style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 4px solid #FF9800;">
                             <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
                                 <span style="font-size: 2rem;">🔧</span>
-                                <h5 style="margin: 0; color: #F57C00; font-size: 1.1rem;">Component Restoration</h5>
+                                <h5 style="margin: 0; color: #F57C00; font-size: 1.1rem;">
+                                    Component Restoration</h5>
                             </div>
-                            <p style="color: #555; line-height: 1.6; margin: 0;">Complete disassembly, inspection, and
-                                restoration of individual components. Damaged parts are repaired or replaced to restore
+                            <p style="color: #555; line-height: 1.6; margin: 0;">Complete
+                                disassembly, inspection, and
+                                restoration of individual components. Damaged parts are repaired
+                                or replaced to restore
                                 full functionality and performance.</p>
                         </div>
                         <div class="refurb-step"
                             style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 4px solid #9C27B0;">
                             <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
                                 <span style="font-size: 2rem;">✨</span>
-                                <h5 style="margin: 0; color: #7B1FA2; font-size: 1.1rem;">Manufacturer Standards</h5>
+                                <h5 style="margin: 0; color: #7B1FA2; font-size: 1.1rem;">
+                                    Manufacturer Standards</h5>
                             </div>
-                            <p style="color: #555; line-height: 1.6; margin: 0;">Equipment is restored to original
-                                manufacturer specifications. Premium coating applied for a like-new appearance with
+                            <p style="color: #555; line-height: 1.6; margin: 0;">Equipment is
+                                restored to original
+                                manufacturer specifications. Premium coating applied for a
+                                like-new appearance with
                                 enhanced durability and protection against future wear.</p>
                         </div>
                     </div>
                     <div
                         style="text-align: center; margin-top: 25px; padding: 20px; background: linear-gradient(135deg, #1976D2, #2196F3); border-radius: 10px; color: white;">
-                        <p style="margin: 0; font-size: 1.1rem;"><strong>Result:</strong> Medical equipment restored to
-                            like-new condition with extended lifespan, meeting all safety and operational standards</p>
+                        <p style="margin: 0; font-size: 1.1rem;"><strong>Result:</strong>
+                            Medical equipment restored to
+                            like-new condition with extended lifespan, meeting all safety and
+                            operational standards</p>
                     </div>
                 </div>
             </div>
@@ -10730,7 +10897,8 @@ _Sent from FINEST COATING Website_`;
             </div>
             <div class="service-gallery">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <h4 style="margin: 0;">Our Medical & Industrial Equipment Refurbishment Work</h4>
+                    <h4 style="margin: 0;">Our Medical & Industrial Equipment Refurbishment Work
+                    </h4>
                     <div style="display: flex; gap: 0.75rem;">
                         <input type="file" id="industrial-gallery-file" accept="image/*" style="display: none;"
                             onchange="uploadToCloudinaryIndustrial(event)">
@@ -10753,7 +10921,8 @@ _Sent from FINEST COATING Website_`;
                             <div class="buffing-slide active">
                                 <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394285/Finest%20Coating/Industrial/IMG-20250713-WA0214.jpg"
                                     alt="Industrial Machinery Work">
-                                <div class="slide-caption">Industrial Machinery Refinishing</div>
+                                <div class="slide-caption">Industrial Machinery Refinishing
+                                </div>
                             </div>
                             <div class="buffing-slide">
                                 <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394290/Finest%20Coating/Industrial/IMG_20220721_104755.jpg"
@@ -10922,8 +11091,10 @@ _Sent from FINEST COATING Website_`;
             </div>
             <div class="service-cta">
                 <h4>Need Medical or Industrial Equipment Refurbishment & FRP Coating?</h4>
-                <p>Contact us for professional CT Scanner, MRI, Lab Equipment refinishing, FRP tank linings, cooling
-                    tower coating, industrial floor coating, and pipe lining services. We serve hospitals, diagnostic
+                <p>Contact us for professional CT Scanner, MRI, Lab Equipment refinishing, FRP
+                    tank linings, cooling
+                    tower coating, industrial floor coating, and pipe lining services. We serve
+                    hospitals, diagnostic
                     centers, factories, and industrial facilities across India.</p>
                 <a href="#contact" class="btn-primary" onclick="closeServiceDetail('industrial')">Get Free Quote →</a>
             </div>
@@ -10934,7 +11105,8 @@ _Sent from FINEST COATING Website_`;
     <div class="service-detail-overlay" id="healthcare-detail">
         <div class="service-detail-header">
             <div class="header-left">
-                <button class="service-detail-back" onclick="closeServiceDetail('healthcare')">← Back to Home</button>
+                <button class="service-detail-back" onclick="closeServiceDetail('healthcare')">←
+                    Back to Home</button>
                 <h2>🏥 Health Care</h2>
             </div>
             <button class="service-detail-close" onclick="closeServiceDetail('healthcare')">✕</button>
@@ -10953,9 +11125,12 @@ _Sent from FINEST COATING Website_`;
                 <div class="industrial-hero-content">
                     <span class="industrial-tag">Medical Equipment Specialists</span>
                     <h3>Healthcare Equipment Refurbishment</h3>
-                    <p>FINEST COATING performs deep cleaning using high-speed RPM cleaning blower on damaged or corroded
-                        internal parts. Panels and machine components are deeply washed with specific chemicals. We
-                        restore healthcare equipment to manufacturer standards with complete inspection, recalibration,
+                    <p>FINEST COATING performs deep cleaning using high-speed RPM cleaning
+                        blower on damaged or corroded
+                        internal parts. Panels and machine components are deeply washed with
+                        specific chemicals. We
+                        restore healthcare equipment to manufacturer standards with complete
+                        inspection, recalibration,
                         and quality certification.</p>
                     <div class="industrial-stats">
                         <div class="stat-item">
@@ -11134,7 +11309,8 @@ _Sent from FINEST COATING Website_`;
             </div>
             <div class="service-cta">
                 <h4>Need Healthcare Equipment Refurbishment?</h4>
-                <p>Trust FINEST COATING for professional medical equipment restoration. ISO certified process with 100%
+                <p>Trust FINEST COATING for professional medical equipment restoration. ISO
+                    certified process with 100%
                     compliance guarantee.</p>
                 <a href="#contact" class="btn-primary" onclick="closeServiceDetail('healthcare')">Get Free Quote →</a>
             </div>
@@ -11149,7 +11325,9 @@ _Sent from FINEST COATING Website_`;
             <h2>Thank You for Your Enquiry!</h2>
             <p class="thankyou-name">Dear <span id="thankYouName">Customer</span>,</p>
             <p>Your message has been received successfully.</p>
-            <p>Our team at <strong>FINEST COATING</strong> will connect with you within <strong>24 hours</strong>.</p>
+            <p>Our team at <strong>FINEST COATING</strong> will connect with you within
+                <strong>24 hours</strong>.
+            </p>
             <div class="thankyou-contact">
                 <p>For immediate assistance, call us at:</p>
                 <a href="tel:+919867778229" class="thankyou-phone">📞 +91 98677 78229</a>
