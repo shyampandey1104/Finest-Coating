@@ -6203,12 +6203,9 @@
         // Automatically optimize Cloudinary URLs for better quality and faster loading
         function optimizeImgUrl(url) {
             if (!url) return url;
-            if (url.includes('cloudinary.com') && url.includes('/upload/')) {
-                // Add optimization and sharpness/improvement parameters
-                // f_auto: automatic format (WebP/AVIF)
-                // q_auto: automatic quality
-                // e_improve: overall image enhancement
-                return url.replace('/upload/', '/upload/f_auto,q_auto,e_improve/');
+            // Only optimize Cloudinary URLs that aren't already optimized
+            if (url.includes('cloudinary.com') && url.includes('/upload/') && !url.includes('/f_auto')) {
+                return url.replace('/upload/', '/upload/f_auto,q_auto/');
             }
             return url;
         }
