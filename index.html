@@ -6500,31 +6500,26 @@
         // Applies transformations to improve blur/low-quality images automatically
         function enhanceImageUrl(url) {
             if (!url || !url.includes('cloudinary.com')) return url;
-            return url; // Bypass enhancements to ensure images load
 
-            /* 
             // Check if already has transformations applied
-            if (url.includes('/e_improve') || url.includes('/e_sharpen') || url.includes('/q_auto')) {
+            if (url.includes('/e_improve') || url.includes('/q_auto')) {
                 return url;
             }
 
-            // Find the /upload/ part and insert transformations after it
+            // Find the /upload/ part
             const uploadIndex = url.indexOf('/upload/');
             if (uploadIndex === -1) return url;
 
-            // AI Enhancement transformations:
-            const transformations = 'e_improve/e_sharpen:100/e_unsharp_mask:150/q_auto:best/f_auto';
+            // Robust enhancement: optimize quality/format, improve lighting/color, subtle sharpening
+            // q_auto:best ensures high quality, f_auto picks best format (webp/avif), e_improve fixes general issues
+            const transformations = 'e_improve/e_sharpen:60/q_auto:best/f_auto';
 
             const beforeUpload = url.substring(0, uploadIndex + 8); // includes '/upload/'
             const afterUpload = url.substring(uploadIndex + 8);
 
-            // Handle if there's already a version number (v1234567890)
-            if (afterUpload.match(/^v\d+\//)) {
-                return beforeUpload + transformations + '/' + afterUpload;
-            }
-
+            // If the part after /upload/ starts with v<number>/, keep it structure
+            // effectively inserted between /upload/ and v<number>/ or the public ID
             return beforeUpload + transformations + '/' + afterUpload;
-            */
         }
 
         // Log function kept for compatibility
@@ -9177,7 +9172,7 @@ _Sent from FINEST COATING Website_`;
             const newSlide = document.createElement('div');
             newSlide.className = 'buffing-slide';
             newSlide.innerHTML = `
-                <img src="${enhancedUrl}" alt="Buffing & Polishing Work ${slideNumber}">
+                <img src="${enhancedUrl}" alt="Buffing & Polishing Work ${slideNumber}" onerror="this.closest('.buffing-slide').remove()">
                 <div class="slide-caption">Buffing Work ${slideNumber}</div>
                 <button class="slide-delete-btn" onclick="deleteSlideImage(this, 'buffing')" title="Delete Image">✕</button>
             `;
@@ -9260,7 +9255,7 @@ _Sent from FINEST COATING Website_`;
             const newSlide = document.createElement('div');
             newSlide.className = 'buffing-slide';
             newSlide.innerHTML = `
-                <img src="${enhancedUrl}" alt="Healthcare Equipment ${slideNumber}" onerror="this.style.display='none'">
+                <img src="${enhancedUrl}" alt="Healthcare Equipment ${slideNumber}" onerror="this.closest('.buffing-slide').remove()">
                 <div class="slide-caption">Healthcare Work ${slideNumber}</div>
                 <button class="slide-delete-btn" onclick="deleteSlideImage(this, 'healthcare')" title="Delete Image">✕</button>
             `;
@@ -9343,7 +9338,7 @@ _Sent from FINEST COATING Website_`;
                 const newSlide = document.createElement('div');
                 newSlide.className = 'buffing-slide';
                 newSlide.innerHTML = `
-                    <img src="${enhancedUrl}" alt="Industrial Equipment ${slideNumber}">
+                    <img src="${enhancedUrl}" alt="Industrial Equipment ${slideNumber}" onerror="this.closest('.buffing-slide').remove()">
                     <div class="slide-caption">New Industrial Work ${slideNumber}</div>
                     <button class="slide-delete-btn" onclick="deleteSlideImage(this, 'industrial')" title="Delete Image">✕</button>
                 `;
@@ -9427,7 +9422,7 @@ _Sent from FINEST COATING Website_`;
             const newSlide = document.createElement('div');
             newSlide.className = 'buffing-slide';
             newSlide.innerHTML = `
-                <img src="${enhancedUrl}" alt="Bathtub Work ${slideNumber}" onerror="console.error('Image failed to load:', this.src); this.style.opacity='0.5';">
+                <img src="${enhancedUrl}" alt="Bathtub Work ${slideNumber}" onerror="this.closest('.buffing-slide').remove()">
                 <div class="slide-caption">Bathtub Work ${slideNumber}</div>
                 <button class="slide-delete-btn" onclick="deleteSlideImage(this, 'bathtubs')" title="Delete Image">✕</button>
             `;
@@ -9501,7 +9496,7 @@ _Sent from FINEST COATING Website_`;
                 const newSlide = document.createElement('div');
                 newSlide.className = 'buffing-slide';
                 newSlide.innerHTML = `
-                    <img src="${enhancedUrl}" alt="Urinal Work ${slideNumber}">
+                    <img src="${enhancedUrl}" alt="Urinal Work ${slideNumber}" onerror="this.closest('.buffing-slide').remove()">
                     <div class="slide-caption">New Urinal Work ${slideNumber}</div>
                     <button class="slide-delete-btn" onclick="deleteSlideImage(this, 'urinals')" title="Delete Image">✕</button>
                 `;
@@ -9588,7 +9583,7 @@ _Sent from FINEST COATING Website_`;
                 const newSlide = document.createElement('div');
                 newSlide.className = 'buffing-slide';
                 newSlide.innerHTML = `
-                    <img src="${enhancedUrl}" alt="Kitchen Work ${slideNumber}">
+                    <img src="${enhancedUrl}" alt="Kitchen Work ${slideNumber}" onerror="this.closest('.buffing-slide').remove()">
                     <div class="slide-caption">New Kitchen Work ${slideNumber}</div>
                     <button class="slide-delete-btn" onclick="deleteSlideImage(this, 'kitchen')" title="Delete Image">✕</button>
                 `;
