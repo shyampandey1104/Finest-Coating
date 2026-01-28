@@ -4794,24 +4794,40 @@
                 font-size: 0.95rem;
             }
 
-            .client-card {
-                min-width: 260px;
-                margin-bottom: 10px;
-            }
-
-            .client-image {
-                height: 200px;
-            }
-
-            .clients-scroll-container {
-                gap: 1rem;
-                padding-bottom: 20px;
+            .clients-scroll-wrapper {
+                margin: 0 -1rem;
+                /* Negative margin to allow full-width swipe effect */
             }
 
             .scroll-btn {
-                width: 35px;
-                height: 35px;
-                font-size: 0.8rem;
+                display: none !important;
+                /* Hide scroll buttons on mobile, use swipe */
+            }
+
+            .clients-scroll-container {
+                padding: 1rem;
+                gap: 1.25rem;
+            }
+
+            .client-card {
+                min-width: 85vw;
+                /* Almost full width for mobile */
+                max-width: 320px;
+                margin-bottom: 20px;
+            }
+
+            .client-image {
+                height: 220px;
+                /* Taller images on mobile */
+            }
+
+            .client-card h3 {
+                font-size: 1.25rem;
+            }
+
+            .client-card p {
+                font-size: 1rem;
+                padding-bottom: 1.25rem;
             }
 
             .stat-card {
