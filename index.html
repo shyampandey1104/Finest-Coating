@@ -6414,15 +6414,18 @@
             if (isLocal) {
                 // Try API first if on Localhost
                 try {
-                    const response = await fetch(`${API_BASE_URL}/api/images`);
+                    // Add timestamp to prevent caching
+                    const response = await fetch(`${API_BASE_URL}/api/images?t=${Date.now()}`);
                     if (response.ok) {
                         const data = await response.json();
                         centralizedImages = { ...centralizedImages, ...data };
                         console.log('✅ Loaded images from Local API:', centralizedImages);
                         return true;
+                    } else {
+                        throw new Error('API returned ' + response.status);
                     }
                 } catch (error) {
-                    console.log('Local API not available, trying images.json...');
+                    console.error('Local API failed, falling back to images.json:', error);
                 }
             } else {
                 console.log('🌐 Static Hosting detected: Skipping API, loading images.json directly.');
