@@ -389,7 +389,7 @@
             left: 100%;
             top: 0;
             background: white;
-            min-width: 200px;
+            min-width: 220px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             border-radius: 12px;
             opacity: 0;
@@ -397,6 +397,7 @@
             transform: translateX(10px);
             transition: all 0.3s ease;
             padding: 0.5rem 0;
+            z-index: 1001;
         }
 
         .dropdown li.has-submenu:hover .sub-dropdown {
@@ -413,6 +414,8 @@
             transition: all 0.3s;
             border-left: 3px solid transparent;
             white-space: nowrap;
+            pointer-events: auto;
+            cursor: pointer;
         }
 
         .sub-dropdown li a:hover {
