@@ -6280,11 +6280,19 @@
     <script>
         // ============ API CONFIGURATION ============
         // Detect if running on localhost with Node server or via ngrok/live server
-        const API_BASE_URL = window.location.port === '3000'
-            ? '' // Same origin when running on Node server
-            : (window.location.hostname.includes('ngrok') || window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost')
-                ? 'http://localhost:3000' // Node server URL
-                : ''; // Fallback to same origin
+        let API_BASE_URL = '';
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            // Check if we are already ON the node server port (3000)
+            if (window.location.port === '3000') {
+                API_BASE_URL = ''; // Same origin
+            } else {
+                // We are likely on Live Server (port 5500), need to point to Node server
+                API_BASE_URL = 'http://localhost:3000';
+            }
+        } else {
+            // Production / Netlify - no API server available
+            API_BASE_URL = '';
+        }
 
         // ============ CLOUDINARY CONFIGURATION ============
         const CLOUDINARY_CONFIG = {
