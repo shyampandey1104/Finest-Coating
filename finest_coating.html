@@ -9375,40 +9375,43 @@ _Sent from FINEST COATING Website_`;
         }
 
         function addImageToBathtubsGallery(imageUrl) {
-            // Add to slider
             const slider = document.getElementById('bathtubs-slider');
             const dotsContainer = document.getElementById('bathtubs-slider-dots');
 
-            // Apply AI enhancement to improve blur/low quality images
-            const enhancedUrl = enhanceImageUrl(imageUrl);
+            if (!slider) return;
 
-            if (slider) {
-                const existingSlides = slider.querySelectorAll('.buffing-slide');
-                const slideNumber = existingSlides.length + 1;
-
-                // Create new slide
-                const newSlide = document.createElement('div');
-                newSlide.className = 'buffing-slide';
-                newSlide.innerHTML = `
-                    <img src="${enhancedUrl}" alt="Bathtub Work ${slideNumber}">
-                    <div class="slide-caption">New Bathtub Work ${slideNumber}</div>
-                    <button class="slide-delete-btn" onclick="deleteSlideImage(this, 'bathtubs')" title="Delete Image">✕</button>
-                `;
-                slider.appendChild(newSlide);
-
-                // Add new dot
-                if (dotsContainer) {
-                    const newDot = document.createElement('span');
-                    newDot.className = 'dot';
-                    newDot.onclick = function () { setBathtubsSlide(slideNumber - 1); };
-                    dotsContainer.appendChild(newDot);
+            // Check if image already exists
+            const existingImages = slider.querySelectorAll('.buffing-slide img');
+            const urlPart = imageUrl.split('/').pop();
+            for (let img of existingImages) {
+                if (img.src.includes(urlPart)) {
+                    return; // Already exists
                 }
-
-                // Show the newly added slide
-                setTimeout(() => {
-                    setBathtubsSlide(slideNumber - 1);
-                }, 100);
             }
+
+            const enhancedUrl = enhanceImageUrl(imageUrl);
+            const existingSlides = slider.querySelectorAll('.buffing-slide');
+            const slideNumber = existingSlides.length + 1;
+
+            const newSlide = document.createElement('div');
+            newSlide.className = 'buffing-slide';
+            newSlide.innerHTML = `
+                <img src="${enhancedUrl}" alt="Bathtub Work ${slideNumber}" onerror="this.parentElement.remove()">
+                <div class="slide-caption">Bathtub Work ${slideNumber}</div>
+                <button class="slide-delete-btn" onclick="deleteSlideImage(this, 'bathtubs')" title="Delete Image">✕</button>
+            `;
+            slider.appendChild(newSlide);
+
+            if (dotsContainer) {
+                const newDot = document.createElement('span');
+                newDot.className = 'dot';
+                newDot.onclick = function () { setBathtubsSlide(slideNumber - 1); };
+                dotsContainer.appendChild(newDot);
+            }
+
+            setTimeout(() => {
+                setBathtubsSlide(slideNumber - 1);
+            }, 100);
         }
 
         function loadSavedBathtubsImages() {
