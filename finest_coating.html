@@ -667,6 +667,18 @@
 
         .buffing-slide.active {
             display: block;
+            animation: fadeEffect 1s;
+        }
+
+        /* Fading animation */
+        @keyframes fadeEffect {
+            from {
+                opacity: 0.4
+            }
+
+            to {
+                opacity: 1
+            }
         }
 
         .buffing-slide img {
@@ -5529,7 +5541,8 @@
                     <div class="process-card">
                         <div class="process-number">1</div>
                         <div class="process-icon">
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=150&h=150&fit=crop" alt="Masking & Protection - Tape and masking work">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=150&h=150&fit=crop"
+                                alt="Masking & Protection - Tape and masking work">
                         </div>
                         <h3>Masking & Protection</h3>
                         <p>We thoroughly mask off the work area with tape and masking paper to protect your bathroom.
@@ -5538,7 +5551,8 @@
                     <div class="process-card">
                         <div class="process-number">2</div>
                         <div class="process-icon">
-                            <img src="https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?w=150&h=150&fit=crop" alt="Strip & Clean - Deep cleaning surface">
+                            <img src="https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?w=150&h=150&fit=crop"
+                                alt="Strip & Clean - Deep cleaning surface">
                         </div>
                         <h3>Strip & Clean</h3>
                         <p>Previously applied finishes are hand-stripped. We aggressively clean and completely dry the
@@ -5547,7 +5561,8 @@
                     <div class="process-card">
                         <div class="process-number">3</div>
                         <div class="process-icon">
-                            <img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=150&h=150&fit=crop" alt="Repair & Sand - Sanding and repair work">
+                            <img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=150&h=150&fit=crop"
+                                alt="Repair & Sand - Sanding and repair work">
                         </div>
                         <h3>Repair & Sand</h3>
                         <p>We make all necessary repairs to fix cracks, chips, holes, and rust. Then thoroughly sand
@@ -5556,7 +5571,8 @@
                     <div class="process-card">
                         <div class="process-number">4</div>
                         <div class="process-icon">
-                            <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=150&h=150&fit=crop" alt="Apply Bonding Agent - Primer coating">
+                            <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=150&h=150&fit=crop"
+                                alt="Apply Bonding Agent - Primer coating">
                         </div>
                         <h3>Apply Bonding Agent</h3>
                         <p>Apply our professional bonding agent to ensure perfect adhesion of the new coating.</p>
@@ -5564,7 +5580,8 @@
                     <div class="process-card">
                         <div class="process-number">5</div>
                         <div class="process-icon">
-                            <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=300&h=200&fit=crop" alt="Spray Top Coats - Spray gun coating">
+                            <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=300&h=200&fit=crop"
+                                alt="Spray Top Coats - Spray gun coating">
                         </div>
                         <h3>Spray Top Coats</h3>
                         <p>Spray on multiple top coats of premium finish in the color you select for a like-new
@@ -5573,7 +5590,8 @@
                     <div class="process-card">
                         <div class="process-number">6</div>
                         <div class="process-icon">
-                            <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=150&h=150&fit=crop" alt="Clean Up - Finished clean bathroom">
+                            <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=150&h=150&fit=crop"
+                                alt="Clean Up - Finished clean bathroom">
                         </div>
                         <h3>Clean Up</h3>
                         <p>We remove all masking, clean up the work area, and haul away our trash - leaving it cleaner
@@ -6482,7 +6500,9 @@
         // Applies transformations to improve blur/low-quality images automatically
         function enhanceImageUrl(url) {
             if (!url || !url.includes('cloudinary.com')) return url;
+            return url; // Bypass enhancements to ensure images load
 
+            /* 
             // Check if already has transformations applied
             if (url.includes('/e_improve') || url.includes('/e_sharpen') || url.includes('/q_auto')) {
                 return url;
@@ -6493,11 +6513,6 @@
             if (uploadIndex === -1) return url;
 
             // AI Enhancement transformations:
-            // e_improve - Auto image improvement (color, lighting, contrast)
-            // e_sharpen:100 - Sharpen blurry images
-            // e_unsharp_mask:150 - Enhance edges for clarity
-            // q_auto:best - Best quality auto optimization
-            // f_auto - Auto format selection for best quality
             const transformations = 'e_improve/e_sharpen:100/e_unsharp_mask:150/q_auto:best/f_auto';
 
             const beforeUpload = url.substring(0, uploadIndex + 8); // includes '/upload/'
@@ -6509,6 +6524,7 @@
             }
 
             return beforeUpload + transformations + '/' + afterUpload;
+            */
         }
 
         // Log function kept for compatibility
@@ -6998,6 +7014,11 @@ _Sent from FINEST COATING Website_`;
                 if (kitchenImg && centralizedImages.services[1]) {
                     kitchenImg.src = centralizedImages.services[1];
                 }
+                // Kitchen detail hero
+                const kitchenDetailImg = document.getElementById('kitchen-detail-hero-img');
+                if (kitchenDetailImg && centralizedImages.services[1]) {
+                    kitchenDetailImg.src = centralizedImages.services[1];
+                }
             }
             // Decorative service card
             if (centralizedImages.decorative && centralizedImages.decorative.length > 0) {
@@ -7367,7 +7388,7 @@ _Sent from FINEST COATING Website_`;
         }
 
         // Start auto-scroll on page load for mobile
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             startClientsAutoScroll();
 
             // Pause on hover/touch
@@ -7383,7 +7404,7 @@ _Sent from FINEST COATING Website_`;
         });
 
         // Restart auto-scroll on resize
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
             stopClientsAutoScroll();
             startClientsAutoScroll();
         });
@@ -8321,7 +8342,7 @@ _Sent from FINEST COATING Website_`;
             stopBuffingSlider();
             buffingSliderInterval = setInterval(() => {
                 changeBuffingSlide(1);
-            }, 5000);
+            }, 2000);
         }
 
         function stopBuffingSlider() {
@@ -8376,7 +8397,7 @@ _Sent from FINEST COATING Website_`;
             stopBathtubsSlider();
             bathtubsSliderInterval = setInterval(() => {
                 changeBathtubsSlide(1);
-            }, 5000);
+            }, 2000);
         }
 
         function stopBathtubsSlider() {
@@ -8431,7 +8452,7 @@ _Sent from FINEST COATING Website_`;
             stopUrinalsSlider();
             urinalsSliderInterval = setInterval(() => {
                 changeUrinalsSlide(1);
-            }, 5000);
+            }, 2000);
         }
 
         function stopUrinalsSlider() {
@@ -8486,7 +8507,7 @@ _Sent from FINEST COATING Website_`;
             stopKitchenSlider();
             kitchenSliderInterval = setInterval(() => {
                 changeKitchenSlide(1);
-            }, 5000);
+            }, 2000);
         }
 
         function stopKitchenSlider() {
@@ -8541,7 +8562,7 @@ _Sent from FINEST COATING Website_`;
             stopIndustrialSlider();
             industrialSliderInterval = setInterval(() => {
                 changeIndustrialSlide(1);
-            }, 5000);
+            }, 2000);
         }
 
         function stopIndustrialSlider() {
@@ -8596,7 +8617,7 @@ _Sent from FINEST COATING Website_`;
             stopHealthcareSlider();
             healthcareSliderInterval = setInterval(() => {
                 changeHealthcareSlide(1);
-            }, 5000);
+            }, 2000);
         }
 
         function stopHealthcareSlider() {
@@ -9139,7 +9160,7 @@ _Sent from FINEST COATING Website_`;
         }
 
         // Add image to Buffing slider with same structure
-        function addImageToBuffingSlider(imageUrl) {
+        function addImageToBuffingSlider(imageUrl, skipNavigation = false) {
             const slider = document.getElementById('buffing-slider');
             const dotsContainer = document.getElementById('buffing-slider-dots');
 
@@ -9171,15 +9192,18 @@ _Sent from FINEST COATING Website_`;
             dotsContainer.appendChild(newDot);
 
             // Navigate to the new slide
-            setBuffingSlide(slideNumber - 1);
+            if (!skipNavigation) {
+                setBuffingSlide(slideNumber - 1);
+            }
         }
 
         // Load Buffing images from centralized JSON only
         function loadSavedBuffingImages() {
             if (centralizedImages.buffing && centralizedImages.buffing.length > 0) {
                 centralizedImages.buffing.forEach(url => {
-                    addImageToBuffingSlider(url);
+                    addImageToBuffingSlider(url, true);
                 });
+                setTimeout(() => setBuffingSlide(0), 100);
             }
         }
 
@@ -9216,7 +9240,7 @@ _Sent from FINEST COATING Website_`;
         }
 
         // Add image to Healthcare gallery with slider structure
-        function addImageToHealthcareGallery(imageUrl) {
+        function addImageToHealthcareGallery(imageUrl, skipNavigation = false) {
             // Add to slider
             const slider = document.getElementById('healthcare-slider');
             const dotsContainer = document.getElementById('healthcare-slider-dots');
@@ -9251,18 +9275,22 @@ _Sent from FINEST COATING Website_`;
             }
 
             // Show the newly added slide
-            setTimeout(() => {
-                setHealthcareSlide(slideNumber - 1);
-                console.log('Healthcare image added, showing slide:', slideNumber - 1);
-            }, 100);
+            // Show the newly added slide
+            if (!skipNavigation) {
+                setTimeout(() => {
+                    setHealthcareSlide(slideNumber - 1);
+                    console.log('Healthcare image added, showing slide:', slideNumber - 1);
+                }, 100);
+            }
         }
 
         // Load Healthcare images from centralized JSON only
         function loadSavedHealthcareImages() {
             if (centralizedImages.healthcare && centralizedImages.healthcare.length > 0) {
                 centralizedImages.healthcare.forEach(url => {
-                    addImageToHealthcareGallery(url);
+                    addImageToHealthcareGallery(url, true);
                 });
+                setTimeout(() => setHealthcareSlide(0), 100);
             }
         }
 
@@ -9299,7 +9327,7 @@ _Sent from FINEST COATING Website_`;
         }
 
         // Add image to Industrial gallery with slider structure
-        function addImageToIndustrialGallery(imageUrl) {
+        function addImageToIndustrialGallery(imageUrl, skipNavigation = false) {
             // Add to slider
             const slider = document.getElementById('industrial-slider');
             const dotsContainer = document.getElementById('industrial-slider-dots');
@@ -9330,9 +9358,11 @@ _Sent from FINEST COATING Website_`;
                 }
 
                 // Show the newly added slide
-                setTimeout(() => {
-                    setIndustrialSlide(slideNumber - 1);
-                }, 100);
+                if (!skipNavigation) {
+                    setTimeout(() => {
+                        setIndustrialSlide(slideNumber - 1);
+                    }, 100);
+                }
             }
         }
 
@@ -9340,8 +9370,9 @@ _Sent from FINEST COATING Website_`;
         function loadSavedIndustrialImages() {
             if (centralizedImages.industrial && centralizedImages.industrial.length > 0) {
                 centralizedImages.industrial.forEach(url => {
-                    addImageToIndustrialGallery(url);
+                    addImageToIndustrialGallery(url, true);
                 });
+                setTimeout(() => setIndustrialSlide(0), 100);
             }
         }
 
@@ -9374,7 +9405,7 @@ _Sent from FINEST COATING Website_`;
             event.target.value = '';
         }
 
-        function addImageToBathtubsGallery(imageUrl) {
+        function addImageToBathtubsGallery(imageUrl, skipNavigation = false) {
             const slider = document.getElementById('bathtubs-slider');
             const dotsContainer = document.getElementById('bathtubs-slider-dots');
 
@@ -9396,7 +9427,7 @@ _Sent from FINEST COATING Website_`;
             const newSlide = document.createElement('div');
             newSlide.className = 'buffing-slide';
             newSlide.innerHTML = `
-                <img src="${enhancedUrl}" alt="Bathtub Work ${slideNumber}" onerror="this.parentElement.remove()">
+                <img src="${enhancedUrl}" alt="Bathtub Work ${slideNumber}" onerror="console.error('Image failed to load:', this.src); this.style.opacity='0.5';">
                 <div class="slide-caption">Bathtub Work ${slideNumber}</div>
                 <button class="slide-delete-btn" onclick="deleteSlideImage(this, 'bathtubs')" title="Delete Image">✕</button>
             `;
@@ -9409,16 +9440,19 @@ _Sent from FINEST COATING Website_`;
                 dotsContainer.appendChild(newDot);
             }
 
-            setTimeout(() => {
-                setBathtubsSlide(slideNumber - 1);
-            }, 100);
+            if (!skipNavigation) {
+                setTimeout(() => {
+                    setBathtubsSlide(slideNumber - 1);
+                }, 100);
+            }
         }
 
         function loadSavedBathtubsImages() {
             if (centralizedImages.bathtubs && centralizedImages.bathtubs.length > 0) {
                 centralizedImages.bathtubs.forEach(url => {
-                    addImageToBathtubsGallery(url);
+                    addImageToBathtubsGallery(url, true);
                 });
+                setTimeout(() => setBathtubsSlide(0), 100);
             }
         }
 
@@ -9451,7 +9485,7 @@ _Sent from FINEST COATING Website_`;
             event.target.value = '';
         }
 
-        function addImageToUrinalsGallery(imageUrl) {
+        function addImageToUrinalsGallery(imageUrl, skipNavigation = false) {
             // Add to slider
             const slider = document.getElementById('urinals-slider');
             const dotsContainer = document.getElementById('urinals-slider-dots');
@@ -9482,9 +9516,11 @@ _Sent from FINEST COATING Website_`;
                 }
 
                 // Show the newly added slide
-                setTimeout(() => {
-                    setUrinalsSlide(slideNumber - 1);
-                }, 100);
+                if (!skipNavigation) {
+                    setTimeout(() => {
+                        setUrinalsSlide(slideNumber - 1);
+                    }, 100);
+                }
             }
         }
 
@@ -9495,9 +9531,15 @@ _Sent from FINEST COATING Website_`;
                 if (urinalsMainImg) {
                     urinalsMainImg.src = enhanceImageUrl(centralizedImages.urinals[0]);
                 }
+                // Also update detail page hero image
+                const urinalsDetailImg = document.getElementById('urinals-detail-hero-img');
+                if (urinalsDetailImg) {
+                    urinalsDetailImg.src = enhanceImageUrl(centralizedImages.urinals[0]);
+                }
                 centralizedImages.urinals.forEach(url => {
-                    addImageToUrinalsGallery(url);
+                    addImageToUrinalsGallery(url, true);
                 });
+                setTimeout(() => setUrinalsSlide(0), 100);
             }
         }
 
@@ -9530,7 +9572,7 @@ _Sent from FINEST COATING Website_`;
             event.target.value = '';
         }
 
-        function addImageToKitchenGallery(imageUrl) {
+        function addImageToKitchenGallery(imageUrl, skipNavigation = false) {
             // Add to slider
             const slider = document.getElementById('kitchen-slider');
             const dotsContainer = document.getElementById('kitchen-slider-dots');
@@ -9561,17 +9603,20 @@ _Sent from FINEST COATING Website_`;
                 }
 
                 // Show the newly added slide
-                setTimeout(() => {
-                    setKitchenSlide(slideNumber - 1);
-                }, 100);
+                if (!skipNavigation) {
+                    setTimeout(() => {
+                        setKitchenSlide(slideNumber - 1);
+                    }, 100);
+                }
             }
         }
 
         function loadSavedKitchenImages() {
             if (centralizedImages.kitchen && centralizedImages.kitchen.length > 0) {
                 centralizedImages.kitchen.forEach(url => {
-                    addImageToKitchenGallery(url);
+                    addImageToKitchenGallery(url, true);
                 });
+                setTimeout(() => setKitchenSlide(0), 100);
             }
         }
 
@@ -10007,51 +10052,7 @@ _Sent from FINEST COATING Website_`;
                         <button class="slider-arrow slider-arrow-left" onclick="changeBathtubsSlide(-1)">❮</button>
 
                         <div class="buffing-slider" id="bathtubs-slider">
-                            <div class="buffing-slide active">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768491243/bathtubs_washbasins/bartub_images.jpg"
-                                    alt="Professional Bathtub Refinishing">
-                                <div class="slide-caption">Professional Bathtub Refinishing</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768491244/bathtubs_washbasins/download.jpg"
-                                    alt="Modern Washbasin Design">
-                                <div class="slide-caption">Modern Washbasin Design</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768491245/bathtubs_washbasins/WhatsApp_Image_2026-01-12_at_9.19.28_PM_1.jpg"
-                                    alt="Luxury Bathtub Restoration">
-                                <div class="slide-caption">Luxury Bathtub Restoration</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768491246/bathtubs_washbasins/WhatsApp_Image_2026-01-12_at_9.19.28_PM_2.jpg"
-                                    alt="Premium Washbasin Refinishing">
-                                <div class="slide-caption">Premium Washbasin Refinishing</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768491247/bathtubs_washbasins/WhatsApp_Image_2026-01-12_at_9.19.28_PM_3.jpg"
-                                    alt="Elegant Bathroom Fixtures">
-                                <div class="slide-caption">Elegant Bathroom Fixtures</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768491248/bathtubs_washbasins/WhatsApp_Image_2026-01-12_at_9.19.27_PM.jpg"
-                                    alt="Quality Bathtub Coating">
-                                <div class="slide-caption">Quality Bathtub Coating</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768491249/bathtubs_washbasins/WhatsApp_Image_2026-01-12_at_9.19.27_PM_1.jpg"
-                                    alt="Expert Washbasin Work">
-                                <div class="slide-caption">Expert Washbasin Work</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768491249/bathtubs_washbasins/WhatsApp_Image_2026-01-12_at_9.19.27_PM_2.jpg"
-                                    alt="Bathtub Transformation">
-                                <div class="slide-caption">Bathtub Transformation</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768491250/bathtubs_washbasins/WhatsApp_Image_2026-01-12_at_9.19.27_PM_3.jpg"
-                                    alt="Washbasin Restoration">
-                                <div class="slide-caption">Washbasin Restoration</div>
-                            </div>
+                            <!-- Images loaded dynamically from server -->
                         </div>
 
                         <button class="slider-arrow slider-arrow-right" onclick="changeBathtubsSlide(1)">❯</button>
@@ -10059,15 +10060,7 @@ _Sent from FINEST COATING Website_`;
 
                     <!-- Slider Dots -->
                     <div class="slider-dots" id="bathtubs-slider-dots">
-                        <span class="dot active" onclick="setBathtubsSlide(0)"></span>
-                        <span class="dot" onclick="setBathtubsSlide(1)"></span>
-                        <span class="dot" onclick="setBathtubsSlide(2)"></span>
-                        <span class="dot" onclick="setBathtubsSlide(3)"></span>
-                        <span class="dot" onclick="setBathtubsSlide(4)"></span>
-                        <span class="dot" onclick="setBathtubsSlide(5)"></span>
-                        <span class="dot" onclick="setBathtubsSlide(6)"></span>
-                        <span class="dot" onclick="setBathtubsSlide(7)"></span>
-                        <span class="dot" onclick="setBathtubsSlide(8)"></span>
+                        <!-- Dots generated dynamically -->
                     </div>
                 </div>
 
@@ -10098,7 +10091,7 @@ _Sent from FINEST COATING Website_`;
             <div class="industrial-hero-section">
                 <div class="industrial-hero-image">
                     <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394154/Finest%20Coating/Urinals/How-To-Keep-Urinals-Clean.jpg"
-                        alt="Urinals Refinishing" id="urinals-main-img">
+                        alt="Urinals Refinishing" id="urinals-detail-hero-img">
                     <div class="industrial-hero-badge">
                         <span>Commercial</span>
                         <small>Grade Quality</small>
@@ -10218,36 +10211,7 @@ _Sent from FINEST COATING Website_`;
                         <button class="slider-arrow slider-arrow-left" onclick="changeUrinalsSlide(-1)">❮</button>
 
                         <div class="buffing-slider" id="urinals-slider">
-                            <div class="buffing-slide active">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394141/Finest%20Coating/Bathroom/images%20%284%29%20%281%29.jpg"
-                                    alt="Commercial Urinals with Privacy Panels">
-                                <div class="slide-caption">Commercial Urinals with Privacy Panels</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394142/Finest%20Coating/Bathroom/images%20%2823%29%20%281%29.jpg"
-                                    alt="Modern White Wall-Mounted Urinals">
-                                <div class="slide-caption">Modern White Wall-Mounted Urinals</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394157/Finest%20Coating/Urinals/download3.jpg"
-                                    alt="Row of Clean White Urinals">
-                                <div class="slide-caption">Row of Clean White Urinals</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394158/Finest%20Coating/Urinals/images.jpg"
-                                    alt="Contemporary Urinal Design">
-                                <div class="slide-caption">Contemporary Urinal Design</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394145/Finest%20Coating/Bathroom/images%20%288%29%20%287%29.jpg"
-                                    alt="Professional Restroom Fixtures">
-                                <div class="slide-caption">Professional Restroom Fixtures</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394146/Finest%20Coating/Bathroom/images%20%2843%29.jpg"
-                                    alt="Urinal Collection">
-                                <div class="slide-caption">Urinal Collection</div>
-                            </div>
+                            <!-- Images loaded dynamically from server -->
                         </div>
 
                         <button class="slider-arrow slider-arrow-right" onclick="changeUrinalsSlide(1)">❯</button>
@@ -10255,12 +10219,7 @@ _Sent from FINEST COATING Website_`;
 
                     <!-- Slider Dots -->
                     <div class="slider-dots" id="urinals-slider-dots">
-                        <span class="dot active" onclick="setUrinalsSlide(0)"></span>
-                        <span class="dot" onclick="setUrinalsSlide(1)"></span>
-                        <span class="dot" onclick="setUrinalsSlide(2)"></span>
-                        <span class="dot" onclick="setUrinalsSlide(3)"></span>
-                        <span class="dot" onclick="setUrinalsSlide(4)"></span>
-                        <span class="dot" onclick="setUrinalsSlide(5)"></span>
+                        <!-- Dots generated dynamically -->
                     </div>
                 </div>
 
@@ -10292,7 +10251,7 @@ _Sent from FINEST COATING Website_`;
             <div class="industrial-hero-section">
                 <div class="industrial-hero-image">
                     <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394159/Finest%20Coating/Kitchen/kitchen1.jpg"
-                        alt="Kitchen Refinishing" id="kitchen-main-img">
+                        alt="Kitchen Refinishing" id="kitchen-detail-hero-img">
                     <div class="industrial-hero-badge">
                         <span>Food Safe</span>
                         <small>Coatings</small>
@@ -10411,31 +10370,7 @@ _Sent from FINEST COATING Website_`;
                         <button class="slider-arrow slider-arrow-left" onclick="changeKitchenSlide(-1)">❮</button>
 
                         <div class="buffing-slider" id="kitchen-slider">
-                            <div class="buffing-slide active">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394160/Finest%20Coating/Kitchen/kitchen2.jpg"
-                                    alt="Commercial Kitchen Equipment">
-                                <div class="slide-caption">Commercial Kitchen Equipment</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394161/Finest%20Coating/Kitchen/kitchen3.jpg"
-                                    alt="Modern Kitchen Design">
-                                <div class="slide-caption">Modern Kitchen Design</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394162/Finest%20Coating/Kitchen/kitchen4.jpg"
-                                    alt="Stainless Steel Kitchen">
-                                <div class="slide-caption">Stainless Steel Kitchen</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394163/Finest%20Coating/Kitchen/kitchen5.jpg"
-                                    alt="Professional Kitchen Setup">
-                                <div class="slide-caption">Professional Kitchen Setup</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394164/Finest%20Coating/Kitchen/Gemini_Generated_Image_xw8bg5xw8bg5xw8b.png"
-                                    alt="Contemporary Kitchen">
-                                <div class="slide-caption">Contemporary Kitchen</div>
-                            </div>
+                            <!-- Images loaded dynamically from server -->
                         </div>
 
                         <button class="slider-arrow slider-arrow-right" onclick="changeKitchenSlide(1)">❯</button>
@@ -10443,11 +10378,7 @@ _Sent from FINEST COATING Website_`;
 
                     <!-- Slider Dots -->
                     <div class="slider-dots" id="kitchen-slider-dots">
-                        <span class="dot active" onclick="setKitchenSlide(0)"></span>
-                        <span class="dot" onclick="setKitchenSlide(1)"></span>
-                        <span class="dot" onclick="setKitchenSlide(2)"></span>
-                        <span class="dot" onclick="setKitchenSlide(3)"></span>
-                        <span class="dot" onclick="setKitchenSlide(4)"></span>
+                        <!-- Dots generated dynamically -->
                     </div>
                 </div>
 
@@ -10729,86 +10660,7 @@ _Sent from FINEST COATING Website_`;
                         <button class="slider-arrow slider-arrow-left" onclick="changeBuffingSlide(-1)">❮</button>
 
                         <div class="buffing-slider" id="buffing-slider">
-                            <div class="buffing-slide active">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661278/Abdul%20Images/Finest%20Coating/gdyct5ggbquuwbrlmzns.jpg"
-                                    alt="Buffing & Polishing Work 1">
-                                <div class="slide-caption">Professional Buffing Work</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661336/Abdul%20Images/Finest%20Coating/r2ocfqikbfpwraymysm7.jpg"
-                                    alt="Buffing & Polishing Work 2">
-                                <div class="slide-caption">Metal Surface Polishing</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661349/Abdul%20Images/Finest%20Coating/fd78oa05js48ved5fyvc.jpg"
-                                    alt="Buffing & Polishing Work 3">
-                                <div class="slide-caption">Shine Restoration</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661360/Abdul%20Images/Finest%20Coating/jazpslgqysigqowanptj.jpg"
-                                    alt="Buffing & Polishing Work 4">
-                                <div class="slide-caption">Premium Finish</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661369/Abdul%20Images/Finest%20Coating/ioxhhhtpgklt9tfilrds.jpg"
-                                    alt="Buffing & Polishing Work 5">
-                                <div class="slide-caption">Mirror Finish Polishing</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661379/Abdul%20Images/Finest%20Coating/i7fqexusrbtzfrgp3zfo.jpg"
-                                    alt="Buffing & Polishing Work 6">
-                                <div class="slide-caption">Surface Treatment</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661386/Abdul%20Images/Finest%20Coating/zlgauezy8qmtyw8ptju8.jpg"
-                                    alt="Buffing & Polishing Work 7">
-                                <div class="slide-caption">High Gloss Finish</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661397/Abdul%20Images/Finest%20Coating/ljhyz6ropyulera93gfm.jpg"
-                                    alt="Buffing & Polishing Work 8">
-                                <div class="slide-caption">Expert Polishing</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661408/Abdul%20Images/Finest%20Coating/v601cdp1yruexpddq68z.jpg"
-                                    alt="Buffing & Polishing Work 9">
-                                <div class="slide-caption">Professional Results</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661419/Abdul%20Images/Finest%20Coating/r9qdgmp7sruycko6hmww.jpg"
-                                    alt="Buffing & Polishing Work 10">
-                                <div class="slide-caption">Flawless Finish</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661952/Abdul%20Images/Finest%20Coating/Buffing/yfrg3nh1fw4nkdynnkxz.jpg"
-                                    alt="Buffing & Polishing Work 11">
-                                <div class="slide-caption">Premium Metal Polishing</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661967/Abdul%20Images/Finest%20Coating/Buffing/tfsrfdblgevbv5h2de9o.jpg"
-                                    alt="Buffing & Polishing Work 12">
-                                <div class="slide-caption">Surface Restoration</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661971/Abdul%20Images/Finest%20Coating/Buffing/t7xp3vgcau6yi1o1s0rv.jpg"
-                                    alt="Buffing & Polishing Work 13">
-                                <div class="slide-caption">High-Grade Buffing</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661974/Abdul%20Images/Finest%20Coating/Buffing/rarm5qn6g0sievgld6ti.jpg"
-                                    alt="Buffing & Polishing Work 14">
-                                <div class="slide-caption">Decorative Metal Shine</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661978/Abdul%20Images/Finest%20Coating/Buffing/chslzjzodd8o3jqdmu1h.jpg"
-                                    alt="Buffing & Polishing Work 15">
-                                <div class="slide-caption">Expert Metalwork</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768661982/Abdul%20Images/Finest%20Coating/Buffing/ikctd8iqo48lg4drfgnz.jpg"
-                                    alt="Buffing & Polishing Work 16">
-                                <div class="slide-caption">Mirror-Like Results</div>
-                            </div>
+                            <!-- Images loaded dynamically from server -->
                         </div>
 
                         <button class="slider-arrow slider-arrow-right" onclick="changeBuffingSlide(1)">❯</button>
@@ -10816,22 +10668,7 @@ _Sent from FINEST COATING Website_`;
 
                     <!-- Slider Dots -->
                     <div class="slider-dots" id="buffing-slider-dots">
-                        <span class="dot active" onclick="setBuffingSlide(0)"></span>
-                        <span class="dot" onclick="setBuffingSlide(1)"></span>
-                        <span class="dot" onclick="setBuffingSlide(2)"></span>
-                        <span class="dot" onclick="setBuffingSlide(3)"></span>
-                        <span class="dot" onclick="setBuffingSlide(4)"></span>
-                        <span class="dot" onclick="setBuffingSlide(5)"></span>
-                        <span class="dot" onclick="setBuffingSlide(6)"></span>
-                        <span class="dot" onclick="setBuffingSlide(7)"></span>
-                        <span class="dot" onclick="setBuffingSlide(8)"></span>
-                        <span class="dot" onclick="setBuffingSlide(9)"></span>
-                        <span class="dot" onclick="setBuffingSlide(10)"></span>
-                        <span class="dot" onclick="setBuffingSlide(11)"></span>
-                        <span class="dot" onclick="setBuffingSlide(12)"></span>
-                        <span class="dot" onclick="setBuffingSlide(13)"></span>
-                        <span class="dot" onclick="setBuffingSlide(14)"></span>
-                        <span class="dot" onclick="setBuffingSlide(15)"></span>
+                        <!-- Dots generated dynamically -->
                     </div>
                 </div>
 
@@ -11106,136 +10943,7 @@ _Sent from FINEST COATING Website_`;
                         <button class="slider-arrow slider-arrow-left" onclick="changeIndustrialSlide(-1)">❮</button>
 
                         <div class="buffing-slider" id="industrial-slider">
-                            <div class="buffing-slide active">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394285/Finest%20Coating/Industrial/IMG-20250713-WA0214.jpg"
-                                    alt="Industrial Machinery Work">
-                                <div class="slide-caption">Industrial Machinery Refinishing</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394290/Finest%20Coating/Industrial/IMG_20220721_104755.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Equipment Restoration</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394292/Finest%20Coating/Industrial/16-32-64-128-Slice-Computed-Tomography-Scanner-Medical-Full-Body-CT-X-Ray-Scan.webp"
-                                    alt="CT Scanner">
-                                <div class="slide-caption">CT Scanner Refinishing</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394300/Finest%20Coating/Industrial/IMG_20220820_201722.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Heavy Equipment Refinishing</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394302/Finest%20Coating/Industrial/IMG_20251216_192527.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Industrial Machinery Coating</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394306/Finest%20Coating/Industrial/IMG_20220921_111319.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Factory Equipment Work</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394314/Finest%20Coating/Industrial/IMG_20220927_123021%20%281%29.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Industrial Refurbishment</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394323/Finest%20Coating/Industrial/IMG_20220621_123831.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Professional Industrial Work</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394328/Finest%20Coating/Industrial/1765894666574.png"
-                                    alt="CT Scanner">
-                                <div class="slide-caption">Medical CT Scanner Coating</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394330/Finest%20Coating/Industrial/IMG_20220621_121438.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Industrial Equipment Service</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394335/Finest%20Coating/Industrial/IMG_20220621_123826.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Heavy Machinery Coating</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394340/Finest%20Coating/Industrial/IMG_20220929_192506.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Industrial Surface Treatment</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394343/Finest%20Coating/Industrial/IMG_20220721_110222.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Equipment Refurbishment</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394348/Finest%20Coating/Industrial/IMG_20220621_122012_1.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Professional Coating Work</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394351/Finest%20Coating/Industrial/IMG_20220621_123956.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Industrial Machinery Service</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394361/Finest%20Coating/Industrial/IMG_20220820_154328.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Equipment Restoration Work</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394183/Finest%20Coating/Industrial/IMG_20220715_191925.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Industrial Coating Project</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394186/Finest%20Coating/Industrial/IMG_20220719_113718%20%282%29.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Heavy Equipment Service</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394207/Finest%20Coating/Industrial/IMG_20220719_113756.jpg"
-                                    alt="Medical Equipment">
-                                <div class="slide-caption">Medical Equipment Coating</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394209/Finest%20Coating/Industrial/Medical-Radiology-16-32-64-128-Slice-CT-Scan-Human-Health-Diagnostic-Machine-Ct-Scan.jpg"
-                                    alt="CT Scanner">
-                                <div class="slide-caption">CT Scan Machine Refinishing</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394219/Finest%20Coating/Industrial/IMG-20251215-WA0002.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Latest Industrial Project</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394225/Finest%20Coating/Industrial/IMG-20251215-WA0003.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Recent Industrial Work</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394228/Finest%20Coating/Industrial/IMG_20220621_121348%20%281%29.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Professional Industrial Coating</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394235/Finest%20Coating/Industrial/IMG-20250513-WA0038.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Industrial Equipment Service</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394236/Finest%20Coating/Industrial/IMG_20220721_110932.jpg"
-                                    alt="Industrial Work">
-                                <div class="slide-caption">Factory Equipment Coating</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394241/Finest%20Coating/Industrial/integrated-system-vitros-xt-7600-375568402-9f7sq.png"
-                                    alt="Lab Equipment">
-                                <div class="slide-caption">Lab Equipment Refinishing</div>
-                            </div>
+                            <!-- Images loaded dynamically from server -->
                         </div>
 
                         <button class="slider-arrow slider-arrow-right" onclick="changeIndustrialSlide(1)">❯</button>
@@ -11243,32 +10951,7 @@ _Sent from FINEST COATING Website_`;
 
                     <!-- Slider Dots -->
                     <div class="slider-dots" id="industrial-slider-dots">
-                        <span class="dot active" onclick="setIndustrialSlide(0)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(1)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(2)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(3)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(4)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(5)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(6)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(7)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(8)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(9)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(10)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(11)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(12)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(13)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(14)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(15)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(16)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(17)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(18)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(19)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(20)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(21)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(22)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(23)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(24)"></span>
-                        <span class="dot" onclick="setIndustrialSlide(25)"></span>
+                        <!-- Dots generated dynamically -->
                     </div>
                 </div>
 
@@ -11438,36 +11121,7 @@ _Sent from FINEST COATING Website_`;
                         <button class="slider-arrow slider-arrow-left" onclick="changeHealthcareSlide(-1)">❮</button>
 
                         <div class="buffing-slider" id="healthcare-slider">
-                            <div class="buffing-slide active">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394247/Finest%20Coating/Industrial/IMG_20220621_123859.jpg"
-                                    alt="Medical Equipment">
-                                <div class="slide-caption">Medical Equipment Refinishing</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394248/Finest%20Coating/Industrial/IMG-20250713-WA0218.jpg"
-                                    alt="Hospital Lab">
-                                <div class="slide-caption">Hospital Lab Equipment</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394249/Finest%20Coating/Industrial/IMG-20251215-WA0004.jpg"
-                                    alt="Healthcare Facility">
-                                <div class="slide-caption">Healthcare Facility Work</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394250/Finest%20Coating/Industrial/1766000283962%20%281%29.png"
-                                    alt="Hospital Room">
-                                <div class="slide-caption">Hospital Room Equipment</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394251/Finest%20Coating/Industrial/IMG-20251215-WA0007.jpg"
-                                    alt="Medical Center">
-                                <div class="slide-caption">Medical Center Coating</div>
-                            </div>
-                            <div class="buffing-slide">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394255/Finest%20Coating/Industrial/1766000673008%20%281%29.png"
-                                    alt="Healthcare Tech">
-                                <div class="slide-caption">Healthcare Technology</div>
-                            </div>
+                            <!-- Images loaded dynamically from server -->
                         </div>
 
                         <button class="slider-arrow slider-arrow-right" onclick="changeHealthcareSlide(1)">❯</button>
@@ -11475,12 +11129,7 @@ _Sent from FINEST COATING Website_`;
 
                     <!-- Slider Dots -->
                     <div class="slider-dots" id="healthcare-slider-dots">
-                        <span class="dot active" onclick="setHealthcareSlide(0)"></span>
-                        <span class="dot" onclick="setHealthcareSlide(1)"></span>
-                        <span class="dot" onclick="setHealthcareSlide(2)"></span>
-                        <span class="dot" onclick="setHealthcareSlide(3)"></span>
-                        <span class="dot" onclick="setHealthcareSlide(4)"></span>
-                        <span class="dot" onclick="setHealthcareSlide(5)"></span>
+                        <!-- Dots generated dynamically -->
                     </div>
                 </div>
 
