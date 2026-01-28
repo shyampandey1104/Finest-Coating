@@ -6330,6 +6330,13 @@
 
                 const result = await response.json();
                 console.log('✅ Uploaded via API:', result);
+
+                // Update local centralizedImages
+                if (!centralizedImages[category]) {
+                    centralizedImages[category] = [];
+                }
+                centralizedImages[category].push(result.url);
+
                 return result;
             } catch (error) {
                 console.log('API upload failed, falling back to direct Cloudinary upload');
@@ -6338,7 +6345,7 @@
             }
         }
 
-        // Delete image via API
+        // Delete image via API (removes from images.json and Cloudinary)
         async function deleteImageViaAPI(url, category) {
             try {
                 const response = await fetch(`${API_BASE_URL}/api/delete`, {
@@ -6354,6 +6361,12 @@
 
                 const result = await response.json();
                 console.log('🗑️ Deleted via API:', result);
+
+                // Update local centralizedImages
+                if (centralizedImages[category]) {
+                    centralizedImages[category] = centralizedImages[category].filter(img => img !== url);
+                }
+
                 return result;
             } catch (error) {
                 console.log('API delete failed, falling back to direct Cloudinary delete');
@@ -9602,12 +9615,12 @@ _Sent from FINEST COATING Website_`;
                     }
                 }
 
-                // Try to delete from Cloudinary
+                // Delete from server API (images.json) and Cloudinary
                 if (imageUrl && imageUrl.includes('cloudinary.com')) {
                     try {
-                        await deleteImageFromCloudinaryByUrl(imageUrl);
+                        await deleteImageViaAPI(imageUrl, sliderType);
                     } catch (e) {
-                        console.log('Cloudinary delete error:', e);
+                        console.log('Delete error:', e);
                     }
                 }
 
