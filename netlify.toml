@@ -1,0 +1,11 @@
+/* Netlify configuration to handle client-side routing and headers */
+/* This ensures that if you use client-side routing in the future, it works */
+/* For now, it also helps with browser caching */
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Content-Type-Options = "nosniff"
