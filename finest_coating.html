@@ -8830,12 +8830,23 @@ _Sent from FINEST COATING Website_`;
                     // User clicked OK - DELETE the image permanently
                     targetImg.style.opacity = '0';
                     setTimeout(() => {
-                        // Hide the entire image container/card
-                        const container = targetImg.closest('.service-card, .image-container');
-                        if (container) {
-                            container.style.display = 'none';
+                        // Reset image to placeholder
+
+                        // Check if it has an original src attribute
+                        const originalSrc = targetImg.getAttribute('data-original-src');
+                        if (originalSrc) {
+                            targetImg.src = originalSrc;
                         } else {
-                            targetImg.style.display = 'none';
+                            // If no original, set to transparent pixel or placeholder
+                            targetImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                        }
+
+                        targetImg.style.opacity = '1';
+
+                        // Hide the cancel button itself
+                        const cancelBtn = targetImg.parentElement.querySelector('.image-cancel-btn');
+                        if (cancelBtn) {
+                            cancelBtn.setAttribute('data-visible', 'false');
                         }
 
                         // Clear file input
@@ -8849,7 +8860,7 @@ _Sent from FINEST COATING Website_`;
                         localStorage.removeItem('uploaded_img_' + targetImageId);
                         console.log('Image removed from localStorage:', targetImageId);
 
-                        showNotification('✅ Image deleted successfully', 'success');
+                        showNotification('✅ Image reset successfully', 'success');
                     }, 300);
                 });
             } else {
