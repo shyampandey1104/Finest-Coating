@@ -2296,6 +2296,17 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
         }
 
+        /* Explicitly hide cancel buttons in Industries and specific sections to maintain premium look */
+        #industries-scroll .image-cancel-btn,
+        .industries-section .image-cancel-btn,
+        .client-image .image-cancel-btn,
+        .hero-section .image-cancel-btn {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+        }
+
         /* Show cancel button on hover when image has been uploaded/changed */
         .image-container:hover .image-cancel-btn[data-visible="true"] {
             display: flex !important;
@@ -4798,41 +4809,53 @@
             }
 
             #industries-scroll {
-                padding: 1rem;
-                gap: 1.25rem;
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
+                display: flex !important;
+                overflow-x: auto !important;
+                scroll-snap-type: x mandatory !important;
+                padding: 20px 0 40px !important;
+                gap: 20px !important;
                 -webkit-overflow-scrolling: touch;
+                justify-content: flex-start !important;
+                mask-image: none !important;
+                -webkit-mask-image: none !important;
             }
 
             #industries-scroll .client-card {
-                min-width: 82vw !important;
-                max-width: 82vw !important;
-                width: 82vw !important;
-                scroll-snap-align: center;
-                margin-bottom: 25px;
-                flex: 0 0 82vw !important;
-                padding: 12px;
+                min-width: 88vw !important;
+                max-width: 88vw !important;
+                width: 88vw !important;
+                flex: 0 0 88vw !important;
+                scroll-snap-align: center !important;
+                margin-bottom: 0 !important;
+                margin-left: 6vw !important;
+                padding: 15px;
                 background: white;
-                border-radius: 24px;
-                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+                border-radius: 28px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+                border: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+            #industries-scroll .client-card:last-child {
+                margin-right: 6vw !important;
             }
 
             #industries-scroll .client-image {
-                height: 200px;
-                border-radius: 16px;
-                margin-bottom: 15px;
+                height: 240px;
+                border-radius: 20px;
+                margin-bottom: 20px;
             }
 
             #industries-scroll .client-card h3 {
-                font-size: 1.3rem;
-                padding: 0 5px 8px;
+                font-size: 1.4rem;
+                padding: 0 5px 10px;
+                color: #1e3a8a;
             }
 
             #industries-scroll .client-card p {
-                font-size: 0.95rem;
-                padding: 0 5px 10px;
-                line-height: 1.5;
+                font-size: 1rem;
+                padding: 0 5px 15px;
+                line-height: 1.6;
+                color: #64748b;
             }
 
             .stat-card {
