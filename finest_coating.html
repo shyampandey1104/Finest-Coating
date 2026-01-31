@@ -7008,8 +7008,8 @@ _Sent from FINEST COATING Website_`;
             // Load all images from backend
             loadProcessImages();
             loadHeroImages();
-            loadIndustryImages();
             loadServiceImages();
+            loadIndustryImages();
             loadWarrantyImages();
             loadFaqImages();
         });
@@ -7044,12 +7044,12 @@ _Sent from FINEST COATING Website_`;
                 // Bathtubs service card
                 const bathtubsImg = document.getElementById('bathtubs-main-img');
                 if (bathtubsImg && centralizedImages.services[0]) {
-                    // bathtubsImg.src = centralizedImages.services[0]; // Handled by loadSavedBathtubsImages
+                    bathtubsImg.src = centralizedImages.services[0];
                 }
                 // Kitchen service card
                 const kitchenImg = document.getElementById('kitchen-main-img');
                 if (kitchenImg && centralizedImages.services[1]) {
-                    // kitchenImg.src = centralizedImages.services[1]; // Handled by loadSavedKitchenImages
+                    kitchenImg.src = centralizedImages.services[1];
                 }
             }
             // Decorative service card
@@ -7064,7 +7064,7 @@ _Sent from FINEST COATING Website_`;
         // Load Industry Images
         function loadIndustryImages() {
             if (centralizedImages.industries && centralizedImages.industries.length > 0) {
-                const industryCards = document.querySelectorAll('.client-card img');
+                const industryCards = document.querySelectorAll('.industry-card img');
                 industryCards.forEach((img, index) => {
                     if (centralizedImages.industries[index]) {
                         img.src = centralizedImages.industries[index];
@@ -7242,7 +7242,7 @@ _Sent from FINEST COATING Website_`;
             currentServiceFolder = SERVICE_FOLDERS[serviceId] || serviceId;
             document.getElementById('imgManagerTitle').textContent = `📷 ${SERVICE_NAMES[serviceId] || serviceId} - Images`;
             document.getElementById('serviceImgManager').classList.add('active');
-            loadServiceManagerGrid();
+            loadServiceImages();
         }
 
         function closeServiceImgManager() {
@@ -7251,7 +7251,7 @@ _Sent from FINEST COATING Website_`;
             currentServiceId = '';
         }
 
-        function loadServiceManagerGrid() {
+        function loadServiceImages() {
             const grid = document.getElementById('serviceImgGrid');
             const images = getStoredImages(currentServiceId);
 
@@ -7337,7 +7337,7 @@ _Sent from FINEST COATING Website_`;
             setTimeout(() => {
                 progressDiv.classList.remove('active');
                 progressBar.style.width = '0%';
-                loadServiceManagerGrid();
+                loadServiceImages();
             }, 1500);
 
             // Reset input
@@ -7350,7 +7350,7 @@ _Sent from FINEST COATING Website_`;
             const images = getStoredImages(currentServiceId);
             images.splice(index, 1);
             saveStoredImages(currentServiceId, images);
-            loadServiceManagerGrid();
+            loadServiceImages();
 
             alert('Image removed from gallery. Note: Image is still on Cloudinary - delete from dashboard if needed.');
         }
@@ -7382,7 +7382,7 @@ _Sent from FINEST COATING Website_`;
 
         // ============ CLIENTS SCROLL FUNCTIONALITY ============
         function scrollClients(direction) {
-            const container = document.getElementById('industries-scroll');
+            const container = document.getElementById('clientsScroll');
             const scrollAmount = 300;
             if (direction === 'left') {
                 container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
@@ -11373,4 +11373,38 @@ _Sent from FINEST COATING Website_`;
 </body>
 
 </html>
-<!-- Live Version: 1.1.1 -->
+5rem;
+}
+
+.thankyou-phone:hover {
+color: #3b82f6;
+}
+
+.thankyou-closing {
+font-style: italic;
+color: #888;
+}
+
+.thankyou-btn {
+background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+color: white;
+border: none;
+padding: 0.875rem 2.5rem;
+border-radius: 30px;
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+margin-top: 1rem;
+transition: all 0.3s;
+}
+
+.thankyou-btn:hover {
+transform: translateY(-2px);
+box-shadow: 0 10px 25px rgba(30, 58, 138, 0.3);
+}
+</style>
+
+</body>
+
+</html>
+<!-- Live Version: 1.1.0 -->
