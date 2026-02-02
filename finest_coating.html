@@ -5350,7 +5350,20 @@
                 </div>
                 <div class="hero-image">
                     <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768834405/Finest%20Coating/Bathtubs/qlvrqatqbaqokz535dlp.jpg"
-                        alt="Luxury Modern Bathroom" style="height: 650px !important; min-height: 650px;">
+                        alt="Luxury Modern Bathroom" style="height: 650px !important; min-height: 650px;"
+                        id="hero-main-image">
+
+                    <!-- EXPLICIT HARDCODED TOOLS FOR HERO -->
+                    <div class="image-tools-container" style="display: flex !important; top: 20px; right: 20px;">
+                        <input type="file" id="hero-file-input" style="display: none;" accept="image/*"
+                            onchange="uploadHeroImage(event)">
+                        <button class="image-tool-btn" onclick="document.getElementById('hero-file-input').click()">
+                            <span>📁 Upload Image</span>
+                        </button>
+                        <button class="image-tool-btn delete" onclick="deleteHeroImage()">
+                            <span>Delete 🗑️</span>
+                        </button>
+                    </div>
                     <div class="hero-stats">
                         <div class="stat-card">
                             <h3>19+</h3>
@@ -9128,11 +9141,38 @@ _Sent from FINEST COATING Website_`;
                         }
 
                         // Call the function on page load
+                        // Call the function on page load
                         document.addEventListener('DOMContentLoaded', function () {
                             makeImagesEditable();
-                            // Restore saved images instantly without delay
                             restoreSavedImages();
                         });
+
+                        // Specific Hero Helper Functions
+                        async function uploadHeroImage(event) {
+                            const file = event.target.files[0];
+                            if (!file) return;
+                            const img = document.getElementById('hero-main-image');
+
+                            try {
+                                showNotification('⏳ Uploading...', 'info');
+                                const result = await uploadImageViaAPI(file, 'hero');
+                                img.src = result.url;
+                                localStorage.setItem('uploaded_img_hero-main-image', result.url);
+                                showNotification('✅ Hero Image Updated!', 'success');
+                            } catch (e) {
+                                console.error(e);
+                                showNotification('❌ Upload Failed', 'error');
+                            }
+                        }
+
+                        function deleteHeroImage() {
+                            if (confirm('Reset Hero image to default?')) {
+                                const img = document.getElementById('hero-main-image');
+                                img.src = 'https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768834405/Finest%20Coating/Bathtubs/qlvrqatqbaqokz535dlp.jpg';
+                                localStorage.removeItem('uploaded_img_hero-main-image');
+                                showNotification('✅ Hero Image Reset', 'success');
+                            }
+                        }
 
                         // ============ IMAGE CHANGE DETECTION ============
                         // Detect when image src changes and show cancel button
