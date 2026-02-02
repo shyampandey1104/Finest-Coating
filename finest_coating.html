@@ -2297,20 +2297,23 @@
 
         .image-tools-container {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 20px;
+            right: 20px;
             display: none;
-            /* Hidden by default */
             flex-direction: column;
-            /* Stack them */
-            gap: 8px;
-            z-index: 9999;
+            gap: 10px;
+            z-index: 2147483647;
+            /* Max Z-Index */
             align-items: flex-end;
+            pointer-events: auto;
+            /* Ensure clickable */
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
         }
 
-        /* Always show tools on Hero Image */
+        /* Always show tools on Hero Image and other main sections */
         .hero-image .image-tools-container,
-        .industrial-hero-image .image-tools-container {
+        .industrial-hero-image .image-tools-container,
+        .image-edit-container:hover .image-tools-container {
             display: flex !important;
         }
 
