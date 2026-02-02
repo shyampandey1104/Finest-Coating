@@ -8928,31 +8928,31 @@ _Sent from FINEST COATING Website_`;
                                 // Skip if already editable
                                 if (img.parentElement.classList.contains('image-edit-container')) return;
 
-                                // Skip extremely small icons (e.g. social icons, bullets) but keep thumbnails
-                                // User said "har choti image" but purely structural 10px icons might break layout
-                                const rect = img.getBoundingClientRect();
-                                if (rect.width < 30 || rect.height < 30) return;
-
-                                // Create wrapper
-                                // Check if image is already in a positioned container we can use, 
-                                // or if we need to create a wrapper.
                                 const parent = img.parentElement;
+                                let isSpecialContainer = false;
                                 let wrapper;
 
-                                // If the parent is already a dedicated image container, use it
+                                // Check if parent is a known container that needs editing regardless of image state
                                 if (parent.classList.contains('client-image') ||
-                                    parent.classList.contains('service-card') || // Added service-card
+                                    parent.classList.contains('service-card') ||
                                     parent.classList.contains('service-card-img') ||
                                     parent.classList.contains('gallery-item') ||
-                                    parent.classList.contains('hero-image') || // Added hero-image
-                                    parent.classList.contains('industrial-hero-image')) { // Added industrial-hero
+                                    parent.classList.contains('hero-image') ||
+                                    parent.classList.contains('industrial-hero-image')) {
+                                    isSpecialContainer = true;
                                     wrapper = parent;
                                     wrapper.classList.add('image-edit-container');
                                     if (getComputedStyle(wrapper).position === 'static') {
                                         wrapper.style.position = 'relative';
                                     }
-                                } else {
-                                    // Create a new wrapper
+                                }
+
+                                // Skip extremely small icons (e.g. social icons, bullets) ONLY if not a special container
+                                const rect = img.getBoundingClientRect();
+                                if (!isSpecialContainer && (rect.width < 30 || rect.height < 30)) return;
+
+                                if (!isSpecialContainer) {
+                                    // Create a new wrapper for standard images
                                     wrapper = document.createElement('div');
                                     wrapper.className = 'image-edit-container';
                                     wrapper.style.cssText = 'position: relative; display: inline-block; width: fit-content; height: fit-content;';
