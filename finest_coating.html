@@ -2322,8 +2322,14 @@
         .image-edit-container:hover .image-edit-btn,
         .client-image:hover .image-edit-btn,
         .service-card-img:hover .image-edit-btn,
+        .service-card:hover .image-edit-btn,
         .gallery-item:hover .image-edit-btn,
-        .industrial-hero-image:hover .image-edit-btn {
+        .industrial-hero-image:hover .image-edit-btn,
+        .hero-image:hover .image-edit-btn,
+        .section-header:hover .image-edit-btn
+
+        /* Just in case */
+            {
             display: flex !important;
             opacity: 1;
             transform: scale(1);
@@ -8922,8 +8928,11 @@ _Sent from FINEST COATING Website_`;
 
                                 // If the parent is already a dedicated image container, use it
                                 if (parent.classList.contains('client-image') ||
+                                    parent.classList.contains('service-card') || // Added service-card
                                     parent.classList.contains('service-card-img') ||
-                                    parent.classList.contains('gallery-item')) {
+                                    parent.classList.contains('gallery-item') ||
+                                    parent.classList.contains('hero-image') || // Added hero-image
+                                    parent.classList.contains('industrial-hero-image')) { // Added industrial-hero
                                     wrapper = parent;
                                     wrapper.classList.add('image-edit-container');
                                     if (getComputedStyle(wrapper).position === 'static') {
