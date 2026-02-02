@@ -2295,65 +2295,47 @@
             transform: scale(1.05);
         }
 
-        .image-cancel-btn {
+        .image-edit-btn {
             position: absolute;
             top: 10px;
             right: 10px;
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            background: #ef4444;
+            background: rgba(30, 58, 138, 0.9);
+            /* Primary color */
             color: white;
-            border: 3px solid white;
+            border: 2px solid white;
             cursor: pointer;
             display: none;
+            /* Hidden by default */
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            font-weight: bold;
-            line-height: 1;
+            font-size: 18px;
             transition: all 0.2s ease;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
         }
 
-        /* Explicitly hide cancel buttons in Industries and specific sections to maintain premium look */
-        #industries-scroll .image-cancel-btn,
-        .industries-section .image-cancel-btn,
-        .client-image .image-cancel-btn,
-        .hero-section .image-cancel-btn {
-            display: none !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-            pointer-events: none !important;
-        }
-
-        /* Show cancel button on hover when image has been uploaded/changed */
-        .image-container:hover .image-cancel-btn[data-visible="true"] {
+        /* Show edit button on hover over the container */
+        .image-edit-container:hover .image-edit-btn,
+        .client-image:hover .image-edit-btn,
+        .service-card-img:hover .image-edit-btn,
+        .gallery-item:hover .image-edit-btn,
+        .industrial-hero-image:hover .image-edit-btn {
             display: flex !important;
             opacity: 1;
+            transform: scale(1);
         }
 
-        /* Removed multiple TEST MODE rules that were showing buttons prematurely */
-        .image-cancel-btn[data-visible="false"] {
-            display: none !important;
+        .image-edit-btn:hover {
+            transform: scale(1.1) !important;
+            background: #2563eb;
         }
 
-        .image-container:hover .image-cancel-btn[data-visible="false"],
-        .gallery-item:hover .image-cancel-btn[data-visible="false"],
-        .client-image:hover .image-cancel-btn[data-visible="false"] {
-            display: none !important;
-        }
-
-        .image-cancel-btn:hover {
-            transform: scale(1.15);
-            background: #dc2626;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
-            opacity: 1 !important;
-        }
-
-        .image-cancel-btn:active {
-            transform: scale(1.0);
+        .image-edit-btn:active {
+            transform: scale(0.95);
         }
 
         .service-card-content {
@@ -7044,6 +7026,11 @@ _Sent from FINEST COATING Website_`;
             loadSavedUrinalsImages();
             loadSavedKitchenImages();
 
+            // Initialize Universal Image Editing
+            makeImagesEditable();
+            // Re-check periodically for dynamically loaded images
+            setInterval(makeImagesEditable, 2000);
+
             // Load all images from backend
             loadProcessImages();
             loadHeroImages();
@@ -8315,7 +8302,7 @@ _Sent from FINEST COATING Website_`;
 
             // Wrap images in the newly opened detail page
             setTimeout(() => {
-                wrapImagesWithCancelButton();
+                makeImagesEditable();
             }, 100);
 
             // Start sliders based on which section is opening
@@ -8898,182 +8885,233 @@ _Sent from FINEST COATING Website_`;
                             fileInput.value = '';
                         }
 
-                        // Remove from localStorage
-                        localStorage.removeItem('uploaded_img_' + targetImageId);
-                        console.log('Image removed from localStorage:', targetImageId);
+                        // ============ UNIVERSAL IMAGE EDIT/UPLOAD SYSTEM ============
 
-                        showNotification('✅ Image reset successfully', 'success');
-                    }, 300);
-                });
-            } else {
-                console.error('Image not found:', targetImageId);
-            }
-        }
+                        let currentEditingImg = null;
 
-        // ============ AUTO-WRAP ALL IMAGES WITH CANCEL BUTTON ============
-        function wrapImagesWithCancelButton() {
-            // Select ALL images in the entire document
-            const allImages = document.querySelectorAll('img');
-
-            allImages.forEach((img, index) => {
-                // Skip if already wrapped
-                if (img.parentElement.classList.contains('image-container')) return;
-
-                // Skip very small images (icons, badges, logos, etc.)
-                const rect = img.getBoundingClientRect();
-                if (rect.width < 60 || rect.height < 60) return;
-
-                // Skip images in navigation/header (logo, etc.)
-                const navParent = img.closest('header, nav, .top-bar, #industries-scroll');
-                if (navParent) return;
-
-                // Check if image is inside a special container like .client-image, .gallery-item
-                const specialContainer = img.closest('.client-image, .about-images, .gallery-item');
-
-                // Create unique ID
-                if (!img.id) {
-                    img.id = 'img-' + index;
-                }
-
-                // Store original src
-                img.setAttribute('data-original-src', img.src);
-
-                // Create cancel button
-                const cancelBtn = document.createElement('button');
-                cancelBtn.className = 'image-cancel-btn';
-                cancelBtn.innerHTML = '✕';
-                cancelBtn.setAttribute('data-visible', 'false');
-                cancelBtn.onclick = function (e) {
-                    e.stopPropagation();
-                    // Show confirmation dialog
-                    showDeleteConfirmation(function () {
-                        // User clicked OK - DELETE the image permanently
-                        const imageUrl = img.src;
-
-                        // Remove from all localStorage arrays
-                        removeImageFromLocalStorage(imageUrl);
-
-                        img.style.opacity = '0';
-                        setTimeout(() => {
-                            // Remove the entire container from DOM
-                            if (specialContainer) {
-                                specialContainer.remove();
-                            } else if (img.parentElement.classList.contains('image-container')) {
-                                img.parentElement.remove();
-                            } else {
-                                img.remove();
+                        // Auto-wrap images with Edit Button
+                        function makeImagesEditable() {
+                            // Create the hidden file input if it doesn't exist
+                            if (!document.getElementById('universal-file-input')) {
+                                const input = document.createElement('input');
+                                input.type = 'file';
+                                input.id = 'universal-file-input';
+                                input.accept = 'image/*';
+                                input.style.display = 'none';
+                                input.onchange = handleUniversalImageUpload;
+                                document.body.appendChild(input);
                             }
-                            showNotification('✅ Image deleted successfully', 'success');
-                        }, 300);
-                    });
-                };
 
-                // If image is in a special container, add button to that container
-                if (specialContainer) {
-                    specialContainer.style.position = 'relative';
-                    specialContainer.appendChild(cancelBtn);
-                } else {
-                    // Otherwise, create wrapper
-                    const wrapper = document.createElement('div');
-                    wrapper.className = 'image-container';
-                    wrapper.style.cssText = 'position: relative; display: block;';
+                            // Select ALL images
+                            const allImages = document.querySelectorAll('img');
 
-                    // Wrap image
-                    img.parentNode.insertBefore(wrapper, img);
-                    wrapper.appendChild(img);
-                    wrapper.appendChild(cancelBtn);
-                }
-            });
+                            allImages.forEach((img, index) => {
+                                // Skip if already editable
+                                if (img.parentElement.classList.contains('image-edit-container')) return;
 
-            console.log('Cancel buttons added to ALL images on website');
-        }
+                                // Skip extremely small icons (e.g. social icons, bullets) but keep thumbnails
+                                // User said "har choti image" but purely structural 10px icons might break layout
+                                const rect = img.getBoundingClientRect();
+                                if (rect.width < 30 || rect.height < 30) return;
 
-        // ============ RESTORE SAVED IMAGES ON PAGE LOAD ============
-        function restoreSavedImages() {
-            // Check all possible image IDs
-            const imageIds = [
-                'bathtubs-main-img', 'urinals-main-img',
-                'kitchen-main-img', 'decorative-main-img'
-            ];
+                                // Create wrapper
+                                // Check if image is already in a positioned container we can use, 
+                                // or if we need to create a wrapper.
+                                const parent = img.parentElement;
+                                let wrapper;
 
-            imageIds.forEach(imageId => {
-                const savedImage = localStorage.getItem('uploaded_img_' + imageId);
-                if (savedImage) {
-                    const img = document.getElementById(imageId);
-                    if (img) {
-                        img.src = savedImage;
-                        console.log('Restored saved image:', imageId);
+                                // If the parent is already a dedicated image container, use it
+                                if (parent.classList.contains('client-image') ||
+                                    parent.classList.contains('service-card-img') ||
+                                    parent.classList.contains('gallery-item')) {
+                                    wrapper = parent;
+                                    wrapper.classList.add('image-edit-container');
+                                    if (getComputedStyle(wrapper).position === 'static') {
+                                        wrapper.style.position = 'relative';
+                                    }
+                                } else {
+                                    // Create a new wrapper
+                                    wrapper = document.createElement('div');
+                                    wrapper.className = 'image-edit-container';
+                                    wrapper.style.cssText = 'position: relative; display: inline-block; width: fit-content; height: fit-content;';
+                                    // Insert wrapper
+                                    img.parentNode.insertBefore(wrapper, img);
+                                    wrapper.appendChild(img);
+                                }
 
-                        // Show cancel button
-                        setTimeout(() => {
-                            const cancelBtn = img.parentElement?.querySelector('.image-cancel-btn');
-                            if (cancelBtn) {
-                                cancelBtn.setAttribute('data-visible', 'true');
+                                // Create Edit Button
+                                const editBtn = document.createElement('button');
+                                editBtn.className = 'image-edit-btn';
+                                editBtn.innerHTML = '📷';
+                                editBtn.title = 'Change Image';
+                                editBtn.onclick = function (e) {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    currentEditingImg = img;
+                                    document.getElementById('universal-file-input').click();
+                                };
+
+                                // Add button to wrapper
+                                wrapper.appendChild(editBtn);
+                            });
+
+                            console.log('✅ All images made editable');
+                        }
+
+                        // Detect Category based on DOM hierarchy
+                        function detectImageCategory(img) {
+                            // Check IDs and Classes of parents
+                            const parentSection = img.closest('section, div[id], .service-detail-overlay');
+                            if (!parentSection) return 'bathroom'; // Default
+
+                            const id = parentSection.id.toLowerCase();
+                            const classList = parentSection.className.toLowerCase();
+                            const textContent = parentSection.textContent.toLowerCase();
+
+                            if (id.includes('hero') || classList.includes('hero')) return 'hero';
+                            if (id.includes('industries') || classList.includes('industries')) return 'industries';
+                            if (id.includes('process') || classList.includes('process')) return 'process';
+                            if (id.includes('faq') || classList.includes('faq')) return 'faq';
+                            if (id.includes('warranty') || classList.includes('warranty')) return 'warranty';
+
+                            // Specific services
+                            if (id.includes('bathtub') || textContent.includes('bathtub')) return 'bathtubs';
+                            if (id.includes('urinal') || textContent.includes('urinal')) return 'urinals';
+                            if (id.includes('kitchen') || textContent.includes('kitchen')) return 'kitchen';
+                            if (id.includes('buffing') || textContent.includes('buffing')) return 'buffing';
+                            if (id.includes('industrial') || textContent.includes('industrial')) return 'industrial';
+                            if (id.includes('healthcare') || textContent.includes('healthcare')) return 'healthcare';
+
+                            // General Galleries
+                            if (id.includes('gallery') || classList.includes('gallery')) return 'beforeAfterGallery';
+
+                            return 'services'; // Default fallback
+                        }
+
+                        // Handle File Selection
+                        async function handleUniversalImageUpload(event) {
+                            const file = event.target.files[0];
+                            if (!file || !currentEditingImg) return;
+
+                            // Show loading on button
+                            const btn = currentEditingImg.nextElementSibling; // The edit button
+                            const originalText = btn.innerHTML;
+                            btn.innerHTML = '⏳';
+                            btn.disabled = true;
+
+                            const category = detectImageCategory(currentEditingImg);
+                            console.log(`Uploading to category: ${category}`);
+
+                            try {
+                                // Upload via API
+                                const result = await uploadImageViaAPI(file, category);
+
+                                // Update Image Source to new URL
+                                // Add timestamp to force refresh if URL is same (though usually Cloudinary changes version/name)
+                                currentEditingImg.src = result.url;
+
+                                // Save to localStorage as a cache/backup (optional, but good for persistence concepts)
+                                if (currentEditingImg.id) {
+                                    localStorage.setItem('uploaded_img_' + currentEditingImg.id, result.url);
+                                }
+
+                                showNotification('✅ Image updated successfully!', 'success');
+                            } catch (error) {
+                                console.error(error);
+                                showNotification('❌ Upload failed', 'error');
+                            } finally {
+                                btn.innerHTML = originalText;
+                                btn.disabled = false;
+                                event.target.value = ''; // Reset input
                             }
-                        }, 500);
-                    }
-                }
-            });
+                        }
 
-            // Also check for any dynamically created images
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key && key.startsWith('uploaded_img_')) {
-                    const imageId = key.replace('uploaded_img_', '');
-                    const img = document.getElementById(imageId);
-                    if (img) {
-                        const savedImage = localStorage.getItem(key);
-                        img.src = savedImage;
+                        // ============ RESTORE SAVED IMAGES ON PAGE LOAD ============
+                        function restoreSavedImages() {
+                            // Check all possible image IDs
+                            const imageIds = [
+                                'bathtubs-main-img', 'urinals-main-img',
+                                'kitchen-main-img', 'decorative-main-img'
+                            ];
 
-                        setTimeout(() => {
-                            const cancelBtn = img.parentElement?.querySelector('.image-cancel-btn');
-                            if (cancelBtn) {
-                                cancelBtn.setAttribute('data-visible', 'true');
+                            imageIds.forEach(imageId => {
+                                const savedImage = localStorage.getItem('uploaded_img_' + imageId);
+                                if (savedImage) {
+                                    const img = document.getElementById(imageId);
+                                    if (img) {
+                                        img.src = savedImage;
+                                        console.log('Restored saved image:', imageId);
+
+                                        // Show cancel button
+                                        setTimeout(() => {
+                                            const cancelBtn = img.parentElement?.querySelector('.image-cancel-btn');
+                                            if (cancelBtn) {
+                                                cancelBtn.setAttribute('data-visible', 'true');
+                                            }
+                                        }, 500);
+                                    }
+                                }
+                            });
+
+                            // Also check for any dynamically created images
+                            for (let i = 0; i < localStorage.length; i++) {
+                                const key = localStorage.key(i);
+                                if (key && key.startsWith('uploaded_img_')) {
+                                    const imageId = key.replace('uploaded_img_', '');
+                                    const img = document.getElementById(imageId);
+                                    if (img) {
+                                        const savedImage = localStorage.getItem(key);
+                                        img.src = savedImage;
+
+                                        setTimeout(() => {
+                                            const cancelBtn = img.parentElement?.querySelector('.image-cancel-btn');
+                                            if (cancelBtn) {
+                                                cancelBtn.setAttribute('data-visible', 'true');
+                                            }
+                                        }, 500);
+                                    }
+                                }
                             }
-                        }, 500);
-                    }
-                }
-            }
-        }
+                        }
 
-        // Call the function on page load
-        document.addEventListener('DOMContentLoaded', function () {
-            wrapImagesWithCancelButton();
-            // Restore saved images instantly without delay
-            restoreSavedImages();
-        });
+                        // Call the function on page load
+                        document.addEventListener('DOMContentLoaded', function () {
+                            makeImagesEditable();
+                            // Restore saved images instantly without delay
+                            restoreSavedImages();
+                        });
 
-        // ============ IMAGE CHANGE DETECTION ============
-        // Detect when image src changes and show cancel button
-        const imageObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'src') {
-                    const img = mutation.target;
-                    const originalSrc = img.getAttribute('data-original-src');
-                    const cancelBtn = img.parentElement?.querySelector('.image-cancel-btn');
+                        // ============ IMAGE CHANGE DETECTION ============
+                        // Detect when image src changes and show cancel button
+                        const imageObserver = new MutationObserver((mutations) => {
+                            mutations.forEach((mutation) => {
+                                if (mutation.type === 'attributes' && mutation.attributeName === 'src') {
+                                    const img = mutation.target;
+                                    const originalSrc = img.getAttribute('data-original-src');
+                                    const cancelBtn = img.parentElement?.querySelector('.image-cancel-btn');
 
-                    if (originalSrc && cancelBtn && img.src !== originalSrc) {
-                        cancelBtn.setAttribute('data-visible', 'true');
-                    }
-                }
-            });
-        });
+                                    if (originalSrc && cancelBtn && img.src !== originalSrc) {
+                                        cancelBtn.setAttribute('data-visible', 'true');
+                                    }
+                                }
+                            });
+                        });
 
-        // Observe all images with cancel buttons
-        document.addEventListener('DOMContentLoaded', function () {
-            setTimeout(() => {
-                document.querySelectorAll('.image-container img').forEach(img => {
-                    imageObserver.observe(img, { attributes: true });
-                });
-                console.log('Image observers activated');
-            }, 500);
-        });
+                        // Observe all images with cancel buttons
+                        document.addEventListener('DOMContentLoaded', function () {
+                            setTimeout(() => {
+                                document.querySelectorAll('.image-container img').forEach(img => {
+                                    imageObserver.observe(img, { attributes: true });
+                                });
+                                console.log('Image observers activated');
+                            }, 500);
+                        });
 
-        // ============ DELETE CONFIRMATION DIALOG ============
-        function showDeleteConfirmation(onConfirm) {
-            // Create overlay
-            const overlay = document.createElement('div');
-            overlay.style.cssText = `
+                        // ============ DELETE CONFIRMATION DIALOG ============
+                        function showDeleteConfirmation(onConfirm) {
+                            // Create overlay
+                            const overlay = document.createElement('div');
+                            overlay.style.cssText = `
                 position: fixed;
                 top: 0;
                 left: 0;
@@ -9087,9 +9125,9 @@ _Sent from FINEST COATING Website_`;
                 backdrop-filter: blur(5px);
             `;
 
-            // Create dialog box
-            const dialog = document.createElement('div');
-            dialog.style.cssText = `
+                            // Create dialog box
+                            const dialog = document.createElement('div');
+                            dialog.style.cssText = `
                 background: white;
                 padding: 2rem;
                 border-radius: 20px;
@@ -9100,7 +9138,7 @@ _Sent from FINEST COATING Website_`;
                 animation: scaleIn 0.3s ease-out;
             `;
 
-            dialog.innerHTML = `
+                            dialog.innerHTML = `
                 <div style="font-size: 3rem; margin-bottom: 1rem;">🗑️</div>
                 <h3 style="color: #1e3a8a; margin: 0 0 0.5rem 0; font-size: 1.5rem;">Delete Image?</h3>
                 <p style="color: #64748b; margin: 0 0 1.5rem 0; font-size: 0.95rem;">Are you sure you want to delete this image? This action cannot be undone.</p>
@@ -9131,59 +9169,59 @@ _Sent from FINEST COATING Website_`;
                 </div>
             `;
 
-            overlay.appendChild(dialog);
-            document.body.appendChild(overlay);
+                            overlay.appendChild(dialog);
+                            document.body.appendChild(overlay);
 
-            // Add hover effects
-            const cancelBtn = dialog.querySelector('#cancelBtn');
-            const confirmBtn = dialog.querySelector('#confirmBtn');
+                            // Add hover effects
+                            const cancelBtn = dialog.querySelector('#cancelBtn');
+                            const confirmBtn = dialog.querySelector('#confirmBtn');
 
-            cancelBtn.addEventListener('mouseenter', () => {
-                cancelBtn.style.background = '#f1f5f9';
-                cancelBtn.style.borderColor = '#cbd5e1';
-            });
-            cancelBtn.addEventListener('mouseleave', () => {
-                cancelBtn.style.background = 'white';
-                cancelBtn.style.borderColor = '#e2e8f0';
-            });
+                            cancelBtn.addEventListener('mouseenter', () => {
+                                cancelBtn.style.background = '#f1f5f9';
+                                cancelBtn.style.borderColor = '#cbd5e1';
+                            });
+                            cancelBtn.addEventListener('mouseleave', () => {
+                                cancelBtn.style.background = 'white';
+                                cancelBtn.style.borderColor = '#e2e8f0';
+                            });
 
-            confirmBtn.addEventListener('mouseenter', () => {
-                confirmBtn.style.transform = 'translateY(-2px)';
-                confirmBtn.style.boxShadow = '0 6px 16px rgba(239, 68, 68, 0.4)';
-            });
-            confirmBtn.addEventListener('mouseleave', () => {
-                confirmBtn.style.transform = 'translateY(0)';
-                confirmBtn.style.boxShadow = '0 4px 12px rgba(239, 68, 68, 0.3)';
-            });
+                            confirmBtn.addEventListener('mouseenter', () => {
+                                confirmBtn.style.transform = 'translateY(-2px)';
+                                confirmBtn.style.boxShadow = '0 6px 16px rgba(239, 68, 68, 0.4)';
+                            });
+                            confirmBtn.addEventListener('mouseleave', () => {
+                                confirmBtn.style.transform = 'translateY(0)';
+                                confirmBtn.style.boxShadow = '0 4px 12px rgba(239, 68, 68, 0.3)';
+                            });
 
-            // Handle button clicks
-            cancelBtn.addEventListener('click', () => {
-                overlay.style.animation = 'fadeOut 0.2s ease-out';
-                setTimeout(() => overlay.remove(), 200);
-            });
+                            // Handle button clicks
+                            cancelBtn.addEventListener('click', () => {
+                                overlay.style.animation = 'fadeOut 0.2s ease-out';
+                                setTimeout(() => overlay.remove(), 200);
+                            });
 
-            confirmBtn.addEventListener('click', () => {
-                overlay.style.animation = 'fadeOut 0.2s ease-out';
-                setTimeout(() => {
-                    overlay.remove();
-                    if (onConfirm) onConfirm();
-                }, 200);
-            });
+                            confirmBtn.addEventListener('click', () => {
+                                overlay.style.animation = 'fadeOut 0.2s ease-out';
+                                setTimeout(() => {
+                                    overlay.remove();
+                                    if (onConfirm) onConfirm();
+                                }, 200);
+                            });
 
-            // Close on overlay click
-            overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) {
-                    overlay.style.animation = 'fadeOut 0.2s ease-out';
-                    setTimeout(() => overlay.remove(), 200);
-                }
-            });
-        }
+                            // Close on overlay click
+                            overlay.addEventListener('click', (e) => {
+                                if (e.target === overlay) {
+                                    overlay.style.animation = 'fadeOut 0.2s ease-out';
+                                    setTimeout(() => overlay.remove(), 200);
+                                }
+                            });
+                        }
 
-        // Show notification helper function
-        function showNotification(message, type = 'success') {
-            const notification = document.createElement('div');
-            notification.textContent = message;
-            notification.style.cssText = `
+                        // Show notification helper function
+                        function showNotification(message, type = 'success') {
+                            const notification = document.createElement('div');
+                            notification.textContent = message;
+                            notification.style.cssText = `
                 position: fixed;
                 top: 100px;
                 right: 30px;
@@ -9196,818 +9234,818 @@ _Sent from FINEST COATING Website_`;
                 font-weight: 600;
                 animation: slideInRight 0.3s ease-out;
             `;
-            document.body.appendChild(notification);
+                            document.body.appendChild(notification);
 
-            // Remove after 3 seconds
-            setTimeout(() => {
-                notification.style.animation = 'slideOutRight 0.3s ease-out';
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
-        }
+                            // Remove after 3 seconds
+                            setTimeout(() => {
+                                notification.style.animation = 'slideOutRight 0.3s ease-out';
+                                setTimeout(() => notification.remove(), 300);
+                            }, 3000);
+                        }
 
-        // ============ CLOUDINARY UPLOAD FOR BUFFING SLIDER ============
-        async function uploadToCloudinaryBuffing(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+                        // ============ CLOUDINARY UPLOAD FOR BUFFING SLIDER ============
+                        async function uploadToCloudinaryBuffing(event) {
+                            const file = event.target.files[0];
+                            if (!file) return;
 
-            if (!file.type.startsWith('image/')) {
-                showNotification('❌ Please select a valid image file', 'error');
-                return;
-            }
+                            if (!file.type.startsWith('image/')) {
+                                showNotification('❌ Please select a valid image file', 'error');
+                                return;
+                            }
 
-            const maxSize = 10 * 1024 * 1024;
-            if (file.size > maxSize) {
-                showNotification('❌ Image size should be less than 10MB', 'error');
-                return;
-            }
+                            const maxSize = 10 * 1024 * 1024;
+                            if (file.size > maxSize) {
+                                showNotification('❌ Image size should be less than 10MB', 'error');
+                                return;
+                            }
 
-            showNotification('⏳ Uploading to Cloudinary...', 'info');
+                            showNotification('⏳ Uploading to Cloudinary...', 'info');
 
-            try {
-                const result = await uploadImageViaAPI(file, 'buffing');
-                const imageUrl = result.secure_url || result.url;
-                addImageToBuffingSlider(imageUrl);
+                            try {
+                                const result = await uploadImageViaAPI(file, 'buffing');
+                                const imageUrl = result.secure_url || result.url;
+                                addImageToBuffingSlider(imageUrl);
 
-                showNotification('✅ Image uploaded successfully!', 'success');
+                                showNotification('✅ Image uploaded successfully!', 'success');
 
-            } catch (error) {
-                console.error('Upload error:', error);
-                showNotification('❌ Upload failed: ' + error.message, 'error');
-            }
+                            } catch (error) {
+                                console.error('Upload error:', error);
+                                showNotification('❌ Upload failed: ' + error.message, 'error');
+                            }
 
-            // Reset file input
-            event.target.value = '';
-        }
+                            // Reset file input
+                            event.target.value = '';
+                        }
 
-        // Add image to Buffing slider with same structure
-        function addImageToBuffingSlider(imageUrl, skipNavigation = false) {
-            const slider = document.getElementById('buffing-slider');
-            const dotsContainer = document.getElementById('buffing-slider-dots');
+                        // Add image to Buffing slider with same structure
+                        function addImageToBuffingSlider(imageUrl, skipNavigation = false) {
+                            const slider = document.getElementById('buffing-slider');
+                            const dotsContainer = document.getElementById('buffing-slider-dots');
 
-            if (!slider || !dotsContainer) return;
+                            if (!slider || !dotsContainer) return;
 
-            // Apply AI enhancement to improve blur/low quality images
-            const enhancedUrl = enhanceImageUrl(imageUrl);
+                            // Apply AI enhancement to improve blur/low quality images
+                            const enhancedUrl = enhanceImageUrl(imageUrl);
 
-            // Count existing slides
-            const existingSlides = slider.querySelectorAll('.buffing-slide');
-            const slideNumber = existingSlides.length + 1;
+                            // Count existing slides
+                            const existingSlides = slider.querySelectorAll('.buffing-slide');
+                            const slideNumber = existingSlides.length + 1;
 
-            // Create new slide
-            const newSlide = document.createElement('div');
-            newSlide.className = 'buffing-slide';
-            newSlide.innerHTML = `
+                            // Create new slide
+                            const newSlide = document.createElement('div');
+                            newSlide.className = 'buffing-slide';
+                            newSlide.innerHTML = `
                 <img src="${enhancedUrl}" alt="Buffing & Polishing Work ${slideNumber}" onerror="this.closest('.buffing-slide').remove()">
                 <div class="slide-caption">Buffing Work ${slideNumber}</div>
                 <button class="slide-delete-btn" onclick="deleteSlideImage(this, 'buffing')" title="Delete Image">✕</button>
             `;
 
-            // Add slide to slider
-            slider.appendChild(newSlide);
+                            // Add slide to slider
+                            slider.appendChild(newSlide);
 
-            // Create new dot
-            const newDot = document.createElement('span');
-            newDot.className = 'dot';
-            newDot.onclick = function () { setBuffingSlide(slideNumber - 1); };
-            dotsContainer.appendChild(newDot);
+                            // Create new dot
+                            const newDot = document.createElement('span');
+                            newDot.className = 'dot';
+                            newDot.onclick = function () { setBuffingSlide(slideNumber - 1); };
+                            dotsContainer.appendChild(newDot);
 
-            // Navigate to the new slide
-            if (!skipNavigation) {
-                setBuffingSlide(slideNumber - 1);
-            }
-        }
+                            // Navigate to the new slide
+                            if (!skipNavigation) {
+                                setBuffingSlide(slideNumber - 1);
+                            }
+                        }
 
-        // Load Buffing images from centralized JSON only
-        function loadSavedBuffingImages() {
-            if (centralizedImages.buffing && centralizedImages.buffing.length > 0) {
-                // Update main service card image
-                const mainImg = document.getElementById('buffing-main-img');
-                if (mainImg) mainImg.src = enhanceImageUrl(centralizedImages.buffing[0]);
+                        // Load Buffing images from centralized JSON only
+                        function loadSavedBuffingImages() {
+                            if (centralizedImages.buffing && centralizedImages.buffing.length > 0) {
+                                // Update main service card image
+                                const mainImg = document.getElementById('buffing-main-img');
+                                if (mainImg) mainImg.src = enhanceImageUrl(centralizedImages.buffing[0]);
 
-                // Update detail hero image
-                const heroImg = document.getElementById('buffing-detail-hero-img');
-                if (heroImg) heroImg.src = enhanceImageUrl(centralizedImages.buffing[0]);
+                                // Update detail hero image
+                                const heroImg = document.getElementById('buffing-detail-hero-img');
+                                if (heroImg) heroImg.src = enhanceImageUrl(centralizedImages.buffing[0]);
 
-                centralizedImages.buffing.forEach(url => {
-                    addImageToBuffingSlider(url, true);
-                });
-                setTimeout(() => setBuffingSlide(0), 100);
-            }
-        }
+                                centralizedImages.buffing.forEach(url => {
+                                    addImageToBuffingSlider(url, true);
+                                });
+                                setTimeout(() => setBuffingSlide(0), 100);
+                            }
+                        }
 
-        // ============ CLOUDINARY UPLOAD FOR HEALTHCARE GALLERY ============
-        async function uploadToCloudinaryHealthcare(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+                        // ============ CLOUDINARY UPLOAD FOR HEALTHCARE GALLERY ============
+                        async function uploadToCloudinaryHealthcare(event) {
+                            const file = event.target.files[0];
+                            if (!file) return;
 
-            if (!file.type.startsWith('image/')) {
-                showNotification('❌ Please select a valid image file', 'error');
-                return;
-            }
+                            if (!file.type.startsWith('image/')) {
+                                showNotification('❌ Please select a valid image file', 'error');
+                                return;
+                            }
 
-            const maxSize = 10 * 1024 * 1024;
-            if (file.size > maxSize) {
-                showNotification('❌ Image size should be less than 10MB', 'error');
-                return;
-            }
+                            const maxSize = 10 * 1024 * 1024;
+                            if (file.size > maxSize) {
+                                showNotification('❌ Image size should be less than 10MB', 'error');
+                                return;
+                            }
 
-            showNotification('⏳ Uploading to Cloudinary...', 'info');
+                            showNotification('⏳ Uploading to Cloudinary...', 'info');
 
-            try {
-                const result = await uploadImageViaAPI(file, 'healthcare');
-                const imageUrl = result.secure_url || result.url;
-                addImageToHealthcareGallery(imageUrl);
-                showNotification('✅ Image uploaded successfully!', 'success');
-            } catch (error) {
-                console.error('Upload error:', error);
-                showNotification('❌ Upload failed: ' + error.message, 'error');
-            }
+                            try {
+                                const result = await uploadImageViaAPI(file, 'healthcare');
+                                const imageUrl = result.secure_url || result.url;
+                                addImageToHealthcareGallery(imageUrl);
+                                showNotification('✅ Image uploaded successfully!', 'success');
+                            } catch (error) {
+                                console.error('Upload error:', error);
+                                showNotification('❌ Upload failed: ' + error.message, 'error');
+                            }
 
-            // Reset file input
-            event.target.value = '';
-        }
+                            // Reset file input
+                            event.target.value = '';
+                        }
 
-        // Add image to Healthcare gallery with slider structure
-        function addImageToHealthcareGallery(imageUrl, skipNavigation = false) {
-            // Add to slider
-            const slider = document.getElementById('healthcare-slider');
-            const dotsContainer = document.getElementById('healthcare-slider-dots');
+                        // Add image to Healthcare gallery with slider structure
+                        function addImageToHealthcareGallery(imageUrl, skipNavigation = false) {
+                            // Add to slider
+                            const slider = document.getElementById('healthcare-slider');
+                            const dotsContainer = document.getElementById('healthcare-slider-dots');
 
-            if (!slider) {
-                console.log('Healthcare slider not found');
-                return;
-            }
+                            if (!slider) {
+                                console.log('Healthcare slider not found');
+                                return;
+                            }
 
-            // Apply AI enhancement to improve blur/low quality images
-            const enhancedUrl = enhanceImageUrl(imageUrl);
+                            // Apply AI enhancement to improve blur/low quality images
+                            const enhancedUrl = enhanceImageUrl(imageUrl);
 
-            const existingSlides = slider.querySelectorAll('.buffing-slide');
-            const slideNumber = existingSlides.length + 1;
+                            const existingSlides = slider.querySelectorAll('.buffing-slide');
+                            const slideNumber = existingSlides.length + 1;
 
-            // Create new slide
-            const newSlide = document.createElement('div');
-            newSlide.className = 'buffing-slide';
-            newSlide.innerHTML = `
+                            // Create new slide
+                            const newSlide = document.createElement('div');
+                            newSlide.className = 'buffing-slide';
+                            newSlide.innerHTML = `
                 <img src="${enhancedUrl}" alt="Healthcare Equipment ${slideNumber}" onerror="this.closest('.buffing-slide').remove()">
                 <div class="slide-caption">Healthcare Work ${slideNumber}</div>
                 <button class="slide-delete-btn" onclick="deleteSlideImage(this, 'healthcare')" title="Delete Image">✕</button>
             `;
-            slider.appendChild(newSlide);
+                            slider.appendChild(newSlide);
 
-            // Add new dot
-            if (dotsContainer) {
-                const newDot = document.createElement('span');
-                newDot.className = 'dot';
-                newDot.onclick = function () { setHealthcareSlide(slideNumber - 1); };
-                dotsContainer.appendChild(newDot);
-            }
+                            // Add new dot
+                            if (dotsContainer) {
+                                const newDot = document.createElement('span');
+                                newDot.className = 'dot';
+                                newDot.onclick = function () { setHealthcareSlide(slideNumber - 1); };
+                                dotsContainer.appendChild(newDot);
+                            }
 
-            // Show the newly added slide
-            // Show the newly added slide
-            if (!skipNavigation) {
-                setTimeout(() => {
-                    setHealthcareSlide(slideNumber - 1);
-                    console.log('Healthcare image added, showing slide:', slideNumber - 1);
-                }, 100);
-            }
-        }
+                            // Show the newly added slide
+                            // Show the newly added slide
+                            if (!skipNavigation) {
+                                setTimeout(() => {
+                                    setHealthcareSlide(slideNumber - 1);
+                                    console.log('Healthcare image added, showing slide:', slideNumber - 1);
+                                }, 100);
+                            }
+                        }
 
-        // Load Healthcare images from centralized JSON only
-        function loadSavedHealthcareImages() {
-            if (centralizedImages.healthcare && centralizedImages.healthcare.length > 0) {
-                // Update main service card image
-                const mainImg = document.getElementById('healthcare-main-img');
-                if (mainImg) mainImg.src = enhanceImageUrl(centralizedImages.healthcare[0]);
+                        // Load Healthcare images from centralized JSON only
+                        function loadSavedHealthcareImages() {
+                            if (centralizedImages.healthcare && centralizedImages.healthcare.length > 0) {
+                                // Update main service card image
+                                const mainImg = document.getElementById('healthcare-main-img');
+                                if (mainImg) mainImg.src = enhanceImageUrl(centralizedImages.healthcare[0]);
 
-                // Update detail hero image
-                const heroImg = document.getElementById('healthcare-detail-hero-img');
-                if (heroImg) heroImg.src = enhanceImageUrl(centralizedImages.healthcare[0]);
+                                // Update detail hero image
+                                const heroImg = document.getElementById('healthcare-detail-hero-img');
+                                if (heroImg) heroImg.src = enhanceImageUrl(centralizedImages.healthcare[0]);
 
-                centralizedImages.healthcare.forEach(url => {
-                    addImageToHealthcareGallery(url, true);
-                });
-                setTimeout(() => setHealthcareSlide(0), 100);
-            }
-        }
+                                centralizedImages.healthcare.forEach(url => {
+                                    addImageToHealthcareGallery(url, true);
+                                });
+                                setTimeout(() => setHealthcareSlide(0), 100);
+                            }
+                        }
 
-        // ============ CLOUDINARY UPLOAD FOR INDUSTRIAL GALLERY ============
-        async function uploadToCloudinaryIndustrial(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+                        // ============ CLOUDINARY UPLOAD FOR INDUSTRIAL GALLERY ============
+                        async function uploadToCloudinaryIndustrial(event) {
+                            const file = event.target.files[0];
+                            if (!file) return;
 
-            if (!file.type.startsWith('image/')) {
-                showNotification('❌ Please select a valid image file', 'error');
-                return;
-            }
+                            if (!file.type.startsWith('image/')) {
+                                showNotification('❌ Please select a valid image file', 'error');
+                                return;
+                            }
 
-            const maxSize = 10 * 1024 * 1024;
-            if (file.size > maxSize) {
-                showNotification('❌ Image size should be less than 10MB', 'error');
-                return;
-            }
+                            const maxSize = 10 * 1024 * 1024;
+                            if (file.size > maxSize) {
+                                showNotification('❌ Image size should be less than 10MB', 'error');
+                                return;
+                            }
 
-            showNotification('⏳ Uploading to Cloudinary...', 'info');
+                            showNotification('⏳ Uploading to Cloudinary...', 'info');
 
-            try {
-                const result = await uploadImageViaAPI(file, 'industrial');
-                const imageUrl = result.secure_url || result.url;
-                addImageToIndustrialGallery(imageUrl);
-                showNotification('✅ Image uploaded successfully!', 'success');
-            } catch (error) {
-                console.error('Upload error:', error);
-                showNotification('❌ Upload failed: ' + error.message, 'error');
-            }
+                            try {
+                                const result = await uploadImageViaAPI(file, 'industrial');
+                                const imageUrl = result.secure_url || result.url;
+                                addImageToIndustrialGallery(imageUrl);
+                                showNotification('✅ Image uploaded successfully!', 'success');
+                            } catch (error) {
+                                console.error('Upload error:', error);
+                                showNotification('❌ Upload failed: ' + error.message, 'error');
+                            }
 
-            // Reset file input
-            event.target.value = '';
-        }
+                            // Reset file input
+                            event.target.value = '';
+                        }
 
-        // Add image to Industrial gallery with slider structure
-        function addImageToIndustrialGallery(imageUrl, skipNavigation = false) {
-            // Add to slider
-            const slider = document.getElementById('industrial-slider');
-            const dotsContainer = document.getElementById('industrial-slider-dots');
+                        // Add image to Industrial gallery with slider structure
+                        function addImageToIndustrialGallery(imageUrl, skipNavigation = false) {
+                            // Add to slider
+                            const slider = document.getElementById('industrial-slider');
+                            const dotsContainer = document.getElementById('industrial-slider-dots');
 
-            // Apply AI enhancement to improve blur/low quality images
-            const enhancedUrl = enhanceImageUrl(imageUrl);
+                            // Apply AI enhancement to improve blur/low quality images
+                            const enhancedUrl = enhanceImageUrl(imageUrl);
 
-            if (slider) {
-                const existingSlides = slider.querySelectorAll('.buffing-slide');
-                const slideNumber = existingSlides.length + 1;
+                            if (slider) {
+                                const existingSlides = slider.querySelectorAll('.buffing-slide');
+                                const slideNumber = existingSlides.length + 1;
 
-                // Create new slide
-                const newSlide = document.createElement('div');
-                newSlide.className = 'buffing-slide';
-                newSlide.innerHTML = `
+                                // Create new slide
+                                const newSlide = document.createElement('div');
+                                newSlide.className = 'buffing-slide';
+                                newSlide.innerHTML = `
                     <img src="${enhancedUrl}" alt="Industrial Equipment ${slideNumber}" onerror="this.closest('.buffing-slide').remove()">
                     <div class="slide-caption">New Industrial Work ${slideNumber}</div>
                     <button class="slide-delete-btn" onclick="deleteSlideImage(this, 'industrial')" title="Delete Image">✕</button>
                 `;
-                slider.appendChild(newSlide);
+                                slider.appendChild(newSlide);
 
-                // Add new dot
-                if (dotsContainer) {
-                    const newDot = document.createElement('span');
-                    newDot.className = 'dot';
-                    newDot.onclick = function () { setIndustrialSlide(slideNumber - 1); };
-                    dotsContainer.appendChild(newDot);
-                }
+                                // Add new dot
+                                if (dotsContainer) {
+                                    const newDot = document.createElement('span');
+                                    newDot.className = 'dot';
+                                    newDot.onclick = function () { setIndustrialSlide(slideNumber - 1); };
+                                    dotsContainer.appendChild(newDot);
+                                }
 
-                // Show the newly added slide
-                if (!skipNavigation) {
-                    setTimeout(() => {
-                        setIndustrialSlide(slideNumber - 1);
-                    }, 100);
-                }
-            }
-        }
+                                // Show the newly added slide
+                                if (!skipNavigation) {
+                                    setTimeout(() => {
+                                        setIndustrialSlide(slideNumber - 1);
+                                    }, 100);
+                                }
+                            }
+                        }
 
-        // Load Industrial images from centralized JSON only
-        function loadSavedIndustrialImages() {
-            if (centralizedImages.industrial && centralizedImages.industrial.length > 0) {
-                // Update main service card image
-                const mainImg = document.getElementById('industrial-main-img');
-                if (mainImg) mainImg.src = enhanceImageUrl(centralizedImages.industrial[0]);
+                        // Load Industrial images from centralized JSON only
+                        function loadSavedIndustrialImages() {
+                            if (centralizedImages.industrial && centralizedImages.industrial.length > 0) {
+                                // Update main service card image
+                                const mainImg = document.getElementById('industrial-main-img');
+                                if (mainImg) mainImg.src = enhanceImageUrl(centralizedImages.industrial[0]);
 
-                // Update detail hero image
-                const heroImg = document.getElementById('industrial-detail-hero-img');
-                if (heroImg) heroImg.src = enhanceImageUrl(centralizedImages.industrial[0]);
+                                // Update detail hero image
+                                const heroImg = document.getElementById('industrial-detail-hero-img');
+                                if (heroImg) heroImg.src = enhanceImageUrl(centralizedImages.industrial[0]);
 
-                centralizedImages.industrial.forEach(url => {
-                    addImageToIndustrialGallery(url, true);
-                });
-                setTimeout(() => setIndustrialSlide(0), 100);
-            }
-        }
+                                centralizedImages.industrial.forEach(url => {
+                                    addImageToIndustrialGallery(url, true);
+                                });
+                                setTimeout(() => setIndustrialSlide(0), 100);
+                            }
+                        }
 
-        // ============ CLOUDINARY UPLOAD FOR BATHTUBS GALLERY ============
-        async function uploadToCloudinaryBathtubs(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+                        // ============ CLOUDINARY UPLOAD FOR BATHTUBS GALLERY ============
+                        async function uploadToCloudinaryBathtubs(event) {
+                            const file = event.target.files[0];
+                            if (!file) return;
 
-            if (!file.type.startsWith('image/')) {
-                showNotification('❌ Please select a valid image file', 'error');
-                return;
-            }
+                            if (!file.type.startsWith('image/')) {
+                                showNotification('❌ Please select a valid image file', 'error');
+                                return;
+                            }
 
-            const maxSize = 10 * 1024 * 1024;
-            if (file.size > maxSize) {
-                showNotification('❌ Image size should be less than 10MB', 'error');
-                return;
-            }
+                            const maxSize = 10 * 1024 * 1024;
+                            if (file.size > maxSize) {
+                                showNotification('❌ Image size should be less than 10MB', 'error');
+                                return;
+                            }
 
-            showNotification('⏳ Uploading to Cloudinary...', 'info');
+                            showNotification('⏳ Uploading to Cloudinary...', 'info');
 
-            try {
-                const result = await uploadImageViaAPI(file, 'bathtubs');
-                addImageToBathtubsGallery(result.secure_url || result.url);
-                showNotification('✅ Image uploaded successfully!', 'success');
-            } catch (error) {
-                console.error('Upload error:', error);
-                showNotification('❌ Upload failed: ' + error.message, 'error');
-            }
-            event.target.value = '';
-        }
+                            try {
+                                const result = await uploadImageViaAPI(file, 'bathtubs');
+                                addImageToBathtubsGallery(result.secure_url || result.url);
+                                showNotification('✅ Image uploaded successfully!', 'success');
+                            } catch (error) {
+                                console.error('Upload error:', error);
+                                showNotification('❌ Upload failed: ' + error.message, 'error');
+                            }
+                            event.target.value = '';
+                        }
 
-        function addImageToBathtubsGallery(imageUrl, skipNavigation = false) {
-            const slider = document.getElementById('bathtubs-slider');
-            const dotsContainer = document.getElementById('bathtubs-slider-dots');
+                        function addImageToBathtubsGallery(imageUrl, skipNavigation = false) {
+                            const slider = document.getElementById('bathtubs-slider');
+                            const dotsContainer = document.getElementById('bathtubs-slider-dots');
 
-            if (!slider) return;
+                            if (!slider) return;
 
-            // Check if image already exists
-            const existingImages = slider.querySelectorAll('.buffing-slide img');
-            const urlPart = imageUrl.split('/').pop();
-            for (let img of existingImages) {
-                if (img.src.includes(urlPart)) {
-                    return; // Already exists
-                }
-            }
+                            // Check if image already exists
+                            const existingImages = slider.querySelectorAll('.buffing-slide img');
+                            const urlPart = imageUrl.split('/').pop();
+                            for (let img of existingImages) {
+                                if (img.src.includes(urlPart)) {
+                                    return; // Already exists
+                                }
+                            }
 
-            const enhancedUrl = enhanceImageUrl(imageUrl);
-            const existingSlides = slider.querySelectorAll('.buffing-slide');
-            const slideNumber = existingSlides.length + 1;
+                            const enhancedUrl = enhanceImageUrl(imageUrl);
+                            const existingSlides = slider.querySelectorAll('.buffing-slide');
+                            const slideNumber = existingSlides.length + 1;
 
-            const newSlide = document.createElement('div');
-            newSlide.className = 'buffing-slide';
-            newSlide.innerHTML = `
+                            const newSlide = document.createElement('div');
+                            newSlide.className = 'buffing-slide';
+                            newSlide.innerHTML = `
                 <img src="${enhancedUrl}" alt="Bathtub Work ${slideNumber}" onerror="this.closest('.buffing-slide').remove()">
                 <div class="slide-caption">Bathtub Work ${slideNumber}</div>
                 <button class="slide-delete-btn" onclick="deleteSlideImage(this, 'bathtubs')" title="Delete Image">✕</button>
             `;
-            slider.appendChild(newSlide);
+                            slider.appendChild(newSlide);
 
-            if (dotsContainer) {
-                const newDot = document.createElement('span');
-                newDot.className = 'dot';
-                newDot.onclick = function () { setBathtubsSlide(slideNumber - 1); };
-                dotsContainer.appendChild(newDot);
-            }
+                            if (dotsContainer) {
+                                const newDot = document.createElement('span');
+                                newDot.className = 'dot';
+                                newDot.onclick = function () { setBathtubsSlide(slideNumber - 1); };
+                                dotsContainer.appendChild(newDot);
+                            }
 
-            if (!skipNavigation) {
-                setTimeout(() => {
-                    setBathtubsSlide(slideNumber - 1);
-                }, 100);
-            }
-        }
+                            if (!skipNavigation) {
+                                setTimeout(() => {
+                                    setBathtubsSlide(slideNumber - 1);
+                                }, 100);
+                            }
+                        }
 
-        function loadSavedBathtubsImages() {
-            if (centralizedImages.bathtubs && centralizedImages.bathtubs.length > 0) {
-                // Update main service card image
-                const mainImg = document.getElementById('bathtubs-main-img');
-                if (mainImg) mainImg.src = enhanceImageUrl(centralizedImages.bathtubs[0]);
+                        function loadSavedBathtubsImages() {
+                            if (centralizedImages.bathtubs && centralizedImages.bathtubs.length > 0) {
+                                // Update main service card image
+                                const mainImg = document.getElementById('bathtubs-main-img');
+                                if (mainImg) mainImg.src = enhanceImageUrl(centralizedImages.bathtubs[0]);
 
-                // Update detail hero image
-                const heroImg = document.getElementById('bathtubs-detail-hero-img');
-                if (heroImg) heroImg.src = enhanceImageUrl(centralizedImages.bathtubs[0]);
+                                // Update detail hero image
+                                const heroImg = document.getElementById('bathtubs-detail-hero-img');
+                                if (heroImg) heroImg.src = enhanceImageUrl(centralizedImages.bathtubs[0]);
 
-                centralizedImages.bathtubs.forEach(url => {
-                    addImageToBathtubsGallery(url, true);
-                });
-                setTimeout(() => setBathtubsSlide(0), 100);
-            }
-        }
+                                centralizedImages.bathtubs.forEach(url => {
+                                    addImageToBathtubsGallery(url, true);
+                                });
+                                setTimeout(() => setBathtubsSlide(0), 100);
+                            }
+                        }
 
-        // ============ CLOUDINARY UPLOAD FOR URINALS GALLERY ============
-        async function uploadToCloudinaryUrinals(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+                        // ============ CLOUDINARY UPLOAD FOR URINALS GALLERY ============
+                        async function uploadToCloudinaryUrinals(event) {
+                            const file = event.target.files[0];
+                            if (!file) return;
 
-            if (!file.type.startsWith('image/')) {
-                showNotification('❌ Please select a valid image file', 'error');
-                return;
-            }
+                            if (!file.type.startsWith('image/')) {
+                                showNotification('❌ Please select a valid image file', 'error');
+                                return;
+                            }
 
-            const maxSize = 10 * 1024 * 1024;
-            if (file.size > maxSize) {
-                showNotification('❌ Image size should be less than 10MB', 'error');
-                return;
-            }
+                            const maxSize = 10 * 1024 * 1024;
+                            if (file.size > maxSize) {
+                                showNotification('❌ Image size should be less than 10MB', 'error');
+                                return;
+                            }
 
-            showNotification('⏳ Uploading to Cloudinary...', 'info');
+                            showNotification('⏳ Uploading to Cloudinary...', 'info');
 
-            try {
-                const result = await uploadImageViaAPI(file, 'urinals');
-                addImageToUrinalsGallery(result.secure_url || result.url);
-                showNotification('✅ Image uploaded successfully!', 'success');
-            } catch (error) {
-                console.error('Upload error:', error);
-                showNotification('❌ Upload failed: ' + error.message, 'error');
-            }
-            event.target.value = '';
-        }
+                            try {
+                                const result = await uploadImageViaAPI(file, 'urinals');
+                                addImageToUrinalsGallery(result.secure_url || result.url);
+                                showNotification('✅ Image uploaded successfully!', 'success');
+                            } catch (error) {
+                                console.error('Upload error:', error);
+                                showNotification('❌ Upload failed: ' + error.message, 'error');
+                            }
+                            event.target.value = '';
+                        }
 
-        function addImageToUrinalsGallery(imageUrl, skipNavigation = false) {
-            // Add to slider
-            const slider = document.getElementById('urinals-slider');
-            const dotsContainer = document.getElementById('urinals-slider-dots');
+                        function addImageToUrinalsGallery(imageUrl, skipNavigation = false) {
+                            // Add to slider
+                            const slider = document.getElementById('urinals-slider');
+                            const dotsContainer = document.getElementById('urinals-slider-dots');
 
-            // Apply AI enhancement to improve blur/low quality images
-            const enhancedUrl = enhanceImageUrl(imageUrl);
+                            // Apply AI enhancement to improve blur/low quality images
+                            const enhancedUrl = enhanceImageUrl(imageUrl);
 
-            if (slider) {
-                const existingSlides = slider.querySelectorAll('.buffing-slide');
-                const slideNumber = existingSlides.length + 1;
+                            if (slider) {
+                                const existingSlides = slider.querySelectorAll('.buffing-slide');
+                                const slideNumber = existingSlides.length + 1;
 
-                // Create new slide
-                const newSlide = document.createElement('div');
-                newSlide.className = 'buffing-slide';
-                newSlide.innerHTML = `
+                                // Create new slide
+                                const newSlide = document.createElement('div');
+                                newSlide.className = 'buffing-slide';
+                                newSlide.innerHTML = `
                     <img src="${enhancedUrl}" alt="Urinal Work ${slideNumber}" onerror="this.closest('.buffing-slide').remove()">
                     <div class="slide-caption">New Urinal Work ${slideNumber}</div>
                     <button class="slide-delete-btn" onclick="deleteSlideImage(this, 'urinals')" title="Delete Image">✕</button>
                 `;
-                slider.appendChild(newSlide);
+                                slider.appendChild(newSlide);
 
-                // Add new dot
-                if (dotsContainer) {
-                    const newDot = document.createElement('span');
-                    newDot.className = 'dot';
-                    newDot.onclick = function () { setUrinalsSlide(slideNumber - 1); };
-                    dotsContainer.appendChild(newDot);
-                }
+                                // Add new dot
+                                if (dotsContainer) {
+                                    const newDot = document.createElement('span');
+                                    newDot.className = 'dot';
+                                    newDot.onclick = function () { setUrinalsSlide(slideNumber - 1); };
+                                    dotsContainer.appendChild(newDot);
+                                }
 
-                // Show the newly added slide
-                if (!skipNavigation) {
-                    setTimeout(() => {
-                        setUrinalsSlide(slideNumber - 1);
-                    }, 100);
-                }
-            }
-        }
+                                // Show the newly added slide
+                                if (!skipNavigation) {
+                                    setTimeout(() => {
+                                        setUrinalsSlide(slideNumber - 1);
+                                    }, 100);
+                                }
+                            }
+                        }
 
-        function loadSavedUrinalsImages() {
-            if (centralizedImages.urinals && centralizedImages.urinals.length > 0) {
-                // Update main service card image
-                const urinalsMainImg = document.getElementById('urinals-main-img');
-                if (urinalsMainImg) {
-                    urinalsMainImg.src = enhanceImageUrl(centralizedImages.urinals[0]);
-                }
-                // Also update detail page hero image
-                const heroImg = document.getElementById('urinals-detail-hero-img');
-                if (heroImg) {
-                    heroImg.src = enhanceImageUrl(centralizedImages.urinals[0]);
-                }
-                centralizedImages.urinals.forEach(url => {
-                    addImageToUrinalsGallery(url, true);
-                });
-                setTimeout(() => setUrinalsSlide(0), 100);
-            }
-        }
+                        function loadSavedUrinalsImages() {
+                            if (centralizedImages.urinals && centralizedImages.urinals.length > 0) {
+                                // Update main service card image
+                                const urinalsMainImg = document.getElementById('urinals-main-img');
+                                if (urinalsMainImg) {
+                                    urinalsMainImg.src = enhanceImageUrl(centralizedImages.urinals[0]);
+                                }
+                                // Also update detail page hero image
+                                const heroImg = document.getElementById('urinals-detail-hero-img');
+                                if (heroImg) {
+                                    heroImg.src = enhanceImageUrl(centralizedImages.urinals[0]);
+                                }
+                                centralizedImages.urinals.forEach(url => {
+                                    addImageToUrinalsGallery(url, true);
+                                });
+                                setTimeout(() => setUrinalsSlide(0), 100);
+                            }
+                        }
 
-        // ============ CLOUDINARY UPLOAD FOR KITCHEN GALLERY ============
-        async function uploadToCloudinaryKitchen(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+                        // ============ CLOUDINARY UPLOAD FOR KITCHEN GALLERY ============
+                        async function uploadToCloudinaryKitchen(event) {
+                            const file = event.target.files[0];
+                            if (!file) return;
 
-            if (!file.type.startsWith('image/')) {
-                showNotification('❌ Please select a valid image file', 'error');
-                return;
-            }
+                            if (!file.type.startsWith('image/')) {
+                                showNotification('❌ Please select a valid image file', 'error');
+                                return;
+                            }
 
-            const maxSize = 10 * 1024 * 1024;
-            if (file.size > maxSize) {
-                showNotification('❌ Image size should be less than 10MB', 'error');
-                return;
-            }
+                            const maxSize = 10 * 1024 * 1024;
+                            if (file.size > maxSize) {
+                                showNotification('❌ Image size should be less than 10MB', 'error');
+                                return;
+                            }
 
-            showNotification('⏳ Uploading to Cloudinary...', 'info');
+                            showNotification('⏳ Uploading to Cloudinary...', 'info');
 
-            try {
-                const result = await uploadImageViaAPI(file, 'kitchen');
-                addImageToKitchenGallery(result.secure_url || result.url);
-                showNotification('✅ Image uploaded successfully!', 'success');
-            } catch (error) {
-                console.error('Upload error:', error);
-                showNotification('❌ Upload failed: ' + error.message, 'error');
-            }
-            event.target.value = '';
-        }
+                            try {
+                                const result = await uploadImageViaAPI(file, 'kitchen');
+                                addImageToKitchenGallery(result.secure_url || result.url);
+                                showNotification('✅ Image uploaded successfully!', 'success');
+                            } catch (error) {
+                                console.error('Upload error:', error);
+                                showNotification('❌ Upload failed: ' + error.message, 'error');
+                            }
+                            event.target.value = '';
+                        }
 
-        function addImageToKitchenGallery(imageUrl, skipNavigation = false) {
-            // Add to slider
-            const slider = document.getElementById('kitchen-slider');
-            const dotsContainer = document.getElementById('kitchen-slider-dots');
+                        function addImageToKitchenGallery(imageUrl, skipNavigation = false) {
+                            // Add to slider
+                            const slider = document.getElementById('kitchen-slider');
+                            const dotsContainer = document.getElementById('kitchen-slider-dots');
 
-            // Apply AI enhancement to improve blur/low quality images
-            const enhancedUrl = enhanceImageUrl(imageUrl);
+                            // Apply AI enhancement to improve blur/low quality images
+                            const enhancedUrl = enhanceImageUrl(imageUrl);
 
-            if (slider) {
-                const existingSlides = slider.querySelectorAll('.buffing-slide');
-                const slideNumber = existingSlides.length + 1;
+                            if (slider) {
+                                const existingSlides = slider.querySelectorAll('.buffing-slide');
+                                const slideNumber = existingSlides.length + 1;
 
-                // Create new slide
-                const newSlide = document.createElement('div');
-                newSlide.className = 'buffing-slide';
-                newSlide.innerHTML = `
+                                // Create new slide
+                                const newSlide = document.createElement('div');
+                                newSlide.className = 'buffing-slide';
+                                newSlide.innerHTML = `
                     <img src="${enhancedUrl}" alt="Kitchen Work ${slideNumber}" onerror="this.closest('.buffing-slide').remove()">
                     <div class="slide-caption">New Kitchen Work ${slideNumber}</div>
                     <button class="slide-delete-btn" onclick="deleteSlideImage(this, 'kitchen')" title="Delete Image">✕</button>
                 `;
-                slider.appendChild(newSlide);
+                                slider.appendChild(newSlide);
 
-                // Add new dot
-                if (dotsContainer) {
-                    const newDot = document.createElement('span');
-                    newDot.className = 'dot';
-                    newDot.onclick = function () { setKitchenSlide(slideNumber - 1); };
-                    dotsContainer.appendChild(newDot);
-                }
+                                // Add new dot
+                                if (dotsContainer) {
+                                    const newDot = document.createElement('span');
+                                    newDot.className = 'dot';
+                                    newDot.onclick = function () { setKitchenSlide(slideNumber - 1); };
+                                    dotsContainer.appendChild(newDot);
+                                }
 
-                // Show the newly added slide
-                if (!skipNavigation) {
-                    setTimeout(() => {
-                        setKitchenSlide(slideNumber - 1);
-                    }, 100);
-                }
-            }
-        }
-
-        function loadSavedKitchenImages() {
-            if (centralizedImages.kitchen && centralizedImages.kitchen.length > 0) {
-                // Update main service card image
-                const mainImg = document.getElementById('kitchen-main-img');
-                if (mainImg) mainImg.src = enhanceImageUrl(centralizedImages.kitchen[0]);
-
-                // Update detail hero image
-                const heroImg = document.getElementById('kitchen-detail-hero-img');
-                if (heroImg) heroImg.src = enhanceImageUrl(centralizedImages.kitchen[0]);
-
-                centralizedImages.kitchen.forEach(url => {
-                    addImageToKitchenGallery(url, true);
-                });
-                setTimeout(() => setKitchenSlide(0), 100);
-            }
-        }
-
-        // ============ DELETE SLIDE IMAGE FUNCTION ============
-        async function deleteSlideImage(btn, sliderType) {
-            if (!confirm('Are you sure you want to delete this image?')) return;
-
-            const slide = btn.closest('.buffing-slide');
-            const slider = document.getElementById(sliderType + '-slider');
-            const dotsContainer = document.getElementById(sliderType + '-slider-dots');
-            const img = slide.querySelector('img');
-            const imageUrl = img ? img.src : null;
-
-            if (!slide || !slider) return;
-
-            // Get current slide index
-            const slides = slider.querySelectorAll('.buffing-slide');
-            const slideIndex = Array.from(slides).indexOf(slide);
-
-            // Remove slide with animation
-            slide.style.transition = 'opacity 0.3s ease';
-            slide.style.opacity = '0';
-
-            setTimeout(async () => {
-                // Remove slide
-                slide.remove();
-
-                // Remove last dot
-                if (dotsContainer) {
-                    const dots = dotsContainer.querySelectorAll('.dot');
-                    if (dots.length > 0) {
-                        dots[dots.length - 1].remove();
-                    }
-                }
-
-                // Show previous slide or first slide
-                const remainingSlides = slider.querySelectorAll('.buffing-slide');
-                if (remainingSlides.length > 0) {
-                    const newIndex = slideIndex > 0 ? slideIndex - 1 : 0;
-                    if (sliderType === 'buffing') {
-                        setBuffingSlide(newIndex);
-                    } else if (sliderType === 'bathtubs') {
-                        setBathtubsSlide(newIndex);
-                    } else if (sliderType === 'urinals') {
-                        setUrinalsSlide(newIndex);
-                    } else if (sliderType === 'kitchen') {
-                        setKitchenSlide(newIndex);
-                    } else if (sliderType === 'industrial') {
-                        setIndustrialSlide(newIndex);
-                    } else if (sliderType === 'healthcare') {
-                        setHealthcareSlide(newIndex);
-                    }
-                }
-
-                // Delete from server API (images.json) and Cloudinary
-                if (imageUrl && imageUrl.includes('cloudinary.com')) {
-                    try {
-                        await deleteImageViaAPI(imageUrl, sliderType);
-                    } catch (e) {
-                        console.log('Delete error:', e);
-                    }
-                }
-
-                showNotification('✅ Image deleted successfully!', 'success');
-            }, 300);
-        }
-
-        // ============ REMOVE IMAGE FROM LOCALSTORAGE AND CLOUDINARY ============
-        // Extract public_id from Cloudinary URL
-        function getPublicIdFromUrl(url) {
-            if (!url || !url.includes('cloudinary.com')) return null;
-            try {
-                // URL format: https://res.cloudinary.com/cloud_name/image/upload/v123456/folder/filename.jpg
-                const match = url.match(/\/upload\/(?:v\d+\/)?(.+)\.[a-z]+$/i);
-                if (match) {
-                    return decodeURIComponent(match[1]);
-                }
-            } catch (e) {
-                console.error('Error extracting public_id:', e);
-            }
-            return null;
-        }
-
-        // Delete image from Cloudinary using URL
-        async function deleteImageFromCloudinaryByUrl(imageUrl) {
-            const publicId = extractPublicId(imageUrl);
-            if (!publicId) {
-                console.log('Could not extract public_id from URL:', imageUrl);
-                return false;
-            }
-            console.log('Deleting from Cloudinary, public_id:', publicId);
-            return await deleteFromCloudinaryDirect(publicId);
-        }
-
-        // Remove image - deletes from Cloudinary via API and removes from DOM
-        async function removeImageFromLocalStorage(imageUrl, category = null) {
-            console.log('Removing image:', imageUrl);
-
-            // Try to determine category from URL or DOM
-            if (!category) {
-                // Try to find category from the image's container
-                const img = document.querySelector(`img[src="${imageUrl}"]`);
-                if (img) {
-                    const container = img.closest('[id*="gallery"], [id*="slider"], [id*="Grid"]');
-                    if (container) {
-                        const id = container.id.toLowerCase();
-                        if (id.includes('buffing')) category = 'buffing';
-                        else if (id.includes('healthcare')) category = 'healthcare';
-                        else if (id.includes('industrial')) category = 'industrial';
-                        else if (id.includes('bathtub')) category = 'bathtubs';
-                        else if (id.includes('urinal')) category = 'urinals';
-                        else if (id.includes('kitchen')) category = 'kitchen';
-                        else if (id.includes('leftbefore')) category = 'leftBefore';
-                        else if (id.includes('leftafter')) category = 'leftAfter';
-                        else if (id.includes('rightbefore')) category = 'rightBefore';
-                        else if (id.includes('rightafter')) category = 'rightAfter';
-                    }
-                }
-            }
-
-            try {
-                // Try API first
-                if (category) {
-                    await deleteImageViaAPI(imageUrl, category);
-                } else {
-                    // Fallback to direct Cloudinary delete
-                    await deleteImageFromCloudinaryByUrl(imageUrl);
-                }
-
-                console.log('✅ Successfully deleted');
-                showNotification('✅ Image deleted!', 'success');
-
-                // Remove from DOM
-                document.querySelectorAll(`img[src="${imageUrl}"]`).forEach(img => {
-                    const container = img.closest('.image-container, .client-image, .gallery-item, .ba-image-wrapper, .buffing-slide');
-                    if (container) {
-                        container.remove();
-                    } else {
-                        img.remove();
-                    }
-                });
-            } catch (error) {
-                console.error('Delete error:', error);
-                showNotification('❌ Delete failed: ' + error.message, 'error');
-            }
-        }
-
-        // hideDeletedImages - No longer needed as images come from images.json
-        function hideDeletedImages() {
-            // Function kept for compatibility but does nothing
-            // Images are now managed via images.json file
-        }
-
-        // ============ GALLERY IMAGE UPLOAD HANDLER ============
-        function handleGalleryImageUpload(event, galleryId) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            // Validate file type
-            if (!file.type.startsWith('image/')) {
-                alert('Please select a valid image file (JPG, PNG, GIF, etc.)');
-                return;
-            }
-
-            // Validate file size (max 5MB)
-            const maxSize = 5 * 1024 * 1024; // 5MB in bytes
-            if (file.size > maxSize) {
-                alert('Image size should be less than 5MB');
-                return;
-            }
-
-            // Read the file and add it to gallery
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const gallery = document.getElementById(galleryId);
-                if (gallery) {
-                    const imageData = e.target.result;
-
-                    // Get existing images from localStorage
-                    let savedImages = [];
-                    const storageKey = 'gallery_' + galleryId;
-                    const stored = localStorage.getItem(storageKey);
-                    if (stored) {
-                        try {
-                            savedImages = JSON.parse(stored);
-                        } catch (err) {
-                            savedImages = [];
+                                // Show the newly added slide
+                                if (!skipNavigation) {
+                                    setTimeout(() => {
+                                        setKitchenSlide(slideNumber - 1);
+                                    }, 100);
+                                }
+                            }
                         }
-                    }
 
-                    // Add new image to array
-                    savedImages.push({
-                        src: imageData,
-                        alt: 'Uploaded Image',
-                        timestamp: Date.now()
-                    });
+                        function loadSavedKitchenImages() {
+                            if (centralizedImages.kitchen && centralizedImages.kitchen.length > 0) {
+                                // Update main service card image
+                                const mainImg = document.getElementById('kitchen-main-img');
+                                if (mainImg) mainImg.src = enhanceImageUrl(centralizedImages.kitchen[0]);
 
-                    // Save to localStorage
-                    try {
-                        localStorage.setItem(storageKey, JSON.stringify(savedImages));
-                    } catch (err) {
-                        console.error('Failed to save to localStorage:', err);
-                        alert('Failed to save image. Storage might be full.');
-                        return;
-                    }
+                                // Update detail hero image
+                                const heroImg = document.getElementById('kitchen-detail-hero-img');
+                                if (heroImg) heroImg.src = enhanceImageUrl(centralizedImages.kitchen[0]);
 
-                    // Create new image element
-                    const newImg = document.createElement('img');
-                    newImg.src = imageData;
-                    newImg.alt = 'Uploaded Image';
-                    newImg.style.opacity = '0';
-                    newImg.style.transition = 'opacity 0.3s ease';
+                                centralizedImages.kitchen.forEach(url => {
+                                    addImageToKitchenGallery(url, true);
+                                });
+                                setTimeout(() => setKitchenSlide(0), 100);
+                            }
+                        }
 
-                    // Add click event for lightbox
-                    newImg.addEventListener('click', function () {
-                        openLightbox(this);
-                    });
+                        // ============ DELETE SLIDE IMAGE FUNCTION ============
+                        async function deleteSlideImage(btn, sliderType) {
+                            if (!confirm('Are you sure you want to delete this image?')) return;
 
-                    // Add to gallery
-                    gallery.appendChild(newImg);
+                            const slide = btn.closest('.buffing-slide');
+                            const slider = document.getElementById(sliderType + '-slider');
+                            const dotsContainer = document.getElementById(sliderType + '-slider-dots');
+                            const img = slide.querySelector('img');
+                            const imageUrl = img ? img.src : null;
 
-                    // Fade in animation
-                    setTimeout(() => {
-                        newImg.style.opacity = '1';
-                        showNotification('✅ Image saved to gallery!', 'success');
-                    }, 100);
-                }
-            };
-            reader.onerror = function () {
-                alert('Error reading file. Please try again.');
-            };
-            reader.readAsDataURL(file);
-        }
+                            if (!slide || !slider) return;
 
-        // Load saved gallery images from localStorage on page load
-        function loadGalleryImages(galleryId) {
-            const gallery = document.getElementById(galleryId);
-            if (!gallery) return;
+                            // Get current slide index
+                            const slides = slider.querySelectorAll('.buffing-slide');
+                            const slideIndex = Array.from(slides).indexOf(slide);
 
-            const storageKey = 'gallery_' + galleryId;
-            const stored = localStorage.getItem(storageKey);
-            if (!stored) return;
+                            // Remove slide with animation
+                            slide.style.transition = 'opacity 0.3s ease';
+                            slide.style.opacity = '0';
 
-            try {
-                const savedImages = JSON.parse(stored);
-                savedImages.forEach(imgData => {
-                    const img = document.createElement('img');
-                    // Apply AI enhancement to improve blur/low quality images
-                    img.src = enhanceImageUrl(imgData.src);
-                    img.alt = imgData.alt || 'Uploaded Image';
+                            setTimeout(async () => {
+                                // Remove slide
+                                slide.remove();
 
-                    // Add click event for lightbox
-                    img.addEventListener('click', function () {
-                        openLightbox(this);
-                    });
+                                // Remove last dot
+                                if (dotsContainer) {
+                                    const dots = dotsContainer.querySelectorAll('.dot');
+                                    if (dots.length > 0) {
+                                        dots[dots.length - 1].remove();
+                                    }
+                                }
 
-                    gallery.appendChild(img);
-                });
-            } catch (err) {
-                console.error('Failed to load gallery images:', err);
-            }
-        }
+                                // Show previous slide or first slide
+                                const remainingSlides = slider.querySelectorAll('.buffing-slide');
+                                if (remainingSlides.length > 0) {
+                                    const newIndex = slideIndex > 0 ? slideIndex - 1 : 0;
+                                    if (sliderType === 'buffing') {
+                                        setBuffingSlide(newIndex);
+                                    } else if (sliderType === 'bathtubs') {
+                                        setBathtubsSlide(newIndex);
+                                    } else if (sliderType === 'urinals') {
+                                        setUrinalsSlide(newIndex);
+                                    } else if (sliderType === 'kitchen') {
+                                        setKitchenSlide(newIndex);
+                                    } else if (sliderType === 'industrial') {
+                                        setIndustrialSlide(newIndex);
+                                    } else if (sliderType === 'healthcare') {
+                                        setHealthcareSlide(newIndex);
+                                    }
+                                }
 
-        // Load all gallery images on page load
-        document.addEventListener('DOMContentLoaded', function () {
-            // Load images for all galleries
-            const galleryIds = ['bathtubs-gallery', 'urinals-gallery', 'kitchen-gallery', 'buffing-gallery', 'industrial-gallery', 'healthcare-gallery'];
-            galleryIds.forEach(id => {
-                loadGalleryImages(id);
-            });
-        });
+                                // Delete from server API (images.json) and Cloudinary
+                                if (imageUrl && imageUrl.includes('cloudinary.com')) {
+                                    try {
+                                        await deleteImageViaAPI(imageUrl, sliderType);
+                                    } catch (e) {
+                                        console.log('Delete error:', e);
+                                    }
+                                }
+
+                                showNotification('✅ Image deleted successfully!', 'success');
+                            }, 300);
+                        }
+
+                        // ============ REMOVE IMAGE FROM LOCALSTORAGE AND CLOUDINARY ============
+                        // Extract public_id from Cloudinary URL
+                        function getPublicIdFromUrl(url) {
+                            if (!url || !url.includes('cloudinary.com')) return null;
+                            try {
+                                // URL format: https://res.cloudinary.com/cloud_name/image/upload/v123456/folder/filename.jpg
+                                const match = url.match(/\/upload\/(?:v\d+\/)?(.+)\.[a-z]+$/i);
+                                if (match) {
+                                    return decodeURIComponent(match[1]);
+                                }
+                            } catch (e) {
+                                console.error('Error extracting public_id:', e);
+                            }
+                            return null;
+                        }
+
+                        // Delete image from Cloudinary using URL
+                        async function deleteImageFromCloudinaryByUrl(imageUrl) {
+                            const publicId = extractPublicId(imageUrl);
+                            if (!publicId) {
+                                console.log('Could not extract public_id from URL:', imageUrl);
+                                return false;
+                            }
+                            console.log('Deleting from Cloudinary, public_id:', publicId);
+                            return await deleteFromCloudinaryDirect(publicId);
+                        }
+
+                        // Remove image - deletes from Cloudinary via API and removes from DOM
+                        async function removeImageFromLocalStorage(imageUrl, category = null) {
+                            console.log('Removing image:', imageUrl);
+
+                            // Try to determine category from URL or DOM
+                            if (!category) {
+                                // Try to find category from the image's container
+                                const img = document.querySelector(`img[src="${imageUrl}"]`);
+                                if (img) {
+                                    const container = img.closest('[id*="gallery"], [id*="slider"], [id*="Grid"]');
+                                    if (container) {
+                                        const id = container.id.toLowerCase();
+                                        if (id.includes('buffing')) category = 'buffing';
+                                        else if (id.includes('healthcare')) category = 'healthcare';
+                                        else if (id.includes('industrial')) category = 'industrial';
+                                        else if (id.includes('bathtub')) category = 'bathtubs';
+                                        else if (id.includes('urinal')) category = 'urinals';
+                                        else if (id.includes('kitchen')) category = 'kitchen';
+                                        else if (id.includes('leftbefore')) category = 'leftBefore';
+                                        else if (id.includes('leftafter')) category = 'leftAfter';
+                                        else if (id.includes('rightbefore')) category = 'rightBefore';
+                                        else if (id.includes('rightafter')) category = 'rightAfter';
+                                    }
+                                }
+                            }
+
+                            try {
+                                // Try API first
+                                if (category) {
+                                    await deleteImageViaAPI(imageUrl, category);
+                                } else {
+                                    // Fallback to direct Cloudinary delete
+                                    await deleteImageFromCloudinaryByUrl(imageUrl);
+                                }
+
+                                console.log('✅ Successfully deleted');
+                                showNotification('✅ Image deleted!', 'success');
+
+                                // Remove from DOM
+                                document.querySelectorAll(`img[src="${imageUrl}"]`).forEach(img => {
+                                    const container = img.closest('.image-container, .client-image, .gallery-item, .ba-image-wrapper, .buffing-slide');
+                                    if (container) {
+                                        container.remove();
+                                    } else {
+                                        img.remove();
+                                    }
+                                });
+                            } catch (error) {
+                                console.error('Delete error:', error);
+                                showNotification('❌ Delete failed: ' + error.message, 'error');
+                            }
+                        }
+
+                        // hideDeletedImages - No longer needed as images come from images.json
+                        function hideDeletedImages() {
+                            // Function kept for compatibility but does nothing
+                            // Images are now managed via images.json file
+                        }
+
+                        // ============ GALLERY IMAGE UPLOAD HANDLER ============
+                        function handleGalleryImageUpload(event, galleryId) {
+                            const file = event.target.files[0];
+                            if (!file) return;
+
+                            // Validate file type
+                            if (!file.type.startsWith('image/')) {
+                                alert('Please select a valid image file (JPG, PNG, GIF, etc.)');
+                                return;
+                            }
+
+                            // Validate file size (max 5MB)
+                            const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+                            if (file.size > maxSize) {
+                                alert('Image size should be less than 5MB');
+                                return;
+                            }
+
+                            // Read the file and add it to gallery
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                const gallery = document.getElementById(galleryId);
+                                if (gallery) {
+                                    const imageData = e.target.result;
+
+                                    // Get existing images from localStorage
+                                    let savedImages = [];
+                                    const storageKey = 'gallery_' + galleryId;
+                                    const stored = localStorage.getItem(storageKey);
+                                    if (stored) {
+                                        try {
+                                            savedImages = JSON.parse(stored);
+                                        } catch (err) {
+                                            savedImages = [];
+                                        }
+                                    }
+
+                                    // Add new image to array
+                                    savedImages.push({
+                                        src: imageData,
+                                        alt: 'Uploaded Image',
+                                        timestamp: Date.now()
+                                    });
+
+                                    // Save to localStorage
+                                    try {
+                                        localStorage.setItem(storageKey, JSON.stringify(savedImages));
+                                    } catch (err) {
+                                        console.error('Failed to save to localStorage:', err);
+                                        alert('Failed to save image. Storage might be full.');
+                                        return;
+                                    }
+
+                                    // Create new image element
+                                    const newImg = document.createElement('img');
+                                    newImg.src = imageData;
+                                    newImg.alt = 'Uploaded Image';
+                                    newImg.style.opacity = '0';
+                                    newImg.style.transition = 'opacity 0.3s ease';
+
+                                    // Add click event for lightbox
+                                    newImg.addEventListener('click', function () {
+                                        openLightbox(this);
+                                    });
+
+                                    // Add to gallery
+                                    gallery.appendChild(newImg);
+
+                                    // Fade in animation
+                                    setTimeout(() => {
+                                        newImg.style.opacity = '1';
+                                        showNotification('✅ Image saved to gallery!', 'success');
+                                    }, 100);
+                                }
+                            };
+                            reader.onerror = function () {
+                                alert('Error reading file. Please try again.');
+                            };
+                            reader.readAsDataURL(file);
+                        }
+
+                        // Load saved gallery images from localStorage on page load
+                        function loadGalleryImages(galleryId) {
+                            const gallery = document.getElementById(galleryId);
+                            if (!gallery) return;
+
+                            const storageKey = 'gallery_' + galleryId;
+                            const stored = localStorage.getItem(storageKey);
+                            if (!stored) return;
+
+                            try {
+                                const savedImages = JSON.parse(stored);
+                                savedImages.forEach(imgData => {
+                                    const img = document.createElement('img');
+                                    // Apply AI enhancement to improve blur/low quality images
+                                    img.src = enhanceImageUrl(imgData.src);
+                                    img.alt = imgData.alt || 'Uploaded Image';
+
+                                    // Add click event for lightbox
+                                    img.addEventListener('click', function () {
+                                        openLightbox(this);
+                                    });
+
+                                    gallery.appendChild(img);
+                                });
+                            } catch (err) {
+                                console.error('Failed to load gallery images:', err);
+                            }
+                        }
+
+                        // Load all gallery images on page load
+                        document.addEventListener('DOMContentLoaded', function () {
+                            // Load images for all galleries
+                            const galleryIds = ['bathtubs-gallery', 'urinals-gallery', 'kitchen-gallery', 'buffing-gallery', 'industrial-gallery', 'healthcare-gallery'];
+                            galleryIds.forEach(id => {
+                                loadGalleryImages(id);
+                            });
+                        });
     </script>
 
     <!-- Lightbox HTML -->
@@ -11406,40 +11444,6 @@ _Sent from FINEST COATING Website_`;
             box-shadow: 0 10px 25px rgba(30, 58, 138, 0.3);
         }
     </style>
-
-</body>
-
-</html>
-5rem;
-}
-
-.thankyou-phone:hover {
-color: #3b82f6;
-}
-
-.thankyou-closing {
-font-style: italic;
-color: #888;
-}
-
-.thankyou-btn {
-background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-color: white;
-border: none;
-padding: 0.875rem 2.5rem;
-border-radius: 30px;
-font-size: 1rem;
-font-weight: 600;
-cursor: pointer;
-margin-top: 1rem;
-transition: all 0.3s;
-}
-
-.thankyou-btn:hover {
-transform: translateY(-2px);
-box-shadow: 0 10px 25px rgba(30, 58, 138, 0.3);
-}
-</style>
 
 </body>
 
