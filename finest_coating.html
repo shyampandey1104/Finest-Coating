@@ -2304,8 +2304,14 @@
             flex-direction: column;
             /* Stack them */
             gap: 8px;
-            z-index: 100;
+            z-index: 9999;
             align-items: flex-end;
+        }
+
+        /* Always show tools on Hero Image */
+        .hero-image .image-tools-container,
+        .industrial-hero-image .image-tools-container {
+            display: flex !important;
         }
 
         .image-tool-btn {
