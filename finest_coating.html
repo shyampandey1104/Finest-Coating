@@ -5,20 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="KlTp-k7rpJiKz5kBYS8SD1llKRWuES1ZmmVH6TjfG5M" />
-    <meta name="description" content="Finest Coating - Mumbai's #1 Bathtub Resurfacing & Washbasin Refinishing Company since 2005. Save 75-90% vs replacement. FRP Coating, Bathroom Renovation, Hotel Bathtub Repair. Call +91 98677 78229">
-    <meta name="keywords" content="bathtub resurfacing Mumbai, bathtub refinishing India, washbasin repair Mumbai, bathroom renovation Mumbai, bathtub coating services, FRP coating Mumbai, bathtub repair near me, washbasin refinishing services, hotel bathtub resurfacing, bathroom resurfacing India, bathtub restoration, finest coating Mumbai">
+    <meta name="description"
+        content="Finest Coating - Mumbai's #1 Bathtub Resurfacing & Washbasin Refinishing Company since 2005. Save 75-90% vs replacement. FRP Coating, Bathroom Renovation, Hotel Bathtub Repair. Call +91 98677 78229">
+    <meta name="keywords"
+        content="bathtub resurfacing Mumbai, bathtub refinishing India, washbasin repair Mumbai, bathroom renovation Mumbai, bathtub coating services, FRP coating Mumbai, bathtub repair near me, washbasin refinishing services, hotel bathtub resurfacing, bathroom resurfacing India, bathtub restoration, finest coating Mumbai">
     <meta name="author" content="Finest Coating">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="Bathtub Resurfacing & Washbasin Refinishing | Finest Coating Mumbai">
-    <meta property="og:description" content="Mumbai's #1 Bathtub Resurfacing Company since 2005. Save 75-90% vs replacement. Professional FRP Coating & Bathroom Renovation.">
+    <meta property="og:description"
+        content="Mumbai's #1 Bathtub Resurfacing Company since 2005. Save 75-90% vs replacement. Professional FRP Coating & Bathroom Renovation.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://finest-coating.netlify.app/">
-    <meta property="og:image" content="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394082/Finest%20Coating/Hero/hero-bathtub.png">
+    <meta property="og:image"
+        content="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394082/Finest%20Coating/Hero/hero-bathtub.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Bathtub Resurfacing & Washbasin Refinishing | Finest Coating Mumbai">
-    <meta name="twitter:description" content="Mumbai's #1 Bathtub Resurfacing Company since 2005. Save 75-90% vs replacement.">
+    <meta name="twitter:description"
+        content="Mumbai's #1 Bathtub Resurfacing Company since 2005. Save 75-90% vs replacement.">
     <link rel="canonical" href="https://finest-coating.netlify.app/">
     <title>Bathtub Resurfacing Mumbai | Washbasin Refinishing | Finest Coating India</title>
+    <link rel="icon" type="image/x-icon"
+        href="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394132/Finest%20Coating/Logo/logo.png">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
         rel="stylesheet">
@@ -5698,7 +5705,7 @@
                         </div>
                         <div class="client-card">
                             <div class="client-image">
-                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768394208/Finest%20Coating/Industrial/1765746870906.png"
+                                <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768398450/Finest%20Coating/Industries%20We%20Serve/medical-machineries.png"
                                     alt="Medical Machineries">
                             </div>
                             <h3>Medical Machineries</h3>
@@ -5909,7 +5916,7 @@
                     </div>
                     <div class="warranty-images-grid">
                         <div class="warranty-image-item">
-                            <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768567439/Finest%20Coating/Warranty%20Conditions/w5apljntv47oacddpycz.jpg"
+                            <img src="https://res.cloudinary.com/dd2sbrcrr/image/upload/v1768567461/Finest%20Coating/Warranty%20Conditions/qpyysw28zpchdhzp8o5o.jpg"
                                 alt="Peeling off">
                             <div class="warranty-badge">Peeling off</div>
                         </div>
@@ -6581,23 +6588,18 @@
             if (!url || !url.includes('cloudinary.com')) return url;
 
             // Check if already has transformations applied
-            if (url.includes('/e_improve') || url.includes('/q_auto')) {
-                return url;
-            }
+            if (url.includes('/q_auto') || url.includes('/f_auto')) return url;
 
             // Find the /upload/ part
             const uploadIndex = url.indexOf('/upload/');
             if (uploadIndex === -1) return url;
 
-            // Robust enhancement: optimize quality/format, improve lighting/color, subtle sharpening
-            // q_auto:best ensures high quality, f_auto picks best format (webp/avif), e_improve fixes general issues
-            const transformations = 'e_improve/e_sharpen:60/q_auto:best/f_auto';
+            // Simple optimization that is supported by all accounts
+            const transformations = 'q_auto,f_auto';
 
-            const beforeUpload = url.substring(0, uploadIndex + 8); // includes '/upload/'
+            const beforeUpload = url.substring(0, uploadIndex + 8);
             const afterUpload = url.substring(uploadIndex + 8);
 
-            // If the part after /upload/ starts with v<number>/, keep it structure
-            // effectively inserted between /upload/ and v<number>/ or the public ID
             return beforeUpload + transformations + '/' + afterUpload;
         }
 
