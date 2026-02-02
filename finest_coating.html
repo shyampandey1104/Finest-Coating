@@ -2303,11 +2303,21 @@
             flex-direction: column;
             gap: 10px;
             z-index: 2147483647;
-            /* Max Z-Index */
             align-items: flex-end;
             pointer-events: auto;
-            /* Ensure clickable */
             filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+        }
+
+        .image-tools-container.compact {
+            top: 5px;
+            right: 5px;
+            gap: 4px;
+            transform: scale(0.85);
+            transform-origin: top right;
+        }
+
+        .image-edit-container:hover .image-tools-container.compact {
+            display: flex !important;
         }
 
         /* Always show tools on Hero Image and other main sections */
@@ -8965,7 +8975,8 @@ _Sent from FINEST COATING Website_`;
 
                                 // Skip extremely small icons (e.g. social icons, bullets) ONLY if not a special container
                                 const rect = img.getBoundingClientRect();
-                                if (!isSpecialContainer && (rect.width < 30 || rect.height < 30)) return;
+                                // Reduced limit to 15px to capture almost everything
+                                if (!isSpecialContainer && (rect.width < 15 || rect.height < 15)) return;
 
                                 if (!isSpecialContainer) {
                                     // Create a new wrapper for standard images
@@ -8984,7 +8995,17 @@ _Sent from FINEST COATING Website_`;
                                 // Create Edit Button (Upload)
                                 const editBtn = document.createElement('button');
                                 editBtn.className = 'image-tool-btn';
-                                editBtn.innerHTML = '<span>📁 Upload Image</span>';
+
+                                // Compact mode for small images
+                                const isSmall = rect.width < 150;
+                                if (isSmall) {
+                                    toolsContainer.classList.add('compact');
+                                    editBtn.innerHTML = '📁';
+                                    editBtn.title = 'Upload Image';
+                                } else {
+                                    editBtn.innerHTML = '<span>📁 Upload Image</span>';
+                                }
+
                                 editBtn.onclick = function (e) {
                                     e.stopPropagation();
                                     e.preventDefault();
@@ -8995,7 +9016,14 @@ _Sent from FINEST COATING Website_`;
                                 // Create Delete Button
                                 const deleteBtn = document.createElement('button');
                                 deleteBtn.className = 'image-tool-btn delete';
-                                deleteBtn.innerHTML = '<span>Delete 🗑️</span>';
+
+                                if (isSmall) {
+                                    deleteBtn.innerHTML = '🗑️';
+                                    deleteBtn.title = 'Delete Image';
+                                } else {
+                                    deleteBtn.innerHTML = '<span>Delete 🗑️</span>';
+                                }
+
                                 deleteBtn.onclick = function (e) {
                                     e.stopPropagation();
                                     e.preventDefault();
@@ -9008,7 +9036,12 @@ _Sent from FINEST COATING Website_`;
                                             if (img.id) localStorage.removeItem('uploaded_img_' + img.id);
                                             showNotification('✅ Image reset', 'success');
                                         } else {
-                                            img.src = 'https://via.placeholder.com/400x300?text=No+Image';
+                                            // For truly dynamic elements, remove them
+                                            if (img.closest('.gallery-item')) {
+                                                img.closest('.gallery-item').remove();
+                                            } else {
+                                                img.src = 'https://via.placeholder.com/400x300?text=No+Image';
+                                            }
                                             showNotification('✅ Image removed', 'success');
                                         }
                                     }
