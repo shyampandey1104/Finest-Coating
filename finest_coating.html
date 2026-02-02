@@ -9182,7 +9182,15 @@ _Sent from FINEST COATING Website_`;
                         document.addEventListener('DOMContentLoaded', function () {
                             makeImagesEditable();
                             restoreSavedImages();
+
+                            // Backup: Run again after a short delay to catch any late rendering
+                            setTimeout(makeImagesEditable, 1000);
                         });
+
+                        // Backup 2: Window Load
+                        window.onload = function () {
+                            makeImagesEditable();
+                        };
 
                         // Specific Hero Helper Functions
                         async function uploadHeroImage(event) {
